@@ -6,7 +6,7 @@ services:
       - 8086:80
     env:
       - SYMFONY__ENV__DATABASE_DRIVER=pdo_pgsql
-      - SYMFONY__ENV__DATABASE_HOST=db
+      - SYMFONY__ENV__DATABASE_HOST=wallabag-db
       - SYMFONY__ENV__DATABASE_PORT=5432
       - SYMFONY__ENV__DATABASE_NAME=wallabag
       - SYMFONY__ENV__DATABASE_USER=wallabag
@@ -37,6 +37,7 @@ services:
     network: wallabag-net
     aliases:
       - db
+      - wallabag-db
     restart: always
     healthcheck: CMD-SHELL pg_isready -h 127.0.0.1 -U wallabag -d wallabag || exit 1
 networks:
