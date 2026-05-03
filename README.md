@@ -68,6 +68,12 @@ cd ~/dockan-apps/wordpress
 dockan compose up
 ```
 
+To make the app come back after reboot without adding a Dockan daemon:
+
+```bash
+sudo dockan compose autostart -f dockan.yml
+```
+
 `install` automatically runs:
 
 ```bash

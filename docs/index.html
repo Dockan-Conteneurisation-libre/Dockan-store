@@ -450,7 +450,7 @@
           <img class="hero-logo" src="dockan-logo.svg" alt="" aria-hidden="true">
           <h1>Dockan Store</h1>
         </div>
-        <p class="lead">A local catalog of self-hosted app templates for Dockan. Download the release, install an app, let the Store import its bundled prebuilt images, then run it with `dockan compose up`.</p>
+        <p class="lead">A local catalog of self-hosted app templates for Dockan. Download the release, install an app, let the Store import its bundled prebuilt images, then run it once or enable native auto-start.</p>
       </div>
       <div class="terminal" aria-label="Install example">
         <div class="terminal-title">
@@ -464,7 +464,8 @@ cd Dockan-Store
 ./dockan-store list
 ./dockan-store install wordpress
 cd ~/dockan-apps/wordpress
-dockan compose up</code></pre>
+dockan compose up
+sudo dockan compose autostart -f dockan.yml</code></pre>
       </div>
     </div>
   </header>
@@ -513,6 +514,7 @@ cd Dockan-Store
 cd ~/dockan-apps/APP_ID
 dockan compose up
 dockan compose health
+sudo dockan compose autostart -f dockan.yml
 
 # custom target:
 ./dockan-store install APP_ID /srv/apps/APP_ID

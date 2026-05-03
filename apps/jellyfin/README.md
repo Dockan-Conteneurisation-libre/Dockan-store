@@ -20,12 +20,18 @@ Put media files in:
 ./media
 ```
 
-Run:
+Run once:
 
 ```bash
 mkdir -p media
 dockan compose up
 dockan compose health
+```
+
+Start automatically after reboot:
+
+```bash
+sudo dockan compose autostart -f dockan.yml
 ```
 
 Open:
