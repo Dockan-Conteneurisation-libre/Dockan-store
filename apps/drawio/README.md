@@ -6,6 +6,14 @@ Required local image:
 
 - `drawio:local`
 
+Install from Dockan Store:
+
+```bash
+./dockan-store install drawio
+```
+
+Dockan Store imports the required prebuilt images from `registry/index.tsv` and `registry/images/` automatically.
+
 Run:
 
 ```bash

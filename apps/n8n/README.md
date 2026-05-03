@@ -7,6 +7,14 @@ Required local images:
 - `n8n:local`
 - `postgres:local`
 
+Install from Dockan Store:
+
+```bash
+./dockan-store install n8n
+```
+
+Dockan Store imports the required prebuilt images from `registry/index.tsv` and `registry/images/` automatically.
+
 Run:
 
 ```bash

@@ -6,6 +6,14 @@ Required local image:
 
 - `nginx-proxy-manager:local`
 
+Install from Dockan Store:
+
+```bash
+./dockan-store install nginx-proxy-manager
+```
+
+Dockan Store imports the required prebuilt images from `registry/index.tsv` and `registry/images/` automatically.
+
 Run:
 
 ```bash

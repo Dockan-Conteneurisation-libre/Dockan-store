@@ -7,6 +7,14 @@ Required local images:
 - `bookstack:local`
 - `mariadb:local`
 
+Install from Dockan Store:
+
+```bash
+./dockan-store install bookstack
+```
+
+Dockan Store imports the required prebuilt images from `registry/index.tsv` and `registry/images/` automatically.
+
 Run:
 
 ```bash

@@ -7,6 +7,14 @@ Required local images:
 - `ghost:local`
 - `mysql:local`
 
+Install from Dockan Store:
+
+```bash
+./dockan-store install ghost
+```
+
+Dockan Store imports the required prebuilt images from `registry/index.tsv` and `registry/images/` automatically.
+
 Run:
 
 ```bash

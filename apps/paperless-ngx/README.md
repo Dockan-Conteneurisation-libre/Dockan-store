@@ -8,6 +8,14 @@ Required local images:
 - `postgres:local`
 - `redis:local`
 
+Install from Dockan Store:
+
+```bash
+./dockan-store install paperless-ngx
+```
+
+Dockan Store imports the required prebuilt images from `registry/index.tsv` and `registry/images/` automatically.
+
 Run:
 
 ```bash
