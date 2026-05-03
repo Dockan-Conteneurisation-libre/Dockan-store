@@ -388,7 +388,7 @@
     <div class="hero" id="top">
       <div>
         <h1>Dockan Store</h1>
-        <p class="lead">A local catalog of self-hosted app templates for Dockan. Copy an app, bring the required local images, then run it with `dockan compose up`.</p>
+        <p class="lead">A local catalog of self-hosted app templates for Dockan. Install an app, let the Store import its prebuilt images, then run it with `dockan compose up`.</p>
       </div>
       <div class="terminal" aria-label="Install example">
         <div class="terminal-title">
@@ -409,7 +409,7 @@ dockan compose up</code></pre>
   <main>
     <section id="apps">
       <h2>Apps</h2>
-      <p class="lead">Templates include compose files, persistent volumes, ports, healthchecks, and install notes. Search by name, category, or required image.</p>
+      <p class="lead">Templates include compose files, persistent volumes, ports, healthchecks, prebuilt image names, and install notes. Search by name, category, or image.</p>
       <div class="toolbar">
         <input id="search" type="search" placeholder="Search apps, categories, or images" aria-label="Search apps">
         <select id="category" aria-label="Filter by category">
@@ -422,7 +422,7 @@ dockan compose up</code></pre>
     <section id="install">
       <h2>How Install Works</h2>
       <div class="panel">
-        <p>Dockan Store copies a template into your app folder. It does not pull Docker Hub automatically. Prepare or import the required local images first, then launch with Dockan.</p>
+        <p>Dockan Store imports the required prebuilt Dockan images from its bundled registry, then copies the template into your app folder. The app developer does not build images manually.</p>
         <div class="command">
           <pre><code>./dockan-store install APP_ID
 cd ~/dockan-apps/APP_ID
@@ -430,7 +430,10 @@ dockan compose up
 dockan compose health
 
 # custom target:
-./dockan-store install APP_ID /srv/apps/APP_ID</code></pre>
+./dockan-store install APP_ID /srv/apps/APP_ID
+
+# prepare images only:
+./dockan-store images APP_ID</code></pre>
         </div>
       </div>
     </section>

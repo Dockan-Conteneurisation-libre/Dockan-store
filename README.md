@@ -5,9 +5,10 @@ Dockan Store is a local catalog of ready-to-copy Dockan app templates.
 The goal is simple: keep popular self-hosted apps in one place, with a clear
 `dockan.yml`, persistent volumes, ports, healthchecks, and install notes.
 
-This store does not automatically pull from Docker Hub. Each template points to
-local Dockan image names such as `wordpress:local` or `gitea:local`. Build,
-import, or pull those images into Dockan first, then deploy the app.
+This store does not pull from Docker Hub at install time. Each app uses local
+Dockan images such as `wordpress:local` or `gitea:local`, and the Store imports
+those prebuilt images from the bundled Dockan registry before copying the app.
+The user should not have to build app images manually.
 
 ## Layout
 
@@ -20,7 +21,11 @@ apps/
     README.md
 scripts/
   list.sh
+  prepare-images.sh
   install-app.sh
+  pack-images.sh
+registry/
+  images/
 ```
 
 ## List Apps
@@ -37,11 +42,36 @@ cd ~/dockan-apps/wordpress
 dockan compose up
 ```
 
+`install` automatically runs:
+
+```bash
+./dockan-store images wordpress
+```
+
 To choose a custom target directory:
 
 ```bash
 ./dockan-store install wordpress /srv/apps/wordpress
 ```
+
+## Prebuilt Images
+
+Normal users should only need:
+
+```bash
+./dockan-store install APP_ID
+```
+
+For release maintainers, pack the already-built local Dockan images into the
+Store registry before publishing:
+
+```bash
+./dockan-store pack-images all
+```
+
+The generated `registry/` folder can be shipped in a release archive or restored
+next to the Store checkout. `./dockan-store install APP_ID` will import the
+required images automatically.
 
 ## First Catalog
 
@@ -75,7 +105,7 @@ The store site lives in `docs/index.html`. On GitHub, enable Pages with:
 Settings -> Pages -> Build and deployment -> Deploy from a branch -> main /docs
 ```
 
-The page lists all apps, required local images, and the copy-ready install
+The page lists all apps, required prebuilt images, and the copy-ready install
 command:
 
 ```bash
@@ -91,4 +121,5 @@ dockan compose up
   another reverse proxy.
 - Back up volumes with `dockan volume backup`.
 - Check readiness with `dockan compose health`.
-- For updates, replace local images, then run `dockan compose redeploy`.
+- For updates, publish a fresh image registry pack, then run
+  `dockan compose redeploy`.

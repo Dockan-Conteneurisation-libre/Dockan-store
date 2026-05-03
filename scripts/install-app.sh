@@ -29,6 +29,8 @@ if [ -e "$target" ] && [ "$(find "$target" -mindepth 1 -maxdepth 1 2>/dev/null |
   exit 1
 fi
 
+"$root/scripts/prepare-images.sh" "$app"
+
 mkdir -p "$target"
 cp -a "$src/." "$target/"
 
