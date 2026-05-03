@@ -5,9 +5,16 @@ services:
     ports:
       - 8087:80
     env:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Etc/UTC
       - APP_URL=http://127.0.0.1:8087
+      - APP_KEY=base64:6R+jX3rj7w4ubR7sc92JouQBvzGJKWfVRO0XJkB4TgM=
       - DB_HOST=db
+      - DB_PORT=3306
       - DB_DATABASE=bookstack
+      - DB_USER=bookstack
+      - DB_PASS=change-me
       - DB_USERNAME=bookstack
       - DB_PASSWORD=change-me
     volumes:
@@ -22,6 +29,9 @@ services:
   db:
     image: mariadb:local
     env:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Etc/UTC
       - MYSQL_DATABASE=bookstack
       - MYSQL_USER=bookstack
       - MYSQL_PASSWORD=change-me

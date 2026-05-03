@@ -209,6 +209,11 @@ build_one() {
       "$image_dir/rootfs/var/www/wallabag/vendor" \
       "$image_dir/rootfs/var/www/wallabag/web" 2>/dev/null || true
   fi
+  if [ "$local_ref" = "bookstack:local" ]; then
+    mkdir -p "$image_dir/rootfs/config"
+    chown -R 1000:1000 "$image_dir/rootfs/config" 2>/dev/null || true
+    chmod -R u+rwX,g+rwX "$image_dir/rootfs/config" 2>/dev/null || true
+  fi
   if [ ! -e "$image_dir/rootfs/bin/sh" ] && [ ! -L "$image_dir/rootfs/bin/sh" ] && [ -x "$image_dir/rootfs/bin/busybox" ]; then
     ln -s busybox "$image_dir/rootfs/bin/sh"
   fi
