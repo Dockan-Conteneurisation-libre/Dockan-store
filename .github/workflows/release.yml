@@ -47,10 +47,10 @@ jobs:
       - name: Build Dockan binary with OCI support
         run: |
           set -eu
-          git clone --depth=1 https://github.com/Dockan-Conteneurisation-libre/Dockan.git /tmp/dockan
-          cd /tmp/dockan
-          go build -trimpath -o /tmp/dockan ./cmd/dockan.go
-          /tmp/dockan version
+          git clone --depth=1 https://github.com/Dockan-Conteneurisation-libre/Dockan.git /tmp/dockan-src
+          cd /tmp/dockan-src
+          go build -trimpath -o /tmp/dockan-bin ./cmd/dockan.go
+          /tmp/dockan-bin version
 
       - name: Optional Docker Hub login
         env:
@@ -86,7 +86,7 @@ jobs:
       - name: Build prebuilt Dockan images
         working-directory: repo
         env:
-          DOCKAN_BIN: /tmp/dockan
+          DOCKAN_BIN: /tmp/dockan-bin
         run: |
           set -eu
           ./dockan-store build-images all
