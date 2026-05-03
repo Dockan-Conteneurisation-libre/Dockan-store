@@ -87,6 +87,22 @@ To choose a custom target directory:
 ./dockan-store install wordpress /srv/apps/wordpress
 ```
 
+## Update An Installed App
+
+`update` imports the latest prebuilt images for an app even when the image tag
+already exists locally, then redeploys the installed app with its current
+`dockan.yml`. It keeps existing volumes and does not overwrite local app files.
+
+```bash
+./dockan-store update wordpress
+```
+
+If the app is installed outside the default locations, pass its directory:
+
+```bash
+./dockan-store update wordpress /srv/apps/wordpress
+```
+
 ## Prebuilt Images
 
 Normal users should only need:
@@ -204,5 +220,5 @@ git push origin v0.1.0
 - Back up volumes with `dockan volume backup`.
 - Check readiness with `dockan compose health`.
 - For updates, publish a fresh image registry pack, then run
-  `dockan compose redeploy`.
+  `./dockan-store update APP_ID`.
 # Dockan-store-

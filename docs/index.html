@@ -441,6 +441,7 @@
         <a href="#apps">Apps</a>
         <a href="#images">Images</a>
         <a href="#install">Install</a>
+        <a href="#update">Update</a>
         <a href="https://github.com/Dockan-Conteneurisation-libre/Dockan-Store">GitHub</a>
       </nav>
     </div>
@@ -490,6 +491,7 @@ sudo dockan compose autostart -f dockan.yml</code></pre>
         <div class="command">
           <pre><code>./dockan-store images APP_ID
 ./dockan-store images all
+DOCKAN_STORE_FORCE_IMAGES=1 ./dockan-store images APP_ID
 ./dockan-store build-images all
 ./dockan-store build-images mysql:local
 DOCKAN_STORE_ENGINE=docker ./dockan-store build-images mysql:local
@@ -521,6 +523,23 @@ sudo dockan compose autostart -f dockan.yml
 
 # prepare images only:
 ./dockan-store images APP_ID</code></pre>
+        </div>
+      </div>
+    </section>
+
+    <section id="update">
+      <h2>Update Apps</h2>
+      <div class="panel">
+        <p>Use `update` when a new Store release ships fresher image packs. It imports the app images again, keeps existing volumes, and redeploys the installed app with its current `dockan.yml`.</p>
+        <div class="command">
+          <pre><code>./dockan-store update APP_ID
+
+# custom install path:
+./dockan-store update APP_ID /srv/apps/APP_ID
+
+# direct Dockan equivalent:
+dockan pull IMAGE:local registry
+dockan compose redeploy -f /path/to/dockan.yml</code></pre>
         </div>
       </div>
     </section>
@@ -577,6 +596,7 @@ sudo dockan compose autostart -f dockan.yml
         if (term && !haystack.includes(term)) continue;
 
         const command = `./dockan-store install ${app.id}`;
+        const updateCommand = `./dockan-store update ${app.id}`;
         const imagePack = `https://github.com/Dockan-Conteneurisation-libre/Dockan-store/releases/latest/download/dockan-store-images-${app.id}.tar.gz`;
         const logo = app.logo || `https://cdn.simpleicons.org/${app.icon}`;
         const initials = app.name.split(/[\s.-]+/).filter(Boolean).slice(0, 2).map((part) => part[0]).join("").toUpperCase();
@@ -601,6 +621,7 @@ sudo dockan compose autostart -f dockan.yml
           <div class="command"><pre><code>${command}</code></pre></div>
           <div class="card-actions">
             <button class="copy" type="button" data-copy="${command}">Copy</button>
+            <button class="copy" type="button" data-copy="${updateCommand}">Update</button>
             <a class="download" href="${imagePack}">Images</a>
           </div>
         `;

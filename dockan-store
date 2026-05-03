@@ -12,6 +12,10 @@ case "$cmd" in
     shift
     exec "$root/scripts/install-app.sh" "$@"
     ;;
+  update)
+    shift
+    exec "$root/scripts/update-app.sh" "$@"
+    ;;
   images)
     shift
     exec "$root/scripts/prepare-images.sh" "$@"
@@ -33,6 +37,7 @@ case "$cmd" in
     echo "  ./dockan-store list"
     echo "  ./dockan-store images <app-id|all> [registry-dir]"
     echo "  ./dockan-store install <app-id> [target-dir]"
+    echo "  ./dockan-store update <app-id> [target-dir] [registry-dir]"
     echo "  ./dockan-store build-images <app-id|image-ref|all> [registry-dir]"
     echo "  ./dockan-store pack-images <app-id|all> [registry-dir]"
     echo "  ./dockan-store export-app-images <app-id> [registry-dir] [output.tar.gz]"
@@ -40,6 +45,8 @@ case "$cmd" in
     echo "Examples:"
     echo "  ./dockan-store install static-site"
     echo "  ./dockan-store install static-site /srv/apps/static-site"
+    echo "  ./dockan-store update static-site"
+    echo "  ./dockan-store update static-site /srv/apps/static-site"
     echo "  ./dockan-store images wordpress"
     echo "  ./dockan-store build-images all"
     echo "  ./dockan-store build-images mysql:local"

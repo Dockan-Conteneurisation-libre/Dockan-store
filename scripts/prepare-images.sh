@@ -122,10 +122,20 @@ fi
 missing=0
 downloaded=0
 
+if [ "${DOCKAN_STORE_REFRESH_IMAGES:-0}" = "1" ] && [ "$app" != "all" ]; then
+  if download_app_registry_pack; then
+    downloaded=1
+  fi
+fi
+
 for image in $(all_requires); do
-  if image_exists "$image"; then
+  if [ "${DOCKAN_STORE_FORCE_IMAGES:-0}" != "1" ] && image_exists "$image"; then
     echo "Image ready: $image"
     continue
+  fi
+
+  if [ "${DOCKAN_STORE_FORCE_IMAGES:-0}" = "1" ] && image_exists "$image"; then
+    echo "Updating prebuilt image: $image"
   fi
 
   archive="$registry/images/$(safe_ref "$image").tar.gz"
