@@ -69,6 +69,12 @@ Store registry before publishing:
 ./dockan-store pack-images all
 ```
 
+To build the registry directly from upstream OCI images with Podman or Docker:
+
+```bash
+./dockan-store build-images all
+```
+
 The generated `registry/` folder can be shipped in a release archive or restored
 next to the Store checkout. `./dockan-store install APP_ID` will import the
 required images automatically.
@@ -123,3 +129,4 @@ dockan compose up
 - Check readiness with `dockan compose health`.
 - For updates, publish a fresh image registry pack, then run
   `dockan compose redeploy`.
+# Dockan-store-
