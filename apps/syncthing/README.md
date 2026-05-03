@@ -17,7 +17,6 @@ Dockan Store imports the required prebuilt images from `registry/index.tsv` and 
 Run once:
 
 ```bash
-mkdir -p sync
 dockan compose up
 dockan compose health
 ```

@@ -2,13 +2,14 @@ name: syncthing
 services:
   web:
     image: syncthing:local
+    command: chown -R 1000:1000 /var/syncthing 2>/dev/null || true; /bin/entrypoint.sh /bin/syncthing
     ports:
       - 8384:8384
       - 22000:22000
       - 21027:21027
     volumes:
       - syncthing-config:/var/syncthing/config
-      - ./sync:/var/syncthing/Sync
+      - syncthing-sync:/var/syncthing/Sync
     network: syncthing-net
     aliases:
       - web

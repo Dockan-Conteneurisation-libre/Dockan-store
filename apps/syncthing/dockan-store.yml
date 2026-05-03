@@ -8,3 +8,4 @@ requires:
   - syncthing:local
 volumes:
   - syncthing-config
+  - syncthing-sync
