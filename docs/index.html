@@ -413,6 +413,7 @@
       </a>
       <nav aria-label="Navigation">
         <a href="#apps">Apps</a>
+        <a href="#images">Images</a>
         <a href="#install">Install</a>
         <a href="https://github.com/Dockan-Conteneurisation-libre/Dockan-Store">GitHub</a>
       </nav>
@@ -452,6 +453,23 @@ dockan compose up</code></pre>
         </select>
       </div>
       <div class="grid" id="app-grid"></div>
+    </section>
+
+    <section id="images">
+      <h2>Images</h2>
+      <div class="panel">
+        <p>Each app card lists the exact Dockan images it needs. Releases include a generated image registry with `registry/index.tsv` plus prebuilt archives in `registry/images/`, so installs can import images without asking the user to build them.</p>
+        <div class="command">
+          <pre><code>./dockan-store images APP_ID
+./dockan-store images all
+./dockan-store build-images all
+
+# release assets:
+registry/index.tsv
+registry/images/*.tar.gz
+registry/images/*.tar.gz.sha256</code></pre>
+        </div>
+      </div>
     </section>
 
     <section id="install">
