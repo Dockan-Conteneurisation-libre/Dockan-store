@@ -32,7 +32,7 @@ services:
       - POSTGRES_USER=paperless
       - POSTGRES_PASSWORD=change-me
     volumes:
-      - paperless-db:/var/lib/postgresql/data
+      - paperless-db:/var/lib/postgresql
     network: paperless-net
     aliases:
       - db

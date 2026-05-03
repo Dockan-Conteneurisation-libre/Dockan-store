@@ -28,7 +28,7 @@ services:
       - POSTGRES_USER=wallabag
       - POSTGRES_PASSWORD=change-me
     volumes:
-      - wallabag-db:/var/lib/postgresql/data
+      - wallabag-db:/var/lib/postgresql
     network: wallabag-net
     aliases:
       - db

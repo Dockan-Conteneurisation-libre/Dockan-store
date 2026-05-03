@@ -29,7 +29,7 @@ services:
       - POSTGRES_USER=gitea
       - POSTGRES_PASSWORD=change-me
     volumes:
-      - gitea-db:/var/lib/postgresql/data
+      - gitea-db:/var/lib/postgresql
     network: gitea-net
     aliases:
       - db

@@ -24,7 +24,7 @@ services:
       - POSTGRES_USER=miniflux
       - POSTGRES_PASSWORD=change-me
     volumes:
-      - miniflux-db:/var/lib/postgresql/data
+      - miniflux-db:/var/lib/postgresql
     network: miniflux-net
     aliases:
       - db

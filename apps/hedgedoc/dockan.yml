@@ -24,7 +24,7 @@ services:
       - POSTGRES_USER=hedgedoc
       - POSTGRES_PASSWORD=change-me
     volumes:
-      - hedgedoc-db:/var/lib/postgresql/data
+      - hedgedoc-db:/var/lib/postgresql
     network: hedgedoc-net
     aliases:
       - db

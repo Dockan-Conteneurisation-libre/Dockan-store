@@ -29,7 +29,7 @@ services:
       - POSTGRES_USER=n8n
       - POSTGRES_PASSWORD=change-me
     volumes:
-      - n8n-db:/var/lib/postgresql/data
+      - n8n-db:/var/lib/postgresql
     network: n8n-net
     aliases:
       - db
