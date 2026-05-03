@@ -122,6 +122,7 @@ jobs:
             echo "- Images Dockan prebuild: ${image_count}"
             echo "- Install utilisateur: \`./dockan-store install APP_ID\`"
             echo "- Les images sont dans \`registry/images/\` et importees automatiquement."
+            echo "- Packs par app: \`dockan-store-images-APP_ID.tar.gz\`"
             echo
             echo "## Images incluses"
             echo
@@ -145,6 +146,13 @@ jobs:
             -czf "dist/dockan-store-${version}.tar.gz" .
 
           tar -czf "dist/dockan-store-images-${version}.tar.gz" registry
+          cp "dist/dockan-store-images-${version}.tar.gz" "dist/dockan-store-images.tar.gz"
+          for app in apps/*; do
+            [ -d "$app" ] || continue
+            app_id="$(basename "$app")"
+            ./dockan-store export-app-images "$app_id" registry "dist/dockan-store-images-${app_id}-${version}.tar.gz"
+            cp "dist/dockan-store-images-${app_id}-${version}.tar.gz" "dist/dockan-store-images-${app_id}.tar.gz"
+          done
           (cd dist && sha256sum *.tar.gz > SHA256SUMS)
 
       - name: Publish GitHub release

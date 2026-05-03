@@ -24,6 +24,10 @@ case "$cmd" in
     shift
     exec "$root/scripts/build-images.sh" "$@"
     ;;
+  export-app-images)
+    shift
+    exec "$root/scripts/export-app-registry.sh" "$@"
+    ;;
   help|-h|--help|"")
     echo "Usage:"
     echo "  ./dockan-store list"
@@ -31,6 +35,7 @@ case "$cmd" in
     echo "  ./dockan-store install <app-id> [target-dir]"
     echo "  ./dockan-store build-images <app-id|image-ref|all> [registry-dir]"
     echo "  ./dockan-store pack-images <app-id|all> [registry-dir]"
+    echo "  ./dockan-store export-app-images <app-id> [registry-dir] [output.tar.gz]"
     echo
     echo "Examples:"
     echo "  ./dockan-store install static-site"
@@ -38,6 +43,7 @@ case "$cmd" in
     echo "  ./dockan-store images wordpress"
     echo "  ./dockan-store build-images all"
     echo "  ./dockan-store build-images mysql:local"
+    echo "  ./dockan-store export-app-images wordpress"
     ;;
   *)
     echo "Unknown command: $cmd" >&2

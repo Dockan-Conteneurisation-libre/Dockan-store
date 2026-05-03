@@ -26,4 +26,5 @@ Maintainers can generate this registry with:
 ./dockan-store build-images all
 ./dockan-store build-images mysql:local
 DOCKAN_STORE_ENGINE=docker ./dockan-store build-images mysql:local
+./dockan-store export-app-images wordpress
 ```

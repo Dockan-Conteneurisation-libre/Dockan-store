@@ -349,6 +349,32 @@
       border-color: var(--green);
     }
 
+    .card-actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+
+    .download {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 34px;
+      border: 1px solid var(--green);
+      border-radius: 8px;
+      background: var(--green);
+      color: #fff;
+      font-size: 0.84rem;
+      font-weight: 800;
+      padding: 6px 10px;
+      text-align: center;
+    }
+
+    .download:hover {
+      background: var(--green-dark);
+      text-decoration: none;
+    }
+
     footer {
       border-top: 1px solid var(--line);
       color: var(--muted);
@@ -458,18 +484,20 @@ dockan compose up</code></pre>
     <section id="images">
       <h2>Images</h2>
       <div class="panel">
-        <p>Each app card lists the exact Dockan images it needs. Releases include a generated image registry with `registry/index.tsv` plus prebuilt archives in `registry/images/`, so installs can import images without asking the user to build them.</p>
+        <p>Each app card lists the exact Dockan images it needs. Releases include a generated image registry with `registry/index.tsv` plus prebuilt archives in `registry/images/`, so installs can import images without asking the user to build them. The release also publishes one smaller image pack per app.</p>
         <div class="command">
           <pre><code>./dockan-store images APP_ID
 ./dockan-store images all
 ./dockan-store build-images all
 ./dockan-store build-images mysql:local
 DOCKAN_STORE_ENGINE=docker ./dockan-store build-images mysql:local
+./dockan-store export-app-images wordpress
 
 # release assets:
 registry/index.tsv
 registry/images/*.tar.gz
-registry/images/*.tar.gz.sha256</code></pre>
+registry/images/*.tar.gz.sha256
+dockan-store-images-APP_ID.tar.gz</code></pre>
         </div>
       </div>
     </section>
@@ -545,6 +573,7 @@ dockan compose health
         if (term && !haystack.includes(term)) continue;
 
         const command = `./dockan-store install ${app.id}`;
+        const imagePack = `https://github.com/Dockan-Conteneurisation-libre/Dockan-store/releases/latest/download/dockan-store-images-${app.id}.tar.gz`;
         const logo = app.logo || `https://cdn.simpleicons.org/${app.icon}`;
         const initials = app.name.split(/[\s.-]+/).filter(Boolean).slice(0, 2).map((part) => part[0]).join("").toUpperCase();
         const card = document.createElement("article");
@@ -566,7 +595,10 @@ dockan compose health
           <p>${app.summary}</p>
           <div class="requires">${app.requires.map((item) => `<code>${item}</code>`).join("")}</div>
           <div class="command"><pre><code>${command}</code></pre></div>
-          <button class="copy" type="button" data-copy="${command}">Copy</button>
+          <div class="card-actions">
+            <button class="copy" type="button" data-copy="${command}">Copy</button>
+            <a class="download" href="${imagePack}">Images</a>
+          </div>
         `;
         grid.appendChild(card);
       }

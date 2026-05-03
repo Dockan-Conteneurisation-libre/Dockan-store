@@ -77,6 +77,12 @@ To build the registry directly from upstream OCI images with Podman or Docker:
 DOCKAN_STORE_ENGINE=docker ./dockan-store build-images mysql:local
 ```
 
+To publish smaller packs, generate only the image archives required by one app:
+
+```bash
+./dockan-store export-app-images wordpress
+```
+
 The generated `registry/` folder can be shipped in a release archive or restored
 next to the Store checkout. `./dockan-store install APP_ID` will import the
 required images automatically.
