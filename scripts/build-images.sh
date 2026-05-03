@@ -193,6 +193,22 @@ build_one() {
   normalize_rootfs_permissions "$image_dir/rootfs"
   chmod 1777 "$image_dir/rootfs/tmp"
   repair_oci_rootfs "$image_dir/rootfs"
+  if [ "$local_ref" = "wallabag:local" ] && [ -d "$image_dir/rootfs/var/www/wallabag" ]; then
+    chown -R 65534:65534 \
+      "$image_dir/rootfs/var/www/wallabag/app/config" \
+      "$image_dir/rootfs/var/www/wallabag/bin" \
+      "$image_dir/rootfs/var/www/wallabag/data" \
+      "$image_dir/rootfs/var/www/wallabag/var" \
+      "$image_dir/rootfs/var/www/wallabag/vendor" \
+      "$image_dir/rootfs/var/www/wallabag/web" 2>/dev/null || true
+    chmod -R u+rwX,g+rwX \
+      "$image_dir/rootfs/var/www/wallabag/app/config" \
+      "$image_dir/rootfs/var/www/wallabag/bin" \
+      "$image_dir/rootfs/var/www/wallabag/data" \
+      "$image_dir/rootfs/var/www/wallabag/var" \
+      "$image_dir/rootfs/var/www/wallabag/vendor" \
+      "$image_dir/rootfs/var/www/wallabag/web" 2>/dev/null || true
+  fi
   if [ ! -e "$image_dir/rootfs/bin/sh" ] && [ ! -L "$image_dir/rootfs/bin/sh" ] && [ -x "$image_dir/rootfs/bin/busybox" ]; then
     ln -s busybox "$image_dir/rootfs/bin/sh"
   fi
