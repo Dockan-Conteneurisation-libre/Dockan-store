@@ -188,7 +188,10 @@ build_one() {
   mkdir -p "$image_dir/rootfs" "$image_dir/hooks" "$image_dir/volumes"
   "$engine" export "$cid" | tar --exclude='dev/*' --exclude='./dev/*' -C "$image_dir/rootfs" -xf -
   mkdir -p "$image_dir/rootfs/dev"
+  mkdir -p "$image_dir/rootfs/tmp"
+  chmod 1777 "$image_dir/rootfs/tmp"
   normalize_rootfs_permissions "$image_dir/rootfs"
+  chmod 1777 "$image_dir/rootfs/tmp"
   repair_oci_rootfs "$image_dir/rootfs"
   if [ ! -e "$image_dir/rootfs/bin/sh" ] && [ ! -L "$image_dir/rootfs/bin/sh" ] && [ -x "$image_dir/rootfs/bin/busybox" ]; then
     ln -s busybox "$image_dir/rootfs/bin/sh"
