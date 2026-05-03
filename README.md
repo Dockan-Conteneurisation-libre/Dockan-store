@@ -120,6 +120,26 @@ cd ~/dockan-apps/APP_ID
 dockan compose up
 ```
 
+## Releases
+
+GitHub Actions builds the Store release when a `v*` tag is pushed, or when the
+`Store Release` workflow is launched manually.
+
+The release contains:
+
+- `dockan-store-VERSION.tar.gz`: Store files plus `registry/images/`.
+- `dockan-store-images-VERSION.tar.gz`: only the prebuilt image registry.
+- `SHA256SUMS`: checksums for release archives.
+- release notes listing every image included in the pack.
+
+Maintainers can create a release from the GitHub UI by running the workflow with
+a version such as `v0.1.0`, or from git:
+
+```bash
+git tag v0.1.0
+git push origin v0.1.0
+```
+
 ## Production Notes
 
 - Change every password and secret before exposing an app.

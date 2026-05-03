@@ -4,3 +4,5 @@ tmp/
 dist/
 .dockan-store/
 *.tar.gz
+registry/index.tsv
+registry/images/

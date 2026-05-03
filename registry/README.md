@@ -19,3 +19,9 @@ Users should not have to build app images manually. The normal command:
 ```
 
 imports the required prebuilt images first, then copies the app template.
+
+Maintainers can generate this registry with:
+
+```bash
+./dockan-store build-images all
+```

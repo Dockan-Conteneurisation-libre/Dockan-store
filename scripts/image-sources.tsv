@@ -1,0 +1,26 @@
+# local Dockan ref	upstream OCI image
+bookstack:local	docker.io/linuxserver/bookstack:latest
+caddy:local	docker.io/library/caddy:latest
+drawio:local	docker.io/jgraph/drawio:latest
+ghost:local	docker.io/library/ghost:latest
+gitea:local	docker.io/gitea/gitea:latest
+grafana:local	docker.io/grafana/grafana-oss:latest
+hedgedoc:local	quay.io/hedgedoc/hedgedoc:latest
+jellyfin:local	docker.io/jellyfin/jellyfin:latest
+libretranslate:local	docker.io/libretranslate/libretranslate:v1.6.1
+mariadb:local	docker.io/library/mariadb:latest
+matomo:local	docker.io/library/matomo:latest
+miniflux:local	docker.io/miniflux/miniflux:latest
+mysql:local	docker.io/library/mysql:latest
+n8n:local	docker.io/n8nio/n8n:latest
+nextcloud:local	docker.io/library/nextcloud:latest
+nginx-proxy-manager:local	docker.io/jc21/nginx-proxy-manager:latest
+paperless-ngx:local	ghcr.io/paperless-ngx/paperless-ngx:latest
+postgres:local	docker.io/library/postgres:latest
+prometheus:local	docker.io/prom/prometheus:latest
+redis:local	docker.io/library/redis:alpine
+syncthing:local	docker.io/syncthing/syncthing:latest
+uptime-kuma:local	docker.io/louislam/uptime-kuma:latest
+vaultwarden:local	docker.io/vaultwarden/server:latest
+wallabag:local	docker.io/wallabag/wallabag:latest
+wordpress:local	docker.io/library/wordpress:latest

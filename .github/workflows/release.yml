@@ -1,0 +1,165 @@
+name: Store Release
+
+on:
+  push:
+    tags:
+      - "v*"
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Release version, for example v0.1.0"
+        required: true
+        type: string
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    name: Build image pack and publish release
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+
+    steps:
+      - name: Checkout repository
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: |
+          set -eu
+          git init repo
+          cd repo
+          git remote add origin "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
+          if [ "${GITHUB_EVENT_NAME}" = "workflow_dispatch" ]; then
+            git fetch --depth=1 origin "${GITHUB_REF_NAME}"
+          else
+            git fetch --depth=1 origin "refs/tags/${GITHUB_REF_NAME}:refs/tags/${GITHUB_REF_NAME}"
+          fi
+          git checkout --detach FETCH_HEAD || git checkout --detach "${GITHUB_REF_NAME}"
+
+      - name: Install release tools
+        run: |
+          set -eu
+          sudo apt-get update
+          sudo apt-get install -y jq golang-go
+          docker version
+          gh --version
+
+      - name: Build Dockan binary with OCI support
+        run: |
+          set -eu
+          git clone --depth=1 https://github.com/Dockan-Conteneurisation-libre/Dockan.git /tmp/dockan
+          cd /tmp/dockan
+          go build -trimpath -o /tmp/dockan ./cmd/dockan.go
+          /tmp/dockan version
+
+      - name: Optional Docker Hub login
+        env:
+          DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+          DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
+        run: |
+          set -eu
+          if [ -n "${DOCKERHUB_USERNAME:-}" ] && [ -n "${DOCKERHUB_TOKEN:-}" ]; then
+            printf '%s' "$DOCKERHUB_TOKEN" | docker login -u "$DOCKERHUB_USERNAME" --password-stdin
+          else
+            echo "Docker Hub login skipped; public pulls will be used."
+          fi
+
+      - name: Resolve release version
+        working-directory: repo
+        env:
+          INPUT_VERSION: ${{ inputs.version }}
+        run: |
+          set -eu
+          if [ "${GITHUB_EVENT_NAME}" = "workflow_dispatch" ]; then
+            version="${INPUT_VERSION}"
+            git tag -f "$version"
+            git push -f origin "refs/tags/$version"
+          else
+            version="${GITHUB_REF_NAME}"
+          fi
+          case "$version" in
+            v*) ;;
+            *) echo "Version must start with v: $version" >&2; exit 1 ;;
+          esac
+          echo "version=$version" >> "$GITHUB_ENV"
+
+      - name: Build prebuilt Dockan images
+        working-directory: repo
+        env:
+          DOCKAN_BIN: /tmp/dockan
+        run: |
+          set -eu
+          ./dockan-store build-images all
+
+      - name: Verify image registry completeness
+        working-directory: repo
+        run: |
+          set -eu
+          DOCKAN_STORE_DRY_RUN=1 ./dockan-store images all \
+            | awk 'NF && $1 != "Would" { print $1 }' \
+            | sort -u > /tmp/expected-images.txt
+          awk -F '\t' 'NF >= 4 && $1 !~ /^#/ { print $1 }' registry/index.tsv \
+            | sort -u > /tmp/actual-images.txt
+          diff -u /tmp/expected-images.txt /tmp/actual-images.txt
+          test -s registry/index.tsv
+          test -d registry/images
+
+      - name: Create release notes and archives
+        working-directory: repo
+        run: |
+          set -eu
+          mkdir -p dist
+          app_count="$(jq '.apps | length' catalog.json)"
+          image_count="$(awk -F '\t' 'NF >= 4 && $1 !~ /^#/ { count++ } END { print count + 0 }' registry/index.tsv)"
+          {
+            echo "# Dockan Store ${version}"
+            echo
+            echo "Release prete a installer avec images Dockan prebuild."
+            echo
+            echo "## Contenu"
+            echo
+            echo "- Apps: ${app_count}"
+            echo "- Images Dockan prebuild: ${image_count}"
+            echo "- Install utilisateur: \`./dockan-store install APP_ID\`"
+            echo "- Les images sont dans \`registry/images/\` et importees automatiquement."
+            echo
+            echo "## Images incluses"
+            echo
+            awk -F '\t' 'NF >= 4 && $1 !~ /^#/ { printf "- `%s` (%s bytes)\n", $1, $4 }' registry/index.tsv
+            echo
+            echo "## Utilisation"
+            echo
+            echo '```bash'
+            echo "tar -xzf dockan-store-${version}.tar.gz"
+            echo "cd Dockan-Store"
+            echo "./dockan-store install static-site"
+            echo "cd ~/dockan-apps/static-site"
+            echo "dockan compose up"
+            echo '```'
+          } > dist/release-notes.md
+
+          tar \
+            --exclude-vcs \
+            --exclude='./.dockan-store' \
+            --exclude='./dist' \
+            -czf "dist/dockan-store-${version}.tar.gz" .
+
+          tar -czf "dist/dockan-store-images-${version}.tar.gz" registry
+          (cd dist && sha256sum *.tar.gz > SHA256SUMS)
+
+      - name: Publish GitHub release
+        working-directory: repo
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -eu
+          if gh release view "$version" >/dev/null 2>&1; then
+            gh release edit "$version" \
+              --title "Dockan Store ${version}" \
+              --notes-file dist/release-notes.md
+            gh release upload "$version" dist/*.tar.gz dist/SHA256SUMS --clobber
+          else
+            gh release create "$version" dist/*.tar.gz dist/SHA256SUMS \
+              --title "Dockan Store ${version}" \
+              --notes-file dist/release-notes.md
+          fi
