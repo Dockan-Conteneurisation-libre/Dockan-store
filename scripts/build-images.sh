@@ -7,8 +7,9 @@ root="$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)"
 sources="$root/scripts/image-sources.tsv"
 
 if [ -z "$app" ]; then
-  echo "Usage: $0 <app-id|all> [registry-dir]" >&2
+  echo "Usage: $0 <app-id|image-ref|all> [registry-dir]" >&2
   echo "Example: $0 all ./registry" >&2
+  echo "Example: $0 mysql:local ./registry" >&2
   exit 1
 fi
 
@@ -27,12 +28,18 @@ if ! command -v "$dockan_bin" >/dev/null 2>&1; then
   exit 1
 fi
 
-if command -v podman >/dev/null 2>&1; then
+if [ -n "${DOCKAN_STORE_ENGINE:-}" ]; then
+  engine="$DOCKAN_STORE_ENGINE"
+elif command -v podman >/dev/null 2>&1; then
   engine="podman"
 elif command -v docker >/dev/null 2>&1; then
   engine="docker"
 else
   echo "Erreur: podman ou docker est requis pour recuperer les images upstream." >&2
+  exit 1
+fi
+if ! command -v "$engine" >/dev/null 2>&1; then
+  echo "Erreur: moteur OCI introuvable: $engine" >&2
   exit 1
 fi
 
@@ -61,6 +68,8 @@ all_requires() {
       [ -d "$dir" ] || continue
       requires_for_app "$(basename "$dir")"
     done
+  elif printf "%s" "$app" | grep -q ':'; then
+    printf "%s\n" "$app"
   else
     requires_for_app "$app"
   fi | sort -u
@@ -77,6 +86,19 @@ source_for() {
 
 shell_quote() {
   printf "'%s'" "$(printf "%s" "$1" | sed "s/'/'\\\\''/g")"
+}
+
+normalize_rootfs_permissions() {
+  local rootfs="$1"
+  find "$rootfs" -type d -exec chmod u+rwx {} +
+  find "$rootfs" -type f -exec chmod u+rw {} +
+}
+
+prepare_remove_tree() {
+  local path="$1"
+  if [ -e "$path" ]; then
+    chmod -R u+rwX "$path" 2>/dev/null || true
+  fi
 }
 
 write_start_script() {
@@ -147,9 +169,12 @@ build_one() {
   "$engine" image inspect "$upstream" > "$tmp/inspect.json"
   cid="$("$engine" create "$upstream")"
 
+  prepare_remove_tree "$image_dir"
   rm -rf "$image_dir"
   mkdir -p "$image_dir/rootfs" "$image_dir/hooks" "$image_dir/volumes"
-  "$engine" export "$cid" | tar -C "$image_dir/rootfs" -xf -
+  "$engine" export "$cid" | tar --exclude='dev/*' --exclude='./dev/*' -C "$image_dir/rootfs" -xf -
+  mkdir -p "$image_dir/rootfs/dev"
+  normalize_rootfs_permissions "$image_dir/rootfs"
   if [ ! -e "$image_dir/rootfs/bin/sh" ] && [ ! -L "$image_dir/rootfs/bin/sh" ] && [ -x "$image_dir/rootfs/bin/busybox" ]; then
     ln -s busybox "$image_dir/rootfs/bin/sh"
   fi

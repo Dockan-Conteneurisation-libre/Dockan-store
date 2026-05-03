@@ -463,6 +463,8 @@ dockan compose up</code></pre>
           <pre><code>./dockan-store images APP_ID
 ./dockan-store images all
 ./dockan-store build-images all
+./dockan-store build-images mysql:local
+DOCKAN_STORE_ENGINE=docker ./dockan-store build-images mysql:local
 
 # release assets:
 registry/index.tsv

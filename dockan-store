@@ -29,7 +29,7 @@ case "$cmd" in
     echo "  ./dockan-store list"
     echo "  ./dockan-store images <app-id|all> [registry-dir]"
     echo "  ./dockan-store install <app-id> [target-dir]"
-    echo "  ./dockan-store build-images <app-id|all> [registry-dir]"
+    echo "  ./dockan-store build-images <app-id|image-ref|all> [registry-dir]"
     echo "  ./dockan-store pack-images <app-id|all> [registry-dir]"
     echo
     echo "Examples:"
@@ -37,6 +37,7 @@ case "$cmd" in
     echo "  ./dockan-store install static-site /srv/apps/static-site"
     echo "  ./dockan-store images wordpress"
     echo "  ./dockan-store build-images all"
+    echo "  ./dockan-store build-images mysql:local"
     ;;
   *)
     echo "Unknown command: $cmd" >&2

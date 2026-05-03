@@ -24,4 +24,6 @@ Maintainers can generate this registry with:
 
 ```bash
 ./dockan-store build-images all
+./dockan-store build-images mysql:local
+DOCKAN_STORE_ENGINE=docker ./dockan-store build-images mysql:local
 ```

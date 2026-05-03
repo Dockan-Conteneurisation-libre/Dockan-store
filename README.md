@@ -73,6 +73,8 @@ To build the registry directly from upstream OCI images with Podman or Docker:
 
 ```bash
 ./dockan-store build-images all
+./dockan-store build-images mysql:local
+DOCKAN_STORE_ENGINE=docker ./dockan-store build-images mysql:local
 ```
 
 The generated `registry/` folder can be shipped in a release archive or restored
