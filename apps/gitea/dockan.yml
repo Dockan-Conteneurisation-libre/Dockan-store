@@ -1,0 +1,39 @@
+name: gitea
+services:
+  web:
+    image: gitea:local
+    ports:
+      - 3000:3000
+      - 2222:22
+    env:
+      - USER_UID=1000
+      - USER_GID=1000
+      - GITEA__database__DB_TYPE=postgres
+      - GITEA__database__HOST=db:5432
+      - GITEA__database__NAME=gitea
+      - GITEA__database__USER=gitea
+      - GITEA__database__PASSWD=change-me
+    volumes:
+      - gitea-data:/data
+    network: gitea-net
+    aliases:
+      - web
+    depends_on:
+      - db
+    restart: always
+    healthcheck: CMD-SHELL curl -f http://127.0.0.1:3000/ || exit 1
+  db:
+    image: postgres:local
+    env:
+      - POSTGRES_DB=gitea
+      - POSTGRES_USER=gitea
+      - POSTGRES_PASSWORD=change-me
+    volumes:
+      - gitea-db:/var/lib/postgresql/data
+    network: gitea-net
+    aliases:
+      - db
+    restart: always
+    healthcheck: CMD-SHELL pg_isready -U gitea || exit 1
+networks:
+  - gitea-net

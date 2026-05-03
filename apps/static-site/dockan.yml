@@ -1,0 +1,16 @@
+name: static-site
+services:
+  web:
+    image: caddy:local
+    ports:
+      - 8088:80
+    volumes:
+      - ./public:/usr/share/caddy
+      - ./Caddyfile:/etc/caddy/Caddyfile
+    network: static-site-net
+    aliases:
+      - web
+    restart: always
+    healthcheck: CMD-SHELL curl -f http://127.0.0.1/ || exit 1
+networks:
+  - static-site-net

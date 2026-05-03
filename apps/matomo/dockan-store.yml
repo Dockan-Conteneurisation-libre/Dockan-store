@@ -1,0 +1,12 @@
+id: matomo
+name: Matomo
+category: analytics
+summary: Web analytics with MariaDB.
+status: template
+default_port: 8083
+requires:
+  - matomo:local
+  - mariadb:local
+volumes:
+  - matomo-html
+  - matomo-db

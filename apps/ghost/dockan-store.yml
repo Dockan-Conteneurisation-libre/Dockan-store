@@ -1,0 +1,12 @@
+id: ghost
+name: Ghost
+category: publishing
+summary: Publishing platform with MySQL.
+status: template
+default_port: 2368
+requires:
+  - ghost:local
+  - mysql:local
+volumes:
+  - ghost-content
+  - ghost-db

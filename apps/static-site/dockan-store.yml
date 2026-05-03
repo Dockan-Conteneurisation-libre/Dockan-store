@@ -1,0 +1,10 @@
+id: static-site
+name: Static Site
+category: web
+summary: Serve a static public folder with Caddy.
+status: template
+default_port: 8088
+requires:
+  - caddy:local
+volumes:
+  - none

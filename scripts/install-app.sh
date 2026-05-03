@@ -1,0 +1,33 @@
+#!/usr/bin/env sh
+set -eu
+
+app="${1:-}"
+target="${2:-}"
+root="$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)"
+
+if [ -z "$app" ] || [ -z "$target" ]; then
+  echo "Usage: $0 <app-id> <target-dir>" >&2
+  echo "Example: $0 wordpress ~/dockan-apps/wordpress" >&2
+  exit 1
+fi
+
+src="$root/apps/$app"
+
+if [ ! -d "$src" ]; then
+  echo "Unknown app: $app" >&2
+  echo "Run: $root/scripts/list.sh" >&2
+  exit 1
+fi
+
+if [ -e "$target" ] && [ "$(find "$target" -mindepth 1 -maxdepth 1 2>/dev/null | wc -l)" -gt 0 ]; then
+  echo "Target exists and is not empty: $target" >&2
+  exit 1
+fi
+
+mkdir -p "$target"
+cp -a "$src/." "$target/"
+
+echo "Installed template: $app -> $target"
+echo "Next:"
+echo "  cd \"$target\""
+echo "  dockan compose up"

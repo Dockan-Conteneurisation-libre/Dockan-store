@@ -1,0 +1,19 @@
+name: vaultwarden
+services:
+  web:
+    image: vaultwarden:local
+    ports:
+      - 8082:80
+    env:
+      - DOMAIN=https://vaultwarden.example.com
+      - SIGNUPS_ALLOWED=false
+      - ADMIN_TOKEN=change-this-admin-token
+    volumes:
+      - vaultwarden-data:/data
+    network: vaultwarden-net
+    aliases:
+      - web
+    restart: always
+    healthcheck: CMD-SHELL curl -f http://127.0.0.1/ || exit 1
+networks:
+  - vaultwarden-net

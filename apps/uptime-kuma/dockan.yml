@@ -1,0 +1,15 @@
+name: uptime-kuma
+services:
+  web:
+    image: uptime-kuma:local
+    ports:
+      - 3001:3001
+    volumes:
+      - uptime-kuma-data:/app/data
+    network: uptime-kuma-net
+    aliases:
+      - web
+    restart: always
+    healthcheck: CMD-SHELL curl -f http://127.0.0.1:3001/ || exit 1
+networks:
+  - uptime-kuma-net

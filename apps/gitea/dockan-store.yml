@@ -1,0 +1,12 @@
+id: gitea
+name: Gitea
+category: git
+summary: Lightweight Git forge with PostgreSQL.
+status: template
+default_port: 3000
+requires:
+  - gitea:local
+  - postgres:local
+volumes:
+  - gitea-data
+  - gitea-db

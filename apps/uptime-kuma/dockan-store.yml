@@ -1,0 +1,10 @@
+id: uptime-kuma
+name: Uptime Kuma
+category: monitoring
+summary: Monitoring dashboard for services and websites.
+status: template
+default_port: 3001
+requires:
+  - uptime-kuma:local
+volumes:
+  - uptime-kuma-data

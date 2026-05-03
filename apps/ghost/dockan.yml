@@ -1,0 +1,38 @@
+name: ghost
+services:
+  web:
+    image: ghost:local
+    ports:
+      - 2368:2368
+    env:
+      - url=http://127.0.0.1:2368
+      - database__client=mysql
+      - database__connection__host=db
+      - database__connection__user=ghost
+      - database__connection__password=change-me
+      - database__connection__database=ghost
+    volumes:
+      - ghost-content:/var/lib/ghost/content
+    network: ghost-net
+    aliases:
+      - web
+    depends_on:
+      - db
+    restart: always
+    healthcheck: CMD-SHELL curl -f http://127.0.0.1:2368/ || exit 1
+  db:
+    image: mysql:local
+    env:
+      - MYSQL_DATABASE=ghost
+      - MYSQL_USER=ghost
+      - MYSQL_PASSWORD=change-me
+      - MYSQL_ROOT_PASSWORD=change-root
+    volumes:
+      - ghost-db:/var/lib/mysql
+    network: ghost-net
+    aliases:
+      - db
+    restart: always
+    healthcheck: CMD-SHELL test -d /var/lib/mysql
+networks:
+  - ghost-net

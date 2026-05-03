@@ -1,0 +1,48 @@
+name: nextcloud
+services:
+  app:
+    image: nextcloud:local
+    ports:
+      - 8081:8080
+    env:
+      - MYSQL_HOST=db
+      - MYSQL_DATABASE=nextcloud
+      - MYSQL_USER=nextcloud
+      - MYSQL_PASSWORD=change-me
+      - REDIS_HOST=redis
+    volumes:
+      - nextcloud-html:/var/www/html
+      - nextcloud-data:/var/www/html/data
+    network: nextcloud-net
+    aliases:
+      - app
+    depends_on:
+      - db
+      - redis
+    restart: always
+    healthcheck: CMD-SHELL curl -f http://127.0.0.1:8080/ || exit 1
+  db:
+    image: mariadb:local
+    env:
+      - MYSQL_DATABASE=nextcloud
+      - MYSQL_USER=nextcloud
+      - MYSQL_PASSWORD=change-me
+      - MYSQL_ROOT_PASSWORD=change-root
+    volumes:
+      - nextcloud-db:/var/lib/mysql
+    network: nextcloud-net
+    aliases:
+      - db
+    restart: always
+    healthcheck: CMD-SHELL test -d /var/lib/mysql
+  redis:
+    image: redis:local
+    volumes:
+      - nextcloud-redis:/data
+    network: nextcloud-net
+    aliases:
+      - redis
+    restart: always
+    healthcheck: CMD-SHELL redis-cli ping || exit 1
+networks:
+  - nextcloud-net

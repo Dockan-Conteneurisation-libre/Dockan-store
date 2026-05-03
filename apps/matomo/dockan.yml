@@ -1,0 +1,36 @@
+name: matomo
+services:
+  web:
+    image: matomo:local
+    ports:
+      - 8083:8080
+    env:
+      - MATOMO_DATABASE_HOST=db
+      - MATOMO_DATABASE_DBNAME=matomo
+      - MATOMO_DATABASE_USERNAME=matomo
+      - MATOMO_DATABASE_PASSWORD=change-me
+    volumes:
+      - matomo-html:/var/www/html
+    network: matomo-net
+    aliases:
+      - web
+    depends_on:
+      - db
+    restart: always
+    healthcheck: CMD-SHELL curl -f http://127.0.0.1:8080/ || exit 1
+  db:
+    image: mariadb:local
+    env:
+      - MYSQL_DATABASE=matomo
+      - MYSQL_USER=matomo
+      - MYSQL_PASSWORD=change-me
+      - MYSQL_ROOT_PASSWORD=change-root
+    volumes:
+      - matomo-db:/var/lib/mysql
+    network: matomo-net
+    aliases:
+      - db
+    restart: always
+    healthcheck: CMD-SHELL test -d /var/lib/mysql
+networks:
+  - matomo-net

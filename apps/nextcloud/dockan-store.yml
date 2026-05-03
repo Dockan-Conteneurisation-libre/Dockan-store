@@ -1,0 +1,15 @@
+id: nextcloud
+name: Nextcloud
+category: files
+summary: Private files, sync, calendar, contacts, and collaboration.
+status: template
+default_port: 8081
+requires:
+  - nextcloud:local
+  - mariadb:local
+  - redis:local
+volumes:
+  - nextcloud-html
+  - nextcloud-data
+  - nextcloud-db
+  - nextcloud-redis

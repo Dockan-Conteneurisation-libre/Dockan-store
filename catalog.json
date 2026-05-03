@@ -1,0 +1,79 @@
+{
+  "version": 1,
+  "name": "Dockan Store",
+  "description": "Local templates for common self-hosted Dockan apps.",
+  "apps": [
+    {
+      "id": "wordpress",
+      "name": "WordPress",
+      "category": "cms",
+      "path": "apps/wordpress",
+      "status": "template",
+      "requires": ["wordpress:local", "mariadb:local"]
+    },
+    {
+      "id": "nextcloud",
+      "name": "Nextcloud",
+      "category": "files",
+      "path": "apps/nextcloud",
+      "status": "template",
+      "requires": ["nextcloud:local", "mariadb:local", "redis:local"]
+    },
+    {
+      "id": "gitea",
+      "name": "Gitea",
+      "category": "git",
+      "path": "apps/gitea",
+      "status": "template",
+      "requires": ["gitea:local", "postgres:local"]
+    },
+    {
+      "id": "vaultwarden",
+      "name": "Vaultwarden",
+      "category": "passwords",
+      "path": "apps/vaultwarden",
+      "status": "template",
+      "requires": ["vaultwarden:local"]
+    },
+    {
+      "id": "uptime-kuma",
+      "name": "Uptime Kuma",
+      "category": "monitoring",
+      "path": "apps/uptime-kuma",
+      "status": "template",
+      "requires": ["uptime-kuma:local"]
+    },
+    {
+      "id": "matomo",
+      "name": "Matomo",
+      "category": "analytics",
+      "path": "apps/matomo",
+      "status": "template",
+      "requires": ["matomo:local", "mariadb:local"]
+    },
+    {
+      "id": "ghost",
+      "name": "Ghost",
+      "category": "publishing",
+      "path": "apps/ghost",
+      "status": "template",
+      "requires": ["ghost:local", "mysql:local"]
+    },
+    {
+      "id": "jellyfin",
+      "name": "Jellyfin",
+      "category": "media",
+      "path": "apps/jellyfin",
+      "status": "template",
+      "requires": ["jellyfin:local"]
+    },
+    {
+      "id": "static-site",
+      "name": "Static Site",
+      "category": "web",
+      "path": "apps/static-site",
+      "status": "ready",
+      "requires": ["caddy:local"]
+    }
+  ]
+}

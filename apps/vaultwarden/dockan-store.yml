@@ -1,0 +1,10 @@
+id: vaultwarden
+name: Vaultwarden
+category: passwords
+summary: Lightweight Bitwarden-compatible password manager.
+status: template
+default_port: 8082
+requires:
+  - vaultwarden:local
+volumes:
+  - vaultwarden-data

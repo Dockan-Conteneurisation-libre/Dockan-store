@@ -1,0 +1,11 @@
+id: jellyfin
+name: Jellyfin
+category: media
+summary: Local media server.
+status: template
+default_port: 8096
+requires:
+  - jellyfin:local
+volumes:
+  - jellyfin-config
+  - jellyfin-cache

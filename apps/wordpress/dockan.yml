@@ -1,0 +1,36 @@
+name: wordpress
+services:
+  web:
+    image: wordpress:local
+    ports:
+      - 8080:8080
+    env:
+      - WORDPRESS_DB_HOST=db
+      - WORDPRESS_DB_NAME=wordpress
+      - WORDPRESS_DB_USER=wordpress
+      - WORDPRESS_DB_PASSWORD=change-me
+    volumes:
+      - wordpress-html:/var/www/html
+    network: wordpress-net
+    aliases:
+      - web
+    depends_on:
+      - db
+    restart: always
+    healthcheck: CMD-SHELL curl -f http://127.0.0.1:8080/ || exit 1
+  db:
+    image: mariadb:local
+    env:
+      - MYSQL_DATABASE=wordpress
+      - MYSQL_USER=wordpress
+      - MYSQL_PASSWORD=change-me
+      - MYSQL_ROOT_PASSWORD=change-root
+    volumes:
+      - wordpress-db:/var/lib/mysql
+    network: wordpress-net
+    aliases:
+      - db
+    restart: always
+    healthcheck: CMD-SHELL test -d /var/lib/mysql
+networks:
+  - wordpress-net

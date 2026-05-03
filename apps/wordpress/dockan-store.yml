@@ -1,0 +1,12 @@
+id: wordpress
+name: WordPress
+category: cms
+summary: Blog and CMS with MariaDB.
+status: template
+default_port: 8080
+requires:
+  - wordpress:local
+  - mariadb:local
+volumes:
+  - wordpress-html
+  - wordpress-db
