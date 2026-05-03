@@ -114,15 +114,16 @@ jobs:
           {
             echo "# Dockan Store ${version}"
             echo
-            echo "Release prete a installer avec images Dockan prebuild."
+            echo "Release prete a installer avec images Dockan prebuild par app."
             echo
             echo "## Contenu"
             echo
             echo "- Apps: ${app_count}"
             echo "- Images Dockan prebuild: ${image_count}"
             echo "- Install utilisateur: \`./dockan-store install APP_ID\`"
-            echo "- Les images sont dans \`registry/images/\` et importees automatiquement."
-            echo "- Packs par app: \`dockan-store-images-APP_ID.tar.gz\`"
+            echo "- Le Store contient les templates et telecharge automatiquement le pack image de l'app."
+            echo "- Packs par app: \`dockan-store-images-APP_ID.tar.gz\`."
+            echo "- Le pack complet des images n'est pas publie en un seul asset, car GitHub limite chaque asset a moins de 2 Go."
             echo
             echo "## Images incluses"
             echo
@@ -144,12 +145,14 @@ jobs:
             ! -name .git \
             ! -name .dockan-store \
             ! -name dist \
+            ! -name registry \
             -exec cp -a {} dist/archive/Dockan-Store/ \;
+          mkdir -p dist/archive/Dockan-Store/registry/images
+          [ ! -f registry/README.md ] || cp registry/README.md dist/archive/Dockan-Store/registry/
+          cp registry/index.tsv dist/archive/Dockan-Store/registry/
           tar -C dist/archive -czf "dist/dockan-store-${version}.tar.gz" Dockan-Store
           cp "dist/dockan-store-${version}.tar.gz" "dist/dockan-store.tar.gz"
 
-          tar -czf "dist/dockan-store-images-${version}.tar.gz" registry
-          cp "dist/dockan-store-images-${version}.tar.gz" "dist/dockan-store-images.tar.gz"
           for app in apps/*; do
             [ -d "$app" ] || continue
             app_id="$(basename "$app")"

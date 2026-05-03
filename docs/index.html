@@ -485,7 +485,7 @@ dockan compose up</code></pre>
     <section id="images">
       <h2>Images</h2>
       <div class="panel">
-        <p>Each app card lists the exact Dockan images it needs. Releases include a generated image registry with `registry/index.tsv` plus prebuilt archives in `registry/images/`, so installs can import images without asking the user to build them. The release also publishes one smaller image pack per app.</p>
+        <p>Each app card lists the exact Dockan images it needs. Releases include `registry/index.tsv` in the Store archive, plus one prebuilt image pack per app. Installs download only the selected app pack when images are not already local.</p>
         <div class="command">
           <pre><code>./dockan-store images APP_ID
 ./dockan-store images all
@@ -496,8 +496,6 @@ DOCKAN_STORE_ENGINE=docker ./dockan-store build-images mysql:local
 
 # release assets:
 registry/index.tsv
-registry/images/*.tar.gz
-registry/images/*.tar.gz.sha256
 dockan-store-images-APP_ID.tar.gz</code></pre>
         </div>
       </div>
@@ -506,7 +504,7 @@ dockan-store-images-APP_ID.tar.gz</code></pre>
     <section id="install">
       <h2>How Install Works</h2>
       <div class="panel">
-        <p>For normal use, download `dockan-store.tar.gz` from the latest GitHub Release. It contains the Store plus the bundled image registry. A git clone is for development and may not include the generated release image pack.</p>
+        <p>For normal use, download `dockan-store.tar.gz` from the latest GitHub Release. It contains the Store templates and image index. App image packs are downloaded on demand, one app at a time, to stay below GitHub's release asset size limit.</p>
         <div class="command">
           <pre><code>curl -L -o dockan-store.tar.gz https://github.com/Dockan-Conteneurisation-libre/Dockan-store/releases/latest/download/dockan-store.tar.gz
 tar -xzf dockan-store.tar.gz

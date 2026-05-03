@@ -60,6 +60,49 @@ safe_ref() {
   printf "%s" "$1" | sed 's/[^A-Za-z0-9._-]/_/g'
 }
 
+download_app_registry_pack() {
+  if [ "$app" = "all" ] || [ "${DOCKAN_STORE_AUTO_DOWNLOAD_IMAGES:-1}" = "0" ]; then
+    return 1
+  fi
+  base="${DOCKAN_STORE_RELEASE_BASE:-https://github.com/Dockan-Conteneurisation-libre/Dockan-store/releases/latest/download}"
+  url="$base/dockan-store-images-$app.tar.gz"
+  tmp="$(mktemp -d)"
+  cleanup_download() {
+    rm -rf "$tmp"
+  }
+  trap cleanup_download EXIT INT TERM
+
+  echo "Downloading prebuilt image pack for $app"
+  if command -v curl >/dev/null 2>&1; then
+    if ! curl -fsSL "$url" -o "$tmp/images.tar.gz"; then
+      echo "Unable to download app image pack: $url" >&2
+      return 1
+    fi
+  elif command -v wget >/dev/null 2>&1; then
+    if ! wget -qO "$tmp/images.tar.gz" "$url"; then
+      echo "Unable to download app image pack: $url" >&2
+      return 1
+    fi
+  else
+    echo "curl or wget is required to download app image packs." >&2
+    return 1
+  fi
+
+  mkdir -p "$registry"
+  if ! tar -xzf "$tmp/images.tar.gz" -C "$tmp"; then
+    echo "Invalid app image pack archive: $url" >&2
+    return 1
+  fi
+  if [ ! -d "$tmp/registry" ]; then
+    echo "Invalid app image pack: $url" >&2
+    return 1
+  fi
+  cp -a "$tmp/registry/." "$registry/"
+  rm -rf "$tmp"
+  trap - EXIT INT TERM
+  return 0
+}
+
 image_exists() {
   dockan images 2>/dev/null | awk 'NR > 1 { print $1 }' | grep -Fx "$1" >/dev/null 2>&1
 }
@@ -77,11 +120,19 @@ if ! command -v dockan >/dev/null 2>&1; then
 fi
 
 missing=0
+downloaded=0
 
 for image in $(all_requires); do
   if image_exists "$image"; then
     echo "Image ready: $image"
     continue
+  fi
+
+  archive="$registry/images/$(safe_ref "$image").tar.gz"
+  if [ ! -f "$archive" ]; then
+    if [ "$downloaded" -eq 0 ] && download_app_registry_pack; then
+      downloaded=1
+    fi
   fi
 
   archive="$registry/images/$(safe_ref "$image").tar.gz"

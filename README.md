@@ -43,7 +43,8 @@ registry/
 ## Download Ready Release
 
 Normal users should download the release archive, not `git clone`. The release
-archive includes the Store files plus the generated `registry/images/` pack.
+archive includes the Store files and templates. Image packs are downloaded per
+app on demand, because GitHub release assets must stay under 2 GB.
 
 ```bash
 curl -L -o dockan-store.tar.gz https://github.com/Dockan-Conteneurisation-libre/Dockan-store/releases/latest/download/dockan-store.tar.gz
@@ -108,9 +109,10 @@ To publish smaller packs, generate only the image archives required by one app:
 ./dockan-store export-app-images wordpress
 ```
 
-The generated `registry/` folder can be shipped in a release archive or restored
-next to the Store checkout. `./dockan-store install APP_ID` will import the
-required images automatically.
+The generated `registry/` folder can be shipped next to the Store checkout.
+`./dockan-store install APP_ID` imports the required images automatically. If
+the images are not already present locally, the Store downloads
+`dockan-store-images-APP_ID.tar.gz` from the latest GitHub Release.
 
 ## First Catalog
 
@@ -160,10 +162,8 @@ GitHub Actions builds the Store release when a `v*` tag is pushed, or when the
 
 The release contains:
 
-- `dockan-store.tar.gz`: latest Store archive with prebuilt images.
-- `dockan-store-VERSION.tar.gz`: Store files plus `registry/images/`.
-- `dockan-store-images.tar.gz`: latest prebuilt image registry only.
-- `dockan-store-images-VERSION.tar.gz`: only the prebuilt image registry.
+- `dockan-store.tar.gz`: latest Store archive with templates and image index.
+- `dockan-store-VERSION.tar.gz`: versioned Store archive with templates and image index.
 - `dockan-store-images-APP_ID.tar.gz`: image registry for one app only.
 - `SHA256SUMS`: checksums for release archives.
 - release notes listing every image included in the pack.
