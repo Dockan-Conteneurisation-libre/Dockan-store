@@ -1,0 +1,10 @@
+id: grafana
+name: Grafana
+category: monitoring
+summary: Dashboards and visualization for metrics.
+status: template
+default_port: 3002
+requires:
+  - grafana:local
+volumes:
+  - grafana-data

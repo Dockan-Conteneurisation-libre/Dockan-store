@@ -1,0 +1,34 @@
+name: miniflux
+services:
+  web:
+    image: miniflux:local
+    ports:
+      - 8085:8080
+    env:
+      - DATABASE_URL=postgres://miniflux:change-me@db/miniflux?sslmode=disable
+      - RUN_MIGRATIONS=1
+      - CREATE_ADMIN=1
+      - ADMIN_USERNAME=admin
+      - ADMIN_PASSWORD=change-me
+    network: miniflux-net
+    aliases:
+      - web
+    depends_on:
+      - db
+    restart: always
+    healthcheck: CMD-SHELL wget -qO- http://127.0.0.1:8080/healthcheck || exit 1
+  db:
+    image: postgres:local
+    env:
+      - POSTGRES_DB=miniflux
+      - POSTGRES_USER=miniflux
+      - POSTGRES_PASSWORD=change-me
+    volumes:
+      - miniflux-db:/var/lib/postgresql/data
+    network: miniflux-net
+    aliases:
+      - db
+    restart: always
+    healthcheck: CMD-SHELL pg_isready -U miniflux || exit 1
+networks:
+  - miniflux-net

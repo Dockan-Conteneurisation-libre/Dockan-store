@@ -1,0 +1,18 @@
+name: nginx-proxy-manager
+services:
+  web:
+    image: nginx-proxy-manager:local
+    ports:
+      - 8084:80
+      - 8443:443
+      - 8181:81
+    volumes:
+      - npm-data:/data
+      - npm-letsencrypt:/etc/letsencrypt
+    network: npm-net
+    aliases:
+      - web
+    restart: always
+    healthcheck: CMD-SHELL curl -f http://127.0.0.1:81/ || exit 1
+networks:
+  - npm-net

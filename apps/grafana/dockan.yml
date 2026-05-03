@@ -1,0 +1,18 @@
+name: grafana
+services:
+  web:
+    image: grafana:local
+    ports:
+      - 3002:3000
+    env:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=change-me
+    volumes:
+      - grafana-data:/var/lib/grafana
+    network: grafana-net
+    aliases:
+      - web
+    restart: always
+    healthcheck: CMD-SHELL curl -f http://127.0.0.1:3000/api/health || exit 1
+networks:
+  - grafana-net

@@ -1,0 +1,15 @@
+id: paperless-ngx
+name: Paperless-ngx
+category: documents
+summary: Document management with OCR, PostgreSQL, and Redis.
+status: template
+default_port: 8000
+requires:
+  - paperless-ngx:local
+  - postgres:local
+  - redis:local
+volumes:
+  - paperless-data
+  - paperless-media
+  - paperless-db
+  - paperless-redis

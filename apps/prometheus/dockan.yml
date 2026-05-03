@@ -1,0 +1,16 @@
+name: prometheus
+services:
+  web:
+    image: prometheus:local
+    ports:
+      - 9091:9090
+    volumes:
+      - prometheus-data:/prometheus
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+    network: prometheus-net
+    aliases:
+      - web
+    restart: always
+    healthcheck: CMD-SHELL wget -qO- http://127.0.0.1:9090/-/healthy || exit 1
+networks:
+  - prometheus-net

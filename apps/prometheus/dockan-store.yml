@@ -1,0 +1,10 @@
+id: prometheus
+name: Prometheus
+category: monitoring
+summary: Metrics database and scraper.
+status: template
+default_port: 9091
+requires:
+  - prometheus:local
+volumes:
+  - prometheus-data

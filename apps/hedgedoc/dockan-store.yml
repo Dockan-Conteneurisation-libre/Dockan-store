@@ -1,0 +1,12 @@
+id: hedgedoc
+name: HedgeDoc
+category: notes
+summary: Collaborative markdown notes with PostgreSQL.
+status: template
+default_port: 3003
+requires:
+  - hedgedoc:local
+  - postgres:local
+volumes:
+  - hedgedoc-uploads
+  - hedgedoc-db

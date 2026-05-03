@@ -1,0 +1,37 @@
+name: bookstack
+services:
+  web:
+    image: bookstack:local
+    ports:
+      - 8087:80
+    env:
+      - APP_URL=http://127.0.0.1:8087
+      - DB_HOST=db
+      - DB_DATABASE=bookstack
+      - DB_USERNAME=bookstack
+      - DB_PASSWORD=change-me
+    volumes:
+      - bookstack-data:/config
+    network: bookstack-net
+    aliases:
+      - web
+    depends_on:
+      - db
+    restart: always
+    healthcheck: CMD-SHELL curl -f http://127.0.0.1/ || exit 1
+  db:
+    image: mariadb:local
+    env:
+      - MYSQL_DATABASE=bookstack
+      - MYSQL_USER=bookstack
+      - MYSQL_PASSWORD=change-me
+      - MYSQL_ROOT_PASSWORD=change-root
+    volumes:
+      - bookstack-db:/var/lib/mysql
+    network: bookstack-net
+    aliases:
+      - db
+    restart: always
+    healthcheck: CMD-SHELL test -d /var/lib/mysql
+networks:
+  - bookstack-net

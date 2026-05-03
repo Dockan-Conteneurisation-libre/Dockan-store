@@ -1,0 +1,11 @@
+id: miniflux
+name: Miniflux
+category: rss
+summary: Minimal RSS reader with PostgreSQL.
+status: template
+default_port: 8085
+requires:
+  - miniflux:local
+  - postgres:local
+volumes:
+  - miniflux-db

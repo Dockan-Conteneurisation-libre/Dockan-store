@@ -1,0 +1,10 @@
+id: libretranslate
+name: LibreTranslate
+category: ai
+summary: Local machine translation API and web UI.
+status: template
+default_port: 5000
+requires:
+  - libretranslate:local
+volumes:
+  - libretranslate-data

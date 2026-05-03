@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dockan Store</title>
+  <meta name="description" content="Dockan Store lists ready-to-copy self-hosted app templates for Dockan.">
+  <style>
+    :root {
+      --bg: #f6f7f4;
+      --panel: #ffffff;
+      --ink: #17201b;
+      --muted: #56635c;
+      --line: #dfe5df;
+      --green: #176b48;
+      --green-dark: #0e4932;
+      --blue: #1d5f89;
+      --amber: #a56110;
+      --code: #eef2ee;
+      --shadow: 0 16px 40px rgba(23, 32, 27, 0.08);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      overflow-x: hidden;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.55;
+      overflow-x: hidden;
+    }
+
+    a {
+      color: var(--green);
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    header {
+      background: #fff;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .topbar,
+    .hero,
+    main,
+    footer {
+      width: min(1120px, calc(100% - 32px));
+      margin: 0 auto;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 16px 0;
+    }
+
+    .brand {
+      color: var(--ink);
+      font-size: 1.08rem;
+      font-weight: 850;
+    }
+
+    nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      font-size: 0.95rem;
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1.1fr) minmax(280px, 0.9fr);
+      gap: 34px;
+      align-items: center;
+      padding: 58px 0 42px;
+    }
+
+    h1 {
+      margin: 0 0 14px;
+      font-size: clamp(2.3rem, 7vw, 4.8rem);
+      line-height: 1;
+      letter-spacing: 0;
+    }
+
+    h2 {
+      margin: 0 0 12px;
+      font-size: 1.55rem;
+      line-height: 1.2;
+      letter-spacing: 0;
+    }
+
+    h3 {
+      margin: 0 0 8px;
+      font-size: 1.06rem;
+    }
+
+    p {
+      margin: 0;
+    }
+
+    .lead {
+      color: var(--muted);
+      font-size: 1.08rem;
+      max-width: 760px;
+    }
+
+    .panel {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+      padding: 18px;
+      min-width: 0;
+    }
+
+    .terminal {
+      background: #101812;
+      color: #eaf6ef;
+      border: 1px solid #24342a;
+      border-radius: 8px;
+      overflow: hidden;
+      min-width: 0;
+    }
+
+    .terminal-title {
+      display: flex;
+      gap: 7px;
+      padding: 12px 14px;
+      background: #18251c;
+      border-bottom: 1px solid #24342a;
+    }
+
+    .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #d66a4d;
+    }
+
+    .dot:nth-child(2) {
+      background: #d9a441;
+    }
+
+    .dot:nth-child(3) {
+      background: #48a86b;
+    }
+
+    pre {
+      margin: 0;
+      overflow-x: auto;
+      padding: 16px;
+      font-size: 0.9rem;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    code {
+      font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+      overflow-wrap: anywhere;
+    }
+
+    main {
+      padding: 28px 0 46px;
+    }
+
+    section {
+      border-top: 1px solid var(--line);
+      padding: 30px 0;
+    }
+
+    .toolbar {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 12px;
+      align-items: center;
+      margin-top: 18px;
+    }
+
+    input,
+    select {
+      min-height: 42px;
+      width: 100%;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+      color: var(--ink);
+      font: inherit;
+      padding: 8px 12px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 18px;
+    }
+
+    .card {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      min-width: 0;
+      min-height: 252px;
+      padding: 16px;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+    }
+
+    .card p {
+      color: var(--muted);
+      overflow-wrap: anywhere;
+    }
+
+    .badge-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      min-height: 26px;
+      padding: 3px 9px;
+      border-radius: 8px;
+      background: #eef6f1;
+      color: var(--green-dark);
+      font-size: 0.82rem;
+      font-weight: 800;
+    }
+
+    .badge.blue {
+      background: #edf5fa;
+      color: var(--blue);
+    }
+
+    .badge.amber {
+      background: #fff4e4;
+      color: var(--amber);
+    }
+
+    .requires {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: auto;
+    }
+
+    .requires code {
+      display: inline-flex;
+      min-height: 26px;
+      align-items: center;
+      padding: 3px 7px;
+      border-radius: 8px;
+      background: var(--code);
+      color: var(--ink);
+      font-size: 0.78rem;
+    }
+
+    .command {
+      background: var(--code);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .copy {
+      min-height: 34px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+      color: var(--green-dark);
+      cursor: pointer;
+      font: inherit;
+      font-size: 0.84rem;
+      font-weight: 800;
+      padding: 6px 10px;
+    }
+
+    .copy:hover {
+      border-color: var(--green);
+    }
+
+    footer {
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      padding: 28px 0 42px;
+    }
+
+    @media (max-width: 860px) {
+      .hero,
+      .grid {
+        grid-template-columns: 1fr;
+      }
+
+      .hero {
+        padding: 36px 0 30px;
+      }
+
+      .toolbar {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 520px) {
+      .topbar,
+      nav {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .topbar,
+      .hero,
+      main,
+      footer {
+        width: min(100% - 24px, 1120px);
+      }
+
+      h1 {
+        font-size: clamp(2rem, 15vw, 3.4rem);
+      }
+
+      .card {
+        min-height: 0;
+      }
+
+      pre {
+        padding: 13px;
+        font-size: 0.82rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="topbar">
+      <a class="brand" href="#top">Dockan Store</a>
+      <nav aria-label="Navigation">
+        <a href="#apps">Apps</a>
+        <a href="#install">Install</a>
+        <a href="https://github.com/Dockan-Conteneurisation-libre/Dockan-Store">GitHub</a>
+      </nav>
+    </div>
+    <div class="hero" id="top">
+      <div>
+        <h1>Dockan Store</h1>
+        <p class="lead">A local catalog of self-hosted app templates for Dockan. Copy an app, bring the required local images, then run it with `dockan compose up`.</p>
+      </div>
+      <div class="terminal" aria-label="Install example">
+        <div class="terminal-title">
+          <span class="dot"></span>
+          <span class="dot"></span>
+          <span class="dot"></span>
+        </div>
+        <pre><code>git clone https://github.com/Dockan-Conteneurisation-libre/Dockan-Store
+cd Dockan-Store
+./scripts/list.sh
+./scripts/install-app.sh wordpress ~/dockan-apps/wordpress
+cd ~/dockan-apps/wordpress
+dockan compose up</code></pre>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section id="apps">
+      <h2>Apps</h2>
+      <p class="lead">Templates include compose files, persistent volumes, ports, healthchecks, and install notes. Search by name, category, or required image.</p>
+      <div class="toolbar">
+        <input id="search" type="search" placeholder="Search apps, categories, or images" aria-label="Search apps">
+        <select id="category" aria-label="Filter by category">
+          <option value="">All categories</option>
+        </select>
+      </div>
+      <div class="grid" id="app-grid"></div>
+    </section>
+
+    <section id="install">
+      <h2>How Install Works</h2>
+      <div class="panel">
+        <p>Dockan Store copies a template into your app folder. It does not pull Docker Hub automatically. Prepare or import the required local images first, then launch with Dockan.</p>
+        <div class="command">
+          <pre><code>./scripts/install-app.sh APP_ID ~/dockan-apps/APP_ID
+cd ~/dockan-apps/APP_ID
+dockan compose up
+dockan compose health</code></pre>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    Dockan Store - templates for local self-hosting with Dockan.
+  </footer>
+
+  <script>
+    const apps = [
+      {id:"bookstack", name:"BookStack", category:"wiki", summary:"Documentation wiki with MariaDB.", port:"8087", requires:["bookstack:local","mariadb:local"]},
+      {id:"drawio", name:"draw.io", category:"diagrams", summary:"Diagram editor.", port:"8089", requires:["drawio:local"]},
+      {id:"ghost", name:"Ghost", category:"publishing", summary:"Publishing platform with MySQL.", port:"2368", requires:["ghost:local","mysql:local"]},
+      {id:"gitea", name:"Gitea", category:"git", summary:"Lightweight Git forge with PostgreSQL.", port:"3000", requires:["gitea:local","postgres:local"]},
+      {id:"grafana", name:"Grafana", category:"monitoring", summary:"Dashboards and visualization for metrics.", port:"3002", requires:["grafana:local"]},
+      {id:"hedgedoc", name:"HedgeDoc", category:"notes", summary:"Collaborative markdown notes with PostgreSQL.", port:"3003", requires:["hedgedoc:local","postgres:local"]},
+      {id:"jellyfin", name:"Jellyfin", category:"media", summary:"Local media server.", port:"8096", requires:["jellyfin:local"]},
+      {id:"libretranslate", name:"LibreTranslate", category:"ai", summary:"Local machine translation API and web UI.", port:"5000", requires:["libretranslate:local"]},
+      {id:"matomo", name:"Matomo", category:"analytics", summary:"Web analytics with MariaDB.", port:"8083", requires:["matomo:local","mariadb:local"]},
+      {id:"miniflux", name:"Miniflux", category:"rss", summary:"Minimal RSS reader with PostgreSQL.", port:"8085", requires:["miniflux:local","postgres:local"]},
+      {id:"n8n", name:"n8n", category:"automation", summary:"Workflow automation with PostgreSQL.", port:"5678", requires:["n8n:local","postgres:local"]},
+      {id:"nextcloud", name:"Nextcloud", category:"files", summary:"Private files, sync, calendar, contacts, and collaboration.", port:"8081", requires:["nextcloud:local","mariadb:local","redis:local"]},
+      {id:"nginx-proxy-manager", name:"Nginx Proxy Manager", category:"proxy", summary:"Web UI for reverse proxy hosts and TLS certificates.", port:"8181", requires:["nginx-proxy-manager:local"]},
+      {id:"paperless-ngx", name:"Paperless-ngx", category:"documents", summary:"Document management with OCR, PostgreSQL, and Redis.", port:"8000", requires:["paperless-ngx:local","postgres:local","redis:local"]},
+      {id:"prometheus", name:"Prometheus", category:"monitoring", summary:"Metrics database and scraper.", port:"9091", requires:["prometheus:local"]},
+      {id:"static-site", name:"Static Site", category:"web", summary:"Serve a static public folder with Caddy.", port:"8088", requires:["caddy:local"]},
+      {id:"syncthing", name:"Syncthing", category:"sync", summary:"Peer-to-peer file synchronization.", port:"8384", requires:["syncthing:local"]},
+      {id:"uptime-kuma", name:"Uptime Kuma", category:"monitoring", summary:"Monitoring dashboard for services and websites.", port:"3001", requires:["uptime-kuma:local"]},
+      {id:"vaultwarden", name:"Vaultwarden", category:"passwords", summary:"Lightweight Bitwarden-compatible password manager.", port:"8082", requires:["vaultwarden:local"]},
+      {id:"wallabag", name:"Wallabag", category:"read-it-later", summary:"Save articles and read them later.", port:"8086", requires:["wallabag:local","postgres:local"]},
+      {id:"wordpress", name:"WordPress", category:"cms", summary:"Blog and CMS with MariaDB.", port:"8080", requires:["wordpress:local","mariadb:local"]}
+    ];
+
+    const grid = document.querySelector("#app-grid");
+    const search = document.querySelector("#search");
+    const category = document.querySelector("#category");
+
+    for (const value of [...new Set(apps.map((app) => app.category))].sort()) {
+      const option = document.createElement("option");
+      option.value = value;
+      option.textContent = value;
+      category.appendChild(option);
+    }
+
+    function render() {
+      const term = search.value.trim().toLowerCase();
+      const selected = category.value;
+      grid.replaceChildren();
+
+      for (const app of apps) {
+        const haystack = [app.id, app.name, app.category, app.summary, ...app.requires].join(" ").toLowerCase();
+        if (selected && app.category !== selected) continue;
+        if (term && !haystack.includes(term)) continue;
+
+        const command = `./scripts/install-app.sh ${app.id} ~/dockan-apps/${app.id}`;
+        const card = document.createElement("article");
+        card.className = "card";
+        card.innerHTML = `
+          <div class="badge-row">
+            <span class="badge">${app.category}</span>
+            <span class="badge blue">:${app.port}</span>
+          </div>
+          <div>
+            <h3>${app.name}</h3>
+            <p>${app.summary}</p>
+          </div>
+          <div class="requires">${app.requires.map((item) => `<code>${item}</code>`).join("")}</div>
+          <div class="command"><pre><code>${command}</code></pre></div>
+          <button class="copy" type="button" data-copy="${command}">Copy install</button>
+        `;
+        grid.appendChild(card);
+      }
+    }
+
+    search.addEventListener("input", render);
+    category.addEventListener("change", render);
+    render();
+
+    document.addEventListener("click", async (event) => {
+      const button = event.target.closest("[data-copy]");
+      if (!button) return;
+      const value = button.getAttribute("data-copy") || "";
+      try {
+        await navigator.clipboard.writeText(value);
+        button.textContent = "Copied";
+      } catch {
+        const input = document.createElement("textarea");
+        input.value = value;
+        input.style.position = "fixed";
+        input.style.left = "-9999px";
+        document.body.appendChild(input);
+        input.select();
+        document.execCommand("copy");
+        input.remove();
+        button.textContent = "Copied";
+      }
+      setTimeout(() => {
+        button.textContent = "Copy install";
+      }, 1500);
+    });
+  </script>
+</body>
+</html>

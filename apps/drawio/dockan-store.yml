@@ -1,0 +1,10 @@
+id: drawio
+name: draw.io
+category: diagrams
+summary: Diagram editor.
+status: template
+default_port: 8089
+requires:
+  - drawio:local
+volumes:
+  - none

@@ -1,0 +1,38 @@
+name: wallabag
+services:
+  web:
+    image: wallabag:local
+    ports:
+      - 8086:80
+    env:
+      - SYMFONY__ENV__DATABASE_DRIVER=pdo_pgsql
+      - SYMFONY__ENV__DATABASE_HOST=db
+      - SYMFONY__ENV__DATABASE_NAME=wallabag
+      - SYMFONY__ENV__DATABASE_USER=wallabag
+      - SYMFONY__ENV__DATABASE_PASSWORD=change-me
+      - SYMFONY__ENV__DOMAIN_NAME=http://127.0.0.1:8086
+    volumes:
+      - wallabag-data:/var/www/wallabag/data
+      - wallabag-images:/var/www/wallabag/web/assets/images
+    network: wallabag-net
+    aliases:
+      - web
+    depends_on:
+      - db
+    restart: always
+    healthcheck: CMD-SHELL curl -f http://127.0.0.1/ || exit 1
+  db:
+    image: postgres:local
+    env:
+      - POSTGRES_DB=wallabag
+      - POSTGRES_USER=wallabag
+      - POSTGRES_PASSWORD=change-me
+    volumes:
+      - wallabag-db:/var/lib/postgresql/data
+    network: wallabag-net
+    aliases:
+      - db
+    restart: always
+    healthcheck: CMD-SHELL pg_isready -U wallabag || exit 1
+networks:
+  - wallabag-net

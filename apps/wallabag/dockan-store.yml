@@ -1,0 +1,13 @@
+id: wallabag
+name: Wallabag
+category: read-it-later
+summary: Save articles and read them later.
+status: template
+default_port: 8086
+requires:
+  - wallabag:local
+  - postgres:local
+volumes:
+  - wallabag-data
+  - wallabag-images
+  - wallabag-db

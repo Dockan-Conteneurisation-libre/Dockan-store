@@ -1,0 +1,34 @@
+name: hedgedoc
+services:
+  web:
+    image: hedgedoc:local
+    ports:
+      - 3003:3000
+    env:
+      - CMD_DB_URL=postgres://hedgedoc:change-me@db:5432/hedgedoc
+      - CMD_DOMAIN=127.0.0.1
+      - CMD_PROTOCOL_USESSL=false
+    volumes:
+      - hedgedoc-uploads:/hedgedoc/public/uploads
+    network: hedgedoc-net
+    aliases:
+      - web
+    depends_on:
+      - db
+    restart: always
+    healthcheck: CMD-SHELL wget -qO- http://127.0.0.1:3000/ || exit 1
+  db:
+    image: postgres:local
+    env:
+      - POSTGRES_DB=hedgedoc
+      - POSTGRES_USER=hedgedoc
+      - POSTGRES_PASSWORD=change-me
+    volumes:
+      - hedgedoc-db:/var/lib/postgresql/data
+    network: hedgedoc-net
+    aliases:
+      - db
+    restart: always
+    healthcheck: CMD-SHELL pg_isready -U hedgedoc || exit 1
+networks:
+  - hedgedoc-net

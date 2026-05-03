@@ -39,15 +39,44 @@ dockan compose up
 
 ## First Catalog
 
-- WordPress
-- Nextcloud
-- Gitea
-- Vaultwarden
-- Uptime Kuma
-- Matomo
+- BookStack
+- draw.io
 - Ghost
+- Gitea
+- Grafana
+- HedgeDoc
 - Jellyfin
+- LibreTranslate
+- Matomo
+- Miniflux
+- n8n
+- Nextcloud
+- Nginx Proxy Manager
+- Paperless-ngx
+- Prometheus
 - Static Site
+- Syncthing
+- Uptime Kuma
+- Vaultwarden
+- Wallabag
+- WordPress
+
+## GitHub Pages
+
+The store site lives in `docs/index.html`. On GitHub, enable Pages with:
+
+```text
+Settings -> Pages -> Build and deployment -> Deploy from a branch -> main /docs
+```
+
+The page lists all apps, required local images, and the copy-ready install
+command:
+
+```bash
+./scripts/install-app.sh APP_ID ~/dockan-apps/APP_ID
+cd ~/dockan-apps/APP_ID
+dockan compose up
+```
 
 ## Production Notes
 

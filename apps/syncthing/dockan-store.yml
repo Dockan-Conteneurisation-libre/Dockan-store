@@ -1,0 +1,10 @@
+id: syncthing
+name: Syncthing
+category: sync
+summary: Peer-to-peer file synchronization.
+status: template
+default_port: 8384
+requires:
+  - syncthing:local
+volumes:
+  - syncthing-config

@@ -1,0 +1,51 @@
+name: paperless-ngx
+services:
+  web:
+    image: paperless-ngx:local
+    ports:
+      - 8000:8000
+    env:
+      - PAPERLESS_REDIS=redis://redis:6379
+      - PAPERLESS_DBHOST=db
+      - PAPERLESS_DBNAME=paperless
+      - PAPERLESS_DBUSER=paperless
+      - PAPERLESS_DBPASS=change-me
+      - PAPERLESS_SECRET_KEY=change-this-secret
+      - PAPERLESS_URL=http://127.0.0.1:8000
+    volumes:
+      - paperless-data:/usr/src/paperless/data
+      - paperless-media:/usr/src/paperless/media
+      - ./consume:/usr/src/paperless/consume
+      - ./export:/usr/src/paperless/export
+    network: paperless-net
+    aliases:
+      - web
+    depends_on:
+      - db
+      - redis
+    restart: always
+    healthcheck: CMD-SHELL curl -f http://127.0.0.1:8000/ || exit 1
+  db:
+    image: postgres:local
+    env:
+      - POSTGRES_DB=paperless
+      - POSTGRES_USER=paperless
+      - POSTGRES_PASSWORD=change-me
+    volumes:
+      - paperless-db:/var/lib/postgresql/data
+    network: paperless-net
+    aliases:
+      - db
+    restart: always
+    healthcheck: CMD-SHELL pg_isready -U paperless || exit 1
+  redis:
+    image: redis:local
+    volumes:
+      - paperless-redis:/data
+    network: paperless-net
+    aliases:
+      - redis
+    restart: always
+    healthcheck: CMD-SHELL redis-cli ping || exit 1
+networks:
+  - paperless-net

@@ -1,0 +1,12 @@
+id: bookstack
+name: BookStack
+category: wiki
+summary: Documentation wiki with MariaDB.
+status: template
+default_port: 8087
+requires:
+  - bookstack:local
+  - mariadb:local
+volumes:
+  - bookstack-data
+  - bookstack-db

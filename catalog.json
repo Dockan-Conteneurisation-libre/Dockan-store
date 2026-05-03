@@ -44,6 +44,22 @@
       "requires": ["uptime-kuma:local"]
     },
     {
+      "id": "grafana",
+      "name": "Grafana",
+      "category": "monitoring",
+      "path": "apps/grafana",
+      "status": "template",
+      "requires": ["grafana:local"]
+    },
+    {
+      "id": "prometheus",
+      "name": "Prometheus",
+      "category": "monitoring",
+      "path": "apps/prometheus",
+      "status": "template",
+      "requires": ["prometheus:local"]
+    },
+    {
       "id": "matomo",
       "name": "Matomo",
       "category": "analytics",
@@ -66,6 +82,86 @@
       "path": "apps/jellyfin",
       "status": "template",
       "requires": ["jellyfin:local"]
+    },
+    {
+      "id": "nginx-proxy-manager",
+      "name": "Nginx Proxy Manager",
+      "category": "proxy",
+      "path": "apps/nginx-proxy-manager",
+      "status": "template",
+      "requires": ["nginx-proxy-manager:local"]
+    },
+    {
+      "id": "miniflux",
+      "name": "Miniflux",
+      "category": "rss",
+      "path": "apps/miniflux",
+      "status": "template",
+      "requires": ["miniflux:local", "postgres:local"]
+    },
+    {
+      "id": "wallabag",
+      "name": "Wallabag",
+      "category": "read-it-later",
+      "path": "apps/wallabag",
+      "status": "template",
+      "requires": ["wallabag:local", "postgres:local"]
+    },
+    {
+      "id": "bookstack",
+      "name": "BookStack",
+      "category": "wiki",
+      "path": "apps/bookstack",
+      "status": "template",
+      "requires": ["bookstack:local", "mariadb:local"]
+    },
+    {
+      "id": "hedgedoc",
+      "name": "HedgeDoc",
+      "category": "notes",
+      "path": "apps/hedgedoc",
+      "status": "template",
+      "requires": ["hedgedoc:local", "postgres:local"]
+    },
+    {
+      "id": "n8n",
+      "name": "n8n",
+      "category": "automation",
+      "path": "apps/n8n",
+      "status": "template",
+      "requires": ["n8n:local", "postgres:local"]
+    },
+    {
+      "id": "syncthing",
+      "name": "Syncthing",
+      "category": "sync",
+      "path": "apps/syncthing",
+      "status": "template",
+      "requires": ["syncthing:local"]
+    },
+    {
+      "id": "paperless-ngx",
+      "name": "Paperless-ngx",
+      "category": "documents",
+      "path": "apps/paperless-ngx",
+      "status": "template",
+      "requires": ["paperless-ngx:local", "postgres:local", "redis:local"]
+    },
+    {
+      "id": "libretranslate",
+      "name": "LibreTranslate",
+      "category": "ai",
+      "path": "apps/libretranslate",
+      "status": "template",
+      "requires": ["libretranslate:local"]
+    },
+    {
+      "id": "drawio",
+      "name": "draw.io",
+      "category": "diagrams",
+      "path": "apps/drawio",
+      "status": "template",
+      "requires": ["drawio:local"]
     },
     {
       "id": "static-site",

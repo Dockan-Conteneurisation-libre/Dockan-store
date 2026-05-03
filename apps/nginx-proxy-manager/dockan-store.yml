@@ -1,0 +1,11 @@
+id: nginx-proxy-manager
+name: Nginx Proxy Manager
+category: proxy
+summary: Web UI for reverse proxy hosts and TLS certificates.
+status: template
+default_port: 8181
+requires:
+  - nginx-proxy-manager:local
+volumes:
+  - npm-data
+  - npm-letsencrypt

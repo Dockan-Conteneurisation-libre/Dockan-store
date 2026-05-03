@@ -1,0 +1,15 @@
+name: libretranslate
+services:
+  web:
+    image: libretranslate:local
+    ports:
+      - 5000:5000
+    volumes:
+      - libretranslate-data:/home/libretranslate/.local
+    network: libretranslate-net
+    aliases:
+      - web
+    restart: always
+    healthcheck: CMD-SHELL curl -f http://127.0.0.1:5000/ || exit 1
+networks:
+  - libretranslate-net

@@ -1,0 +1,13 @@
+name: drawio
+services:
+  web:
+    image: drawio:local
+    ports:
+      - 8089:8080
+    network: drawio-net
+    aliases:
+      - web
+    restart: always
+    healthcheck: CMD-SHELL curl -f http://127.0.0.1:8080/ || exit 1
+networks:
+  - drawio-net
