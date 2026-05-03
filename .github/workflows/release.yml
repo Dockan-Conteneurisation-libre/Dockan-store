@@ -137,6 +137,7 @@ jobs:
             echo "./dockan-store install static-site"
             echo "cd ~/dockan-apps/static-site"
             echo "dockan compose up"
+            echo "sudo dockan compose autostart -f dockan.yml"
             echo '```'
           } > dist/release-notes.md
 
