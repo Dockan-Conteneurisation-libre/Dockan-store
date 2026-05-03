@@ -29,6 +29,6 @@ services:
     aliases:
       - db
     restart: always
-    healthcheck: CMD-SHELL pg_isready -U hedgedoc || exit 1
+    healthcheck: CMD-SHELL pg_isready -h 127.0.0.1 -U hedgedoc -d hedgedoc || exit 1
 networks:
   - hedgedoc-net

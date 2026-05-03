@@ -36,6 +36,7 @@ scripts/
   prepare-images.sh
   install-app.sh
   pack-images.sh
+  validate-store.sh
 registry/
   images/
 ```
@@ -119,6 +120,19 @@ The generated `registry/` folder can be shipped next to the Store checkout.
 `./dockan-store install APP_ID` imports the required images automatically. If
 the images are not already present locally, the Store downloads
 `dockan-store-images-APP_ID.tar.gz` from the latest GitHub Release.
+
+## Template Validation
+
+Every Store change should pass:
+
+```bash
+./scripts/validate-store.sh
+DOCKAN_STORE_DRY_RUN=1 ./dockan-store images all
+```
+
+The validator checks that catalog entries, app metadata, compose templates,
+published ports, required local images, upstream image sources, and known bad
+port mappings stay consistent before a release can build image packs.
 
 ## First Catalog
 

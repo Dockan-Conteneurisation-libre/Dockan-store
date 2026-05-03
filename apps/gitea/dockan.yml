@@ -34,6 +34,6 @@ services:
     aliases:
       - db
     restart: always
-    healthcheck: CMD-SHELL pg_isready -U gitea || exit 1
+    healthcheck: CMD-SHELL pg_isready -h 127.0.0.1 -U gitea -d gitea || exit 1
 networks:
   - gitea-net

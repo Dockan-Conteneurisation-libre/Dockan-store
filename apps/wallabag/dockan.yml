@@ -33,6 +33,6 @@ services:
     aliases:
       - db
     restart: always
-    healthcheck: CMD-SHELL pg_isready -U wallabag || exit 1
+    healthcheck: CMD-SHELL pg_isready -h 127.0.0.1 -U wallabag -d wallabag || exit 1
 networks:
   - wallabag-net

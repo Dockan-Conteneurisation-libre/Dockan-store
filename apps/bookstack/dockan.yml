@@ -32,6 +32,6 @@ services:
     aliases:
       - db
     restart: always
-    healthcheck: CMD-SHELL test -d /var/lib/mysql
+    healthcheck: CMD-SHELL mariadb-admin ping -h 127.0.0.1 -uroot -p"$MYSQL_ROOT_PASSWORD" || mysqladmin ping -h 127.0.0.1 -uroot -p"$MYSQL_ROOT_PASSWORD"
 networks:
   - bookstack-net

@@ -37,7 +37,7 @@ services:
     aliases:
       - db
     restart: always
-    healthcheck: CMD-SHELL pg_isready -U paperless || exit 1
+    healthcheck: CMD-SHELL pg_isready -h 127.0.0.1 -U paperless -d paperless || exit 1
   redis:
     image: redis:local
     volumes:
@@ -46,6 +46,6 @@ services:
     aliases:
       - redis
     restart: always
-    healthcheck: CMD-SHELL redis-cli ping || exit 1
+    healthcheck: CMD-SHELL redis-cli -h 127.0.0.1 ping | grep -q PONG
 networks:
   - paperless-net

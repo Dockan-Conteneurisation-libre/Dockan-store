@@ -1,0 +1,29 @@
+name: Store CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  validate:
+    name: Validate templates
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+      - name: Install tools
+        run: |
+          set -eu
+          sudo apt-get update
+          sudo apt-get install -y jq ripgrep
+      - name: Validate Store
+        run: ./scripts/validate-store.sh
+      - name: Check image list
+        run: |
+          set -eu
+          DOCKAN_STORE_DRY_RUN=1 ./dockan-store images all \
+            | awk 'NF && $1 != "Would" { print $1 }' \
+            | sort -u > /tmp/store-images.txt
+          test -s /tmp/store-images.txt

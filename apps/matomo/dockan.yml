@@ -3,7 +3,7 @@ services:
   web:
     image: matomo:local
     ports:
-      - 8083:8080
+      - 8083:80
     env:
       - MATOMO_DATABASE_HOST=db
       - MATOMO_DATABASE_DBNAME=matomo
@@ -17,7 +17,7 @@ services:
     depends_on:
       - db
     restart: always
-    healthcheck: CMD-SHELL curl -f http://127.0.0.1:8080/ || exit 1
+    healthcheck: CMD-SHELL curl -f http://127.0.0.1:80/ || exit 1
   db:
     image: mariadb:local
     env:
@@ -31,6 +31,6 @@ services:
     aliases:
       - db
     restart: always
-    healthcheck: CMD-SHELL test -d /var/lib/mysql
+    healthcheck: CMD-SHELL mariadb-admin ping -h 127.0.0.1 -uroot -p"$MYSQL_ROOT_PASSWORD" || mysqladmin ping -h 127.0.0.1 -uroot -p"$MYSQL_ROOT_PASSWORD"
 networks:
   - matomo-net
