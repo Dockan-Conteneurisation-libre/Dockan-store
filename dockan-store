@@ -1,0 +1,29 @@
+#!/usr/bin/env sh
+set -eu
+
+root="$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)"
+cmd="${1:-}"
+
+case "$cmd" in
+  list|ls)
+    exec "$root/scripts/list.sh"
+    ;;
+  install)
+    shift
+    exec "$root/scripts/install-app.sh" "$@"
+    ;;
+  help|-h|--help|"")
+    echo "Usage:"
+    echo "  ./dockan-store list"
+    echo "  ./dockan-store install <app-id> [target-dir]"
+    echo
+    echo "Examples:"
+    echo "  ./dockan-store install static-site"
+    echo "  ./dockan-store install static-site /srv/apps/static-site"
+    ;;
+  *)
+    echo "Unknown command: $cmd" >&2
+    echo "Run: ./dockan-store help" >&2
+    exit 1
+    ;;
+esac

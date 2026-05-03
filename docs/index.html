@@ -220,6 +220,36 @@
       border-radius: 8px;
     }
 
+    .app-head {
+      display: grid;
+      grid-template-columns: 48px minmax(0, 1fr);
+      gap: 12px;
+      align-items: center;
+    }
+
+    .logo {
+      display: grid;
+      place-items: center;
+      width: 48px;
+      height: 48px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+      overflow: hidden;
+    }
+
+    .logo img {
+      width: 30px;
+      height: 30px;
+      object-fit: contain;
+    }
+
+    .logo-fallback {
+      color: var(--green-dark);
+      font-size: 0.86rem;
+      font-weight: 850;
+    }
+
     .card p {
       color: var(--muted);
       overflow-wrap: anywhere;
@@ -368,8 +398,8 @@
         </div>
         <pre><code>git clone https://github.com/Dockan-Conteneurisation-libre/Dockan-Store
 cd Dockan-Store
-./scripts/list.sh
-./scripts/install-app.sh wordpress ~/dockan-apps/wordpress
+./dockan-store list
+./dockan-store install wordpress
 cd ~/dockan-apps/wordpress
 dockan compose up</code></pre>
       </div>
@@ -394,10 +424,13 @@ dockan compose up</code></pre>
       <div class="panel">
         <p>Dockan Store copies a template into your app folder. It does not pull Docker Hub automatically. Prepare or import the required local images first, then launch with Dockan.</p>
         <div class="command">
-          <pre><code>./scripts/install-app.sh APP_ID ~/dockan-apps/APP_ID
+          <pre><code>./dockan-store install APP_ID
 cd ~/dockan-apps/APP_ID
 dockan compose up
-dockan compose health</code></pre>
+dockan compose health
+
+# custom target:
+./dockan-store install APP_ID /srv/apps/APP_ID</code></pre>
         </div>
       </div>
     </section>
@@ -409,27 +442,27 @@ dockan compose health</code></pre>
 
   <script>
     const apps = [
-      {id:"bookstack", name:"BookStack", category:"wiki", summary:"Documentation wiki with MariaDB.", port:"8087", requires:["bookstack:local","mariadb:local"]},
-      {id:"drawio", name:"draw.io", category:"diagrams", summary:"Diagram editor.", port:"8089", requires:["drawio:local"]},
-      {id:"ghost", name:"Ghost", category:"publishing", summary:"Publishing platform with MySQL.", port:"2368", requires:["ghost:local","mysql:local"]},
-      {id:"gitea", name:"Gitea", category:"git", summary:"Lightweight Git forge with PostgreSQL.", port:"3000", requires:["gitea:local","postgres:local"]},
-      {id:"grafana", name:"Grafana", category:"monitoring", summary:"Dashboards and visualization for metrics.", port:"3002", requires:["grafana:local"]},
-      {id:"hedgedoc", name:"HedgeDoc", category:"notes", summary:"Collaborative markdown notes with PostgreSQL.", port:"3003", requires:["hedgedoc:local","postgres:local"]},
-      {id:"jellyfin", name:"Jellyfin", category:"media", summary:"Local media server.", port:"8096", requires:["jellyfin:local"]},
-      {id:"libretranslate", name:"LibreTranslate", category:"ai", summary:"Local machine translation API and web UI.", port:"5000", requires:["libretranslate:local"]},
-      {id:"matomo", name:"Matomo", category:"analytics", summary:"Web analytics with MariaDB.", port:"8083", requires:["matomo:local","mariadb:local"]},
-      {id:"miniflux", name:"Miniflux", category:"rss", summary:"Minimal RSS reader with PostgreSQL.", port:"8085", requires:["miniflux:local","postgres:local"]},
-      {id:"n8n", name:"n8n", category:"automation", summary:"Workflow automation with PostgreSQL.", port:"5678", requires:["n8n:local","postgres:local"]},
-      {id:"nextcloud", name:"Nextcloud", category:"files", summary:"Private files, sync, calendar, contacts, and collaboration.", port:"8081", requires:["nextcloud:local","mariadb:local","redis:local"]},
-      {id:"nginx-proxy-manager", name:"Nginx Proxy Manager", category:"proxy", summary:"Web UI for reverse proxy hosts and TLS certificates.", port:"8181", requires:["nginx-proxy-manager:local"]},
-      {id:"paperless-ngx", name:"Paperless-ngx", category:"documents", summary:"Document management with OCR, PostgreSQL, and Redis.", port:"8000", requires:["paperless-ngx:local","postgres:local","redis:local"]},
-      {id:"prometheus", name:"Prometheus", category:"monitoring", summary:"Metrics database and scraper.", port:"9091", requires:["prometheus:local"]},
-      {id:"static-site", name:"Static Site", category:"web", summary:"Serve a static public folder with Caddy.", port:"8088", requires:["caddy:local"]},
-      {id:"syncthing", name:"Syncthing", category:"sync", summary:"Peer-to-peer file synchronization.", port:"8384", requires:["syncthing:local"]},
-      {id:"uptime-kuma", name:"Uptime Kuma", category:"monitoring", summary:"Monitoring dashboard for services and websites.", port:"3001", requires:["uptime-kuma:local"]},
-      {id:"vaultwarden", name:"Vaultwarden", category:"passwords", summary:"Lightweight Bitwarden-compatible password manager.", port:"8082", requires:["vaultwarden:local"]},
-      {id:"wallabag", name:"Wallabag", category:"read-it-later", summary:"Save articles and read them later.", port:"8086", requires:["wallabag:local","postgres:local"]},
-      {id:"wordpress", name:"WordPress", category:"cms", summary:"Blog and CMS with MariaDB.", port:"8080", requires:["wordpress:local","mariadb:local"]}
+      {id:"bookstack", name:"BookStack", category:"wiki", summary:"Documentation wiki with MariaDB.", port:"8087", icon:"bookstack", requires:["bookstack:local","mariadb:local"]},
+      {id:"drawio", name:"draw.io", category:"diagrams", summary:"Diagram editor.", port:"8089", icon:"diagramsdotnet", requires:["drawio:local"]},
+      {id:"ghost", name:"Ghost", category:"publishing", summary:"Publishing platform with MySQL.", port:"2368", icon:"ghost", requires:["ghost:local","mysql:local"]},
+      {id:"gitea", name:"Gitea", category:"git", summary:"Lightweight Git forge with PostgreSQL.", port:"3000", icon:"gitea", requires:["gitea:local","postgres:local"]},
+      {id:"grafana", name:"Grafana", category:"monitoring", summary:"Dashboards and visualization for metrics.", port:"3002", icon:"grafana", requires:["grafana:local"]},
+      {id:"hedgedoc", name:"HedgeDoc", category:"notes", summary:"Collaborative markdown notes with PostgreSQL.", port:"3003", icon:"hedgedoc", requires:["hedgedoc:local","postgres:local"]},
+      {id:"jellyfin", name:"Jellyfin", category:"media", summary:"Local media server.", port:"8096", icon:"jellyfin", requires:["jellyfin:local"]},
+      {id:"libretranslate", name:"LibreTranslate", category:"ai", summary:"Local machine translation API and web UI.", port:"5000", icon:"libretranslate", requires:["libretranslate:local"]},
+      {id:"matomo", name:"Matomo", category:"analytics", summary:"Web analytics with MariaDB.", port:"8083", icon:"matomo", requires:["matomo:local","mariadb:local"]},
+      {id:"miniflux", name:"Miniflux", category:"rss", summary:"Minimal RSS reader with PostgreSQL.", port:"8085", logo:"https://miniflux.app/favicon.ico", requires:["miniflux:local","postgres:local"]},
+      {id:"n8n", name:"n8n", category:"automation", summary:"Workflow automation with PostgreSQL.", port:"5678", icon:"n8n", requires:["n8n:local","postgres:local"]},
+      {id:"nextcloud", name:"Nextcloud", category:"files", summary:"Private files, sync, calendar, contacts, and collaboration.", port:"8081", icon:"nextcloud", requires:["nextcloud:local","mariadb:local","redis:local"]},
+      {id:"nginx-proxy-manager", name:"Nginx Proxy Manager", category:"proxy", summary:"Web UI for reverse proxy hosts and TLS certificates.", port:"8181", icon:"nginxproxymanager", requires:["nginx-proxy-manager:local"]},
+      {id:"paperless-ngx", name:"Paperless-ngx", category:"documents", summary:"Document management with OCR, PostgreSQL, and Redis.", port:"8000", icon:"paperlessngx", requires:["paperless-ngx:local","postgres:local","redis:local"]},
+      {id:"prometheus", name:"Prometheus", category:"monitoring", summary:"Metrics database and scraper.", port:"9091", icon:"prometheus", requires:["prometheus:local"]},
+      {id:"static-site", name:"Static Site", category:"web", summary:"Serve a static public folder with Caddy.", port:"8088", icon:"caddy", requires:["caddy:local"]},
+      {id:"syncthing", name:"Syncthing", category:"sync", summary:"Peer-to-peer file synchronization.", port:"8384", icon:"syncthing", requires:["syncthing:local"]},
+      {id:"uptime-kuma", name:"Uptime Kuma", category:"monitoring", summary:"Monitoring dashboard for services and websites.", port:"3001", icon:"uptimekuma", requires:["uptime-kuma:local"]},
+      {id:"vaultwarden", name:"Vaultwarden", category:"passwords", summary:"Lightweight Bitwarden-compatible password manager.", port:"8082", icon:"vaultwarden", requires:["vaultwarden:local"]},
+      {id:"wallabag", name:"Wallabag", category:"read-it-later", summary:"Save articles and read them later.", port:"8086", icon:"wallabag", requires:["wallabag:local","postgres:local"]},
+      {id:"wordpress", name:"WordPress", category:"cms", summary:"Blog and CMS with MariaDB.", port:"8080", icon:"wordpress", requires:["wordpress:local","mariadb:local"]}
     ];
 
     const grid = document.querySelector("#app-grid");
@@ -453,21 +486,29 @@ dockan compose health</code></pre>
         if (selected && app.category !== selected) continue;
         if (term && !haystack.includes(term)) continue;
 
-        const command = `./scripts/install-app.sh ${app.id} ~/dockan-apps/${app.id}`;
+        const command = `./dockan-store install ${app.id}`;
+        const logo = app.logo || `https://cdn.simpleicons.org/${app.icon}`;
+        const initials = app.name.split(/[\s.-]+/).filter(Boolean).slice(0, 2).map((part) => part[0]).join("").toUpperCase();
         const card = document.createElement("article");
         card.className = "card";
         card.innerHTML = `
-          <div class="badge-row">
-            <span class="badge">${app.category}</span>
-            <span class="badge blue">:${app.port}</span>
+          <div class="app-head">
+            <div class="logo" aria-hidden="true">
+              <img src="${logo}" alt="" loading="lazy" onerror="this.hidden=true; this.nextElementSibling.hidden=false;">
+              <span class="logo-fallback" hidden>${initials}</span>
+            </div>
+            <div>
+              <h3>${app.name}</h3>
+              <div class="badge-row">
+                <span class="badge">${app.category}</span>
+                <span class="badge blue">:${app.port}</span>
+              </div>
+            </div>
           </div>
-          <div>
-            <h3>${app.name}</h3>
-            <p>${app.summary}</p>
-          </div>
+          <p>${app.summary}</p>
           <div class="requires">${app.requires.map((item) => `<code>${item}</code>`).join("")}</div>
           <div class="command"><pre><code>${command}</code></pre></div>
-          <button class="copy" type="button" data-copy="${command}">Copy install</button>
+          <button class="copy" type="button" data-copy="${command}">Copy</button>
         `;
         grid.appendChild(card);
       }
@@ -496,7 +537,7 @@ dockan compose health</code></pre>
         button.textContent = "Copied";
       }
       setTimeout(() => {
-        button.textContent = "Copy install";
+        button.textContent = "Copy";
       }, 1500);
     });
   </script>

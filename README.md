@@ -26,15 +26,21 @@ scripts/
 ## List Apps
 
 ```bash
-./scripts/list.sh
+./dockan-store list
 ```
 
 ## Install An App Template
 
 ```bash
-./scripts/install-app.sh wordpress ~/dockan-apps/wordpress
+./dockan-store install wordpress
 cd ~/dockan-apps/wordpress
 dockan compose up
+```
+
+To choose a custom target directory:
+
+```bash
+./dockan-store install wordpress /srv/apps/wordpress
 ```
 
 ## First Catalog
@@ -73,7 +79,7 @@ The page lists all apps, required local images, and the copy-ready install
 command:
 
 ```bash
-./scripts/install-app.sh APP_ID ~/dockan-apps/APP_ID
+./dockan-store install APP_ID
 cd ~/dockan-apps/APP_ID
 dockan compose up
 ```

@@ -5,10 +5,15 @@ app="${1:-}"
 target="${2:-}"
 root="$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)"
 
-if [ -z "$app" ] || [ -z "$target" ]; then
-  echo "Usage: $0 <app-id> <target-dir>" >&2
-  echo "Example: $0 wordpress ~/dockan-apps/wordpress" >&2
+if [ -z "$app" ]; then
+  echo "Usage: $0 <app-id> [target-dir]" >&2
+  echo "Example: $0 wordpress" >&2
+  echo "Example: $0 wordpress /srv/apps/wordpress" >&2
   exit 1
+fi
+
+if [ -z "$target" ]; then
+  target="$HOME/dockan-apps/$app"
 fi
 
 src="$root/apps/$app"
