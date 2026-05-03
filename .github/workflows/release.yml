@@ -114,20 +114,20 @@ jobs:
           {
             echo "# Dockan Store ${version}"
             echo
-            echo "Release prete a installer avec images Dockan prebuild par app."
+            echo "Version prete a installer avec des images Dockan deja construites, separees par application."
             echo
             echo "## Contenu"
             echo
-            echo "- Apps: ${app_count}"
-            echo "- Images Dockan prebuild: ${image_count}"
-            echo "- Install utilisateur: \`./dockan-store install APP_ID\`"
-            echo "- Le Store contient les templates et telecharge automatiquement le pack image de l'app."
+            echo "- Applications: ${app_count}"
+            echo "- Images Dockan deja construites: ${image_count}"
+            echo "- Installation utilisateur: \`./dockan-store install APP_ID\`"
+            echo "- Le Store contient les modeles et telecharge automatiquement le pack d'images de l'application choisie."
             echo "- Packs par app: \`dockan-store-images-APP_ID.tar.gz\`."
-            echo "- Le pack complet des images n'est pas publie en un seul asset, car GitHub limite chaque asset a moins de 2 Go."
+            echo "- Le pack complet des images n'est pas publie en un seul fichier, car GitHub limite chaque fichier a moins de 2 Go."
             echo
             echo "## Images incluses"
             echo
-            awk -F '\t' 'NF >= 4 && $1 !~ /^#/ { printf "- `%s` (%s bytes)\n", $1, $4 }' registry/index.tsv
+            awk -F '\t' 'NF >= 4 && $1 !~ /^#/ { printf "- `%s` (%s octets)\n", $1, $4 }' registry/index.tsv
             echo
             echo "## Utilisation"
             echo
