@@ -94,6 +94,19 @@ normalize_rootfs_permissions() {
   find "$rootfs" -type f -exec chmod u+rw {} +
 }
 
+repair_oci_rootfs() {
+  local rootfs="$1"
+  for spec in "bin:usr/bin:bin.usr-is-merged" "sbin:usr/sbin:sbin.usr-is-merged" "lib:usr/lib:lib.usr-is-merged" "lib64:usr/lib64:lib64.usr-is-merged"; do
+    local path target marker
+    IFS=: read -r path target marker <<EOF
+$spec
+EOF
+    if [ ! -e "$rootfs/$path" ] && [ -d "$rootfs/$marker" ] && [ -d "$rootfs/$target" ]; then
+      ln -s "$target" "$rootfs/$path"
+    fi
+  done
+}
+
 prepare_remove_tree() {
   local path="$1"
   if [ -e "$path" ]; then
@@ -128,6 +141,7 @@ write_start_script() {
     printf '  exec sh -lc "$DOCKAN_RUN_COMMAND"\n'
     printf 'fi\n'
     if [ -n "$workdir" ] && [ "$workdir" != "/" ]; then
+      printf 'mkdir -p %s\n' "$(shell_quote "$workdir")"
       printf 'cd %s\n' "$(shell_quote "$workdir")"
     fi
     printf 'exec %s\n' "$command_line"
@@ -175,6 +189,7 @@ build_one() {
   "$engine" export "$cid" | tar --exclude='dev/*' --exclude='./dev/*' -C "$image_dir/rootfs" -xf -
   mkdir -p "$image_dir/rootfs/dev"
   normalize_rootfs_permissions "$image_dir/rootfs"
+  repair_oci_rootfs "$image_dir/rootfs"
   if [ ! -e "$image_dir/rootfs/bin/sh" ] && [ ! -L "$image_dir/rootfs/bin/sh" ] && [ -x "$image_dir/rootfs/bin/busybox" ]; then
     ln -s busybox "$image_dir/rootfs/bin/sh"
   fi
