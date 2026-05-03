@@ -139,11 +139,14 @@ jobs:
             echo '```'
           } > dist/release-notes.md
 
-          tar \
-            --exclude-vcs \
-            --exclude='./.dockan-store' \
-            --exclude='./dist' \
-            -czf "dist/dockan-store-${version}.tar.gz" .
+          mkdir -p dist/archive/Dockan-Store
+          find . -mindepth 1 -maxdepth 1 \
+            ! -name .git \
+            ! -name .dockan-store \
+            ! -name dist \
+            -exec cp -a {} dist/archive/Dockan-Store/ \;
+          tar -C dist/archive -czf "dist/dockan-store-${version}.tar.gz" Dockan-Store
+          cp "dist/dockan-store-${version}.tar.gz" "dist/dockan-store.tar.gz"
 
           tar -czf "dist/dockan-store-images-${version}.tar.gz" registry
           cp "dist/dockan-store-images-${version}.tar.gz" "dist/dockan-store-images.tar.gz"

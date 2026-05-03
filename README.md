@@ -40,6 +40,19 @@ registry/
   images/
 ```
 
+## Download Ready Release
+
+Normal users should download the release archive, not `git clone`. The release
+archive includes the Store files plus the generated `registry/images/` pack.
+
+```bash
+curl -L -o dockan-store.tar.gz https://github.com/Dockan-Conteneurisation-libre/Dockan-store/releases/latest/download/dockan-store.tar.gz
+tar -xzf dockan-store.tar.gz
+cd Dockan-Store
+```
+
+Use `git clone` only when developing the Store itself.
+
 ## List Apps
 
 ```bash
@@ -147,8 +160,11 @@ GitHub Actions builds the Store release when a `v*` tag is pushed, or when the
 
 The release contains:
 
+- `dockan-store.tar.gz`: latest Store archive with prebuilt images.
 - `dockan-store-VERSION.tar.gz`: Store files plus `registry/images/`.
+- `dockan-store-images.tar.gz`: latest prebuilt image registry only.
 - `dockan-store-images-VERSION.tar.gz`: only the prebuilt image registry.
+- `dockan-store-images-APP_ID.tar.gz`: image registry for one app only.
 - `SHA256SUMS`: checksums for release archives.
 - release notes listing every image included in the pack.
 

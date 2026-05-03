@@ -450,7 +450,7 @@
           <img class="hero-logo" src="dockan-logo.svg" alt="" aria-hidden="true">
           <h1>Dockan Store</h1>
         </div>
-        <p class="lead">A local catalog of self-hosted app templates for Dockan. Install an app, let the Store import its prebuilt images, then run it with `dockan compose up`.</p>
+        <p class="lead">A local catalog of self-hosted app templates for Dockan. Download the release, install an app, let the Store import its bundled prebuilt images, then run it with `dockan compose up`.</p>
       </div>
       <div class="terminal" aria-label="Install example">
         <div class="terminal-title">
@@ -458,7 +458,8 @@
           <span class="dot"></span>
           <span class="dot"></span>
         </div>
-        <pre><code>git clone https://github.com/Dockan-Conteneurisation-libre/Dockan-Store
+        <pre><code>curl -L -o dockan-store.tar.gz https://github.com/Dockan-Conteneurisation-libre/Dockan-store/releases/latest/download/dockan-store.tar.gz
+tar -xzf dockan-store.tar.gz
 cd Dockan-Store
 ./dockan-store list
 ./dockan-store install wordpress
@@ -505,9 +506,12 @@ dockan-store-images-APP_ID.tar.gz</code></pre>
     <section id="install">
       <h2>How Install Works</h2>
       <div class="panel">
-        <p>Dockan Store imports the required prebuilt Dockan images from its bundled registry, then copies the template into your app folder. The app developer does not build images manually.</p>
+        <p>For normal use, download `dockan-store.tar.gz` from the latest GitHub Release. It contains the Store plus the bundled image registry. A git clone is for development and may not include the generated release image pack.</p>
         <div class="command">
-          <pre><code>./dockan-store install APP_ID
+          <pre><code>curl -L -o dockan-store.tar.gz https://github.com/Dockan-Conteneurisation-libre/Dockan-store/releases/latest/download/dockan-store.tar.gz
+tar -xzf dockan-store.tar.gz
+cd Dockan-Store
+./dockan-store install APP_ID
 cd ~/dockan-apps/APP_ID
 dockan compose up
 dockan compose health
