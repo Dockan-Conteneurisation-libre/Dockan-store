@@ -3,7 +3,7 @@ services:
   app:
     image: nextcloud:local
     ports:
-      - 8081:8080
+      - 8081:80
     env:
       - MYSQL_HOST=db
       - MYSQL_DATABASE=nextcloud
@@ -20,7 +20,7 @@ services:
       - db
       - redis
     restart: always
-    healthcheck: CMD-SHELL curl -f http://127.0.0.1:8080/ || exit 1
+    healthcheck: CMD-SHELL curl -f http://127.0.0.1:80/ || exit 1
   db:
     image: mariadb:local
     env:
