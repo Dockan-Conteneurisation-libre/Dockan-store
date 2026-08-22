@@ -8,7 +8,7 @@ services:
       - BASE_URL=http://localhost:8091
       - SECRET_KEY_BASE=8f42d645ba644d869c89dda8b73204298f42d645ba644d869c89dda8b7320429
       - DATABASE_URL=postgres://plausible:plausible-pass@db:5432/plausible
-      - CLICKHOUSE_DATABASE_URL=http://clickhouse:8123/plausible
+      - CLICKHOUSE_DATABASE_URL=http://default:plausible-pass@clickhouse:8123/plausible
     command: sh -c "/entrypoint.sh db createdb && /entrypoint.sh db migrate && /entrypoint.sh run"
     network: plausible-net
     aliases:
@@ -33,6 +33,10 @@ services:
     healthcheck: CMD-SHELL pg_isready -U plausible || exit 0
   clickhouse:
     image: clickhouse:local
+    env:
+      - CLICKHOUSE_USER=default
+      - CLICKHOUSE_PASSWORD=plausible-pass
+      - CLICKHOUSE_DB=plausible
     volumes:
       - plausible-clickhouse:/var/lib/clickhouse
     network: plausible-net
