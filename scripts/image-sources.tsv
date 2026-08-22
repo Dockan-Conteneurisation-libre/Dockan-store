@@ -34,7 +34,7 @@ vikunja:local	docker.io/vikunja/vikunja:latest
 plausible:local	ghcr.io/plausible/community-edition:v2
 clickhouse:local	docker.io/clickhouse/clickhouse-server:latest
 forgejo:local	codeberg.org/forgejo/forgejo:latest
-discourse:local	docker.io/bitnami/discourse:latest
+discourse:local	docker.io/discourse/discourse:latest
 
 
 
