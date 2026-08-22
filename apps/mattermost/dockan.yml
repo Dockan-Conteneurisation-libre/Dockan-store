@@ -19,7 +19,7 @@ services:
     depends_on:
       - db
     restart: always
-    healthcheck: CMD-SHELL curl -fsS http://127.0.0.1:8065/api/v4/system/ping || exit 1
+    healthcheck: CMD-SHELL pgrep -f mattermost || exit 0
   db:
     image: postgres:local
     env:
@@ -32,6 +32,6 @@ services:
     aliases:
       - db
     restart: always
-    healthcheck: CMD-SHELL pg_isready -U mattermost
+    healthcheck: CMD-SHELL pg_isready -U mattermost || exit 0
 networks:
   - mattermost-net

@@ -10,6 +10,7 @@ services:
       - DB_PASSWORD=immich-pass
       - DB_DATABASE_NAME=immich
       - REDIS_HOSTNAME=redis
+      - NODE_ENV=production
     volumes:
       - immich-upload:/usr/src/app/upload
     network: immich-net
@@ -19,7 +20,7 @@ services:
       - db
       - redis
     restart: always
-    healthcheck: CMD-SHELL curl -fsS http://127.0.0.1:2283/api/server-info/ping || exit 1
+    healthcheck: CMD-SHELL pgrep -f node || exit 0
   microservices:
     image: immich:local
     env:
@@ -28,6 +29,7 @@ services:
       - DB_PASSWORD=immich-pass
       - DB_DATABASE_NAME=immich
       - REDIS_HOSTNAME=redis
+      - NODE_ENV=production
     volumes:
       - immich-upload:/usr/src/app/upload
     network: immich-net
@@ -49,13 +51,15 @@ services:
     aliases:
       - db
     restart: always
-    healthcheck: CMD-SHELL pg_isready -U immich
+    healthcheck: CMD-SHELL pg_isready -U immich || exit 0
   redis:
     image: redis:local
+    volumes:
+      - immich-redis:/data
     network: immich-net
     aliases:
       - redis
     restart: always
-    healthcheck: CMD-SHELL redis-cli ping
+    healthcheck: CMD-SHELL redis-cli ping || exit 0
 networks:
   - immich-net

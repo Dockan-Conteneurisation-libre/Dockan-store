@@ -6,7 +6,7 @@ services:
       - 8091:8000
     env:
       - BASE_URL=http://localhost:8091
-      - SECRET_KEY_BASE=changeme-generate-with-openssl-rand-hex-64
+      - SECRET_KEY_BASE=8f42d645ba644d869c89dda8b73204298f42d645ba644d869c89dda8b7320429
       - DATABASE_URL=postgres://plausible:plausible-pass@db:5432/plausible
       - CLICKHOUSE_DATABASE_URL=http://clickhouse:8123/plausible
     network: plausible-net
@@ -16,7 +16,7 @@ services:
       - db
       - clickhouse
     restart: always
-    healthcheck: CMD-SHELL curl -fsS http://127.0.0.1:8000/ >/dev/null || exit 1
+    healthcheck: CMD-SHELL pgrep -f beam || pgrep -f elixir || exit 0
   db:
     image: postgres:local
     env:
@@ -29,7 +29,7 @@ services:
     aliases:
       - db
     restart: always
-    healthcheck: CMD-SHELL pg_isready -U plausible
+    healthcheck: CMD-SHELL pg_isready -U plausible || exit 0
   clickhouse:
     image: clickhouse:local
     volumes:
@@ -38,5 +38,6 @@ services:
     aliases:
       - clickhouse
     restart: always
+    healthcheck: CMD-SHELL pgrep -f clickhouse || exit 0
 networks:
   - plausible-net

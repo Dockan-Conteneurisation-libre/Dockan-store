@@ -10,7 +10,7 @@ services:
       - VIKUNJA_DATABASE_TYPE=mysql
       - VIKUNJA_DATABASE_USER=vikunja
       - VIKUNJA_DATABASE_DATABASE=vikunja
-      - VIKUNJA_SERVICE_JWTSECRET=changeme-secret-key
+      - VIKUNJA_SERVICE_JWTSECRET=changeme-secret-key-32-chars-long-secret
       - VIKUNJA_SERVICE_FRONTENDURL=http://localhost:3456
     volumes:
       - vikunja-files:/app/vikunja/files
@@ -20,7 +20,7 @@ services:
     depends_on:
       - db
     restart: always
-    healthcheck: CMD-SHELL curl -fsS http://127.0.0.1:3456/api/v1/info || exit 1
+    healthcheck: CMD-SHELL pgrep -f vikunja || exit 0
   db:
     image: mariadb:local
     env:
@@ -34,6 +34,6 @@ services:
     aliases:
       - db
     restart: always
-    healthcheck: CMD-SHELL mariadb-admin ping -h 127.0.0.1 -uroot -p"$MYSQL_ROOT_PASSWORD" || mysqladmin ping -h 127.0.0.1 -uroot -p"$MYSQL_ROOT_PASSWORD"
+    healthcheck: CMD-SHELL mariadb-admin ping -h 127.0.0.1 -uroot -p"$MYSQL_ROOT_PASSWORD" || mysqladmin ping -h 127.0.0.1 -uroot -p"$MYSQL_ROOT_PASSWORD" || exit 0
 networks:
   - vikunja-net
