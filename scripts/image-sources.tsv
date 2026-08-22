@@ -33,7 +33,7 @@ mealie:local	ghcr.io/mealie-recipes/mealie:latest
 vikunja:local	docker.io/vikunja/vikunja:latest
 plausible:local	ghcr.io/plausible/community-edition:v2
 clickhouse:local	docker.io/clickhouse/clickhouse-server:latest
-forgejo:local	codeberg.org/forgejo/forgejo:latest
+forgejo:local	codeberg.org/forgejo/forgejo:10
 discourse:local	docker.io/discourse/discourse:latest
 
 
