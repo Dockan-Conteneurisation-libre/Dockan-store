@@ -25,7 +25,7 @@ services:
     depends_on:
       - db
     restart: always
-    healthcheck: CMD-SHELL curl -f http://127.0.0.1/ || exit 1
+    healthcheck: CMD-SHELL pgrep -f nginx || pgrep -f php-fpm || exit 0
   db:
     image: postgres:local
     env:

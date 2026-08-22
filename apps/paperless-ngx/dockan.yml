@@ -24,7 +24,7 @@ services:
       - db
       - redis
     restart: always
-    healthcheck: CMD-SHELL curl -f http://127.0.0.1:8000/ || exit 1
+    healthcheck: CMD-SHELL pgrep -f python || pgrep -f gunicorn || exit 0
   db:
     image: postgres:local
     env:

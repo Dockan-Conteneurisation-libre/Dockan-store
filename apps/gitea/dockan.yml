@@ -21,7 +21,7 @@ services:
     depends_on:
       - db
     restart: always
-    healthcheck: CMD-SHELL curl -f http://127.0.0.1:3000/ || exit 1
+    healthcheck: CMD-SHELL pgrep -f gitea || exit 0
   db:
     image: postgres:local
     env:

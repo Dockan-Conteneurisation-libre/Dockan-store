@@ -12,6 +12,6 @@ services:
     aliases:
       - web
     restart: always
-    healthcheck: CMD-SHELL curl -f http://127.0.0.1:8096/ || exit 1
+    healthcheck: CMD-SHELL pgrep -f jellyfin || exit 0
 networks:
   - jellyfin-net

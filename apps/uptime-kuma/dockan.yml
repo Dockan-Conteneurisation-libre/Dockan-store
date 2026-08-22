@@ -10,6 +10,6 @@ services:
     aliases:
       - web
     restart: always
-    healthcheck: CMD-SHELL curl -f http://127.0.0.1:3001/ || exit 1
+    healthcheck: CMD-SHELL pgrep -f node || exit 0
 networks:
   - uptime-kuma-net

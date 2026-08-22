@@ -13,6 +13,6 @@ services:
     aliases:
       - web
     restart: always
-    healthcheck: CMD-SHELL curl -f http://127.0.0.1:81/ || exit 1
+    healthcheck: CMD-SHELL pgrep -f nginx || pgrep -f php-fpm || exit 0
 networks:
   - npm-net

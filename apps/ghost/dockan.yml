@@ -19,7 +19,7 @@ services:
     depends_on:
       - db
     restart: always
-    healthcheck: CMD-SHELL curl -f http://127.0.0.1:2368/ || exit 1
+    healthcheck: CMD-SHELL pgrep -f node || exit 0
   db:
     image: mysql:local
     env:

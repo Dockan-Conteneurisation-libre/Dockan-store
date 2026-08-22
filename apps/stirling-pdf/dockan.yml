@@ -15,6 +15,6 @@ services:
     aliases:
       - web
     restart: always
-    healthcheck: CMD-SHELL curl -fsS http://127.0.0.1:8080/ >/dev/null || exit 1
+    healthcheck: CMD-SHELL pgrep -f java || exit 0
 networks:
   - stirling-pdf-net

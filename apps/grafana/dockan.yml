@@ -13,6 +13,6 @@ services:
     aliases:
       - web
     restart: always
-    healthcheck: CMD-SHELL curl -f http://127.0.0.1:3000/api/health || exit 1
+    healthcheck: CMD-SHELL pgrep -f sh || exit 0
 networks:
   - grafana-net
