@@ -31,7 +31,7 @@ services:
       - POSTGRES_PASSWORD=forgejo-pass
       - POSTGRES_DB=forgejo
     volumes:
-      - forgejo-db:/var/lib/postgresql/data
+      - forgejo-db:/var/lib/postgresql
     network: forgejo-net
     aliases:
       - db

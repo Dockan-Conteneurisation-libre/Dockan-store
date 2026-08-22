@@ -27,7 +27,7 @@ services:
       - POSTGRES_PASSWORD=mattermost-pass
       - POSTGRES_DB=mattermost
     volumes:
-      - mattermost-db:/var/lib/postgresql/data
+      - mattermost-db:/var/lib/postgresql
     network: mattermost-net
     aliases:
       - db

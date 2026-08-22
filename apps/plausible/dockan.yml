@@ -25,7 +25,7 @@ services:
       - POSTGRES_PASSWORD=plausible-pass
       - POSTGRES_DB=plausible
     volumes:
-      - plausible-db:/var/lib/postgresql/data
+      - plausible-db:/var/lib/postgresql
     network: plausible-net
     aliases:
       - db

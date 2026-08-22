@@ -36,7 +36,7 @@ services:
       - POSTGRES_PASSWORD=discourse-pass
       - POSTGRES_DB=discourse
     volumes:
-      - discourse-db:/var/lib/postgresql/data
+      - discourse-db:/var/lib/postgresql
     network: discourse-net
     aliases:
       - db
