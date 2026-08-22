@@ -1,0 +1,37 @@
+name: forgejo
+services:
+  web:
+    image: forgejo:local
+    ports:
+      - 3004:3000
+      - 2223:22
+    env:
+      - FORGEJO__database__DB_TYPE=postgres
+      - FORGEJO__database__HOST=db:5432
+      - FORGEJO__database__NAME=forgejo
+      - FORGEJO__database__USER=forgejo
+      - FORGEJO__database__PASSWD=forgejo-pass
+    volumes:
+      - forgejo-data:/data
+    network: forgejo-net
+    aliases:
+      - web
+    depends_on:
+      - db
+    restart: always
+    healthcheck: CMD-SHELL curl -fsS http://127.0.0.1:3000/ >/dev/null || exit 1
+  db:
+    image: postgres:local
+    env:
+      - POSTGRES_USER=forgejo
+      - POSTGRES_PASSWORD=forgejo-pass
+      - POSTGRES_DB=forgejo
+    volumes:
+      - forgejo-db:/var/lib/postgresql/data
+    network: forgejo-net
+    aliases:
+      - db
+    restart: always
+    healthcheck: CMD-SHELL pg_isready -U forgejo
+networks:
+  - forgejo-net

@@ -1,0 +1,7 @@
+id: mattermost
+name: Mattermost
+category: chat
+default_port: 8065
+requires:
+  - mattermost:local
+  - postgres:local

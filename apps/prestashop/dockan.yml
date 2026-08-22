@@ -1,0 +1,37 @@
+name: prestashop
+services:
+  web:
+    image: prestashop:local
+    ports:
+      - 8090:80
+    env:
+      - DB_SERVER=db
+      - DB_NAME=prestashop
+      - DB_USER=prestashop
+      - DB_PASSWD=prestashop-pass
+      - PS_DEV_MODE=0
+    volumes:
+      - prestashop-data:/var/www/html
+    network: prestashop-net
+    aliases:
+      - web
+    depends_on:
+      - db
+    restart: always
+    healthcheck: CMD-SHELL curl -fsS http://127.0.0.1:80/ >/dev/null || exit 1
+  db:
+    image: mariadb:local
+    env:
+      - MYSQL_DATABASE=prestashop
+      - MYSQL_USER=prestashop
+      - MYSQL_PASSWORD=prestashop-pass
+      - MYSQL_ROOT_PASSWORD=change-root
+    volumes:
+      - prestashop-db:/var/lib/mysql
+    network: prestashop-net
+    aliases:
+      - db
+    restart: always
+    healthcheck: CMD-SHELL mariadb-admin ping -h 127.0.0.1 -uroot -p"$MYSQL_ROOT_PASSWORD" || mysqladmin ping -h 127.0.0.1 -uroot -p"$MYSQL_ROOT_PASSWORD"
+networks:
+  - prestashop-net

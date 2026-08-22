@@ -1,0 +1,7 @@
+id: anarcosyndicalismebook
+name: AnarcosyndicalismeBOOK
+category: publishing
+default_port: 8888
+requires:
+  - anarcosyndicalismebook:local
+  - mariadb:local

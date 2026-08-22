@@ -1,0 +1,8 @@
+id: discourse
+name: Discourse
+category: forum
+default_port: 4000
+requires:
+  - discourse:local
+  - postgres:local
+  - redis:local

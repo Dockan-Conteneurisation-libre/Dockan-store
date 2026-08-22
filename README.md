@@ -7,7 +7,7 @@
 <p align="center">
   <a href="https://github.com/Dockan-Conteneurisation-libre/Dockan-store/releases/latest"><img alt="Release" src="https://img.shields.io/github/v/release/Dockan-Conteneurisation-libre/Dockan-store?label=release"></a>
   <a href="https://dockan-conteneurisation-libre.github.io/Dockan-store/"><img alt="GitHub Pages" src="https://img.shields.io/badge/pages-online-176b48"></a>
-  <img alt="Apps" src="https://img.shields.io/badge/apps-21-1d5f89">
+  <img alt="Apps" src="https://img.shields.io/badge/apps-24-1d5f89">
   <img alt="Images" src="https://img.shields.io/badge/images-prebuilt-a56110">
   <a href="https://github.com/Dockan-Conteneurisation-libre/Dockan"><img alt="Dockan" src="https://img.shields.io/badge/runtime-Dockan-176b48"></a>
 </p>
@@ -152,6 +152,7 @@ port mappings stay consistent before a release can build image packs.
 
 ## First Catalog
 
+- AnarcosyndicalismeBOOK
 - BookStack
 - draw.io
 - Ghost
@@ -166,6 +167,7 @@ port mappings stay consistent before a release can build image packs.
 - Nextcloud
 - Nginx Proxy Manager
 - Paperless-ngx
+- PrestaShop
 - Prometheus
 - Static Site
 - Syncthing

@@ -1,0 +1,37 @@
+name: mattermost
+services:
+  web:
+    image: mattermost:local
+    ports:
+      - 8065:8065
+    env:
+      - MM_SQLSETTINGS_DRIVERNAME=postgres
+      - MM_SQLSETTINGS_DATASOURCE=postgres://mattermost:mattermost-pass@db:5432/mattermost?sslmode=disable
+      - MM_SERVICESETTINGS_SITEURL=http://localhost:8065
+    volumes:
+      - mattermost-data:/mattermost/data
+      - mattermost-logs:/mattermost/logs
+      - mattermost-config:/mattermost/config
+      - mattermost-plugins:/mattermost/plugins
+    network: mattermost-net
+    aliases:
+      - web
+    depends_on:
+      - db
+    restart: always
+    healthcheck: CMD-SHELL curl -fsS http://127.0.0.1:8065/api/v4/system/ping || exit 1
+  db:
+    image: postgres:local
+    env:
+      - POSTGRES_USER=mattermost
+      - POSTGRES_PASSWORD=mattermost-pass
+      - POSTGRES_DB=mattermost
+    volumes:
+      - mattermost-db:/var/lib/postgresql/data
+    network: mattermost-net
+    aliases:
+      - db
+    restart: always
+    healthcheck: CMD-SHELL pg_isready -U mattermost
+networks:
+  - mattermost-net

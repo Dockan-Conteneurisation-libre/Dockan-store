@@ -1,0 +1,61 @@
+name: immich
+services:
+  web:
+    image: immich:local
+    ports:
+      - 2283:2283
+    env:
+      - DB_HOSTNAME=db
+      - DB_USERNAME=immich
+      - DB_PASSWORD=immich-pass
+      - DB_DATABASE_NAME=immich
+      - REDIS_HOSTNAME=redis
+    volumes:
+      - immich-upload:/usr/src/app/upload
+    network: immich-net
+    aliases:
+      - web
+    depends_on:
+      - db
+      - redis
+    restart: always
+    healthcheck: CMD-SHELL curl -fsS http://127.0.0.1:2283/api/server-info/ping || exit 1
+  microservices:
+    image: immich:local
+    env:
+      - DB_HOSTNAME=db
+      - DB_USERNAME=immich
+      - DB_PASSWORD=immich-pass
+      - DB_DATABASE_NAME=immich
+      - REDIS_HOSTNAME=redis
+    volumes:
+      - immich-upload:/usr/src/app/upload
+    network: immich-net
+    aliases:
+      - microservices
+    depends_on:
+      - db
+      - redis
+    restart: always
+  db:
+    image: postgres:local
+    env:
+      - POSTGRES_USER=immich
+      - POSTGRES_PASSWORD=immich-pass
+      - POSTGRES_DB=immich
+    volumes:
+      - immich-db:/var/lib/postgresql/data
+    network: immich-net
+    aliases:
+      - db
+    restart: always
+    healthcheck: CMD-SHELL pg_isready -U immich
+  redis:
+    image: redis:local
+    network: immich-net
+    aliases:
+      - redis
+    restart: always
+    healthcheck: CMD-SHELL redis-cli ping
+networks:
+  - immich-net

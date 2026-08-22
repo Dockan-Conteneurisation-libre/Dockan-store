@@ -1,0 +1,20 @@
+name: stirling-pdf
+services:
+  web:
+    image: stirling-pdf:local
+    ports:
+      - 8092:8080
+    env:
+      - DOCKER_ENABLE_SECURITY=false
+      - INSTALL_BOOK_AND_ADVANCED_HTML_OPS=false
+      - LANGS=fr_FR
+    volumes:
+      - stirling-pdf-data:/usr/share/tesseract-ocr/5/tessdata
+      - stirling-pdf-configs:/configs
+    network: stirling-pdf-net
+    aliases:
+      - web
+    restart: always
+    healthcheck: CMD-SHELL curl -fsS http://127.0.0.1:8080/ >/dev/null || exit 1
+networks:
+  - stirling-pdf-net

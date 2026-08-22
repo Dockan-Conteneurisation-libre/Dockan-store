@@ -1,0 +1,6 @@
+id: mealie
+name: Mealie
+category: recipes
+default_port: 9925
+requires:
+  - mealie:local

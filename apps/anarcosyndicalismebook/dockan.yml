@@ -1,0 +1,39 @@
+name: anarcosyndicalismebook
+services:
+  web:
+    image: anarcosyndicalismebook:local
+    ports:
+      - 8888:80
+    env:
+      - DB_HOST=db
+      - DB_NAME=anarcosyndicalismebook
+      - DB_USER=anarcho
+      - DB_PASS=anarcosyndicalismebook
+      - SITE_URL=http://localhost:8888
+      - ADMIN_PASS=admin123
+    volumes:
+      - anarcosyndicalismebook-uploads:/var/www/html/uploads
+      - anarcosyndicalismebook-backups:/var/www/html/backups
+    network: anarcosyndicalismebook-net
+    aliases:
+      - web
+    depends_on:
+      - db
+    restart: always
+    healthcheck: CMD-SHELL curl -fsS http://127.0.0.1:80/ >/dev/null || exit 1
+  db:
+    image: mariadb:local
+    env:
+      - MYSQL_DATABASE=anarcosyndicalismebook
+      - MYSQL_USER=anarcho
+      - MYSQL_PASSWORD=anarcosyndicalismebook
+      - MYSQL_ROOT_PASSWORD=change-root
+    volumes:
+      - anarcosyndicalismebook-db:/var/lib/mysql
+    network: anarcosyndicalismebook-net
+    aliases:
+      - db
+    restart: always
+    healthcheck: CMD-SHELL mariadb-admin ping -h 127.0.0.1 -uroot -p"$MYSQL_ROOT_PASSWORD" || mysqladmin ping -h 127.0.0.1 -uroot -p"$MYSQL_ROOT_PASSWORD"
+networks:
+  - anarcosyndicalismebook-net

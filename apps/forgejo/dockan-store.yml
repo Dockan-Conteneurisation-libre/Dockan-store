@@ -1,0 +1,7 @@
+id: forgejo
+name: Forgejo
+category: git
+default_port: 3004
+requires:
+  - forgejo:local
+  - postgres:local

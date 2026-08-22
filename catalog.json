@@ -170,6 +170,86 @@
       "path": "apps/static-site",
       "status": "ready",
       "requires": ["caddy:local"]
+    },
+    {
+      "id": "anarcosyndicalismebook",
+      "name": "AnarcosyndicalismeBOOK",
+      "category": "publishing",
+      "path": "apps/anarcosyndicalismebook",
+      "status": "template",
+      "requires": ["anarcosyndicalismebook:local", "mariadb:local"]
+    },
+    {
+      "id": "prestashop",
+      "name": "PrestaShop",
+      "category": "ecommerce",
+      "path": "apps/prestashop",
+      "status": "template",
+      "requires": ["prestashop:local", "mariadb:local"]
+    },
+    {
+      "id": "immich",
+      "name": "Immich",
+      "category": "photos",
+      "path": "apps/immich",
+      "status": "template",
+      "requires": ["immich:local", "postgres:local", "redis:local"]
+    },
+    {
+      "id": "mattermost",
+      "name": "Mattermost",
+      "category": "chat",
+      "path": "apps/mattermost",
+      "status": "template",
+      "requires": ["mattermost:local", "postgres:local"]
+    },
+    {
+      "id": "stirling-pdf",
+      "name": "Stirling-PDF",
+      "category": "documents",
+      "path": "apps/stirling-pdf",
+      "status": "template",
+      "requires": ["stirling-pdf:local"]
+    },
+    {
+      "id": "mealie",
+      "name": "Mealie",
+      "category": "recipes",
+      "path": "apps/mealie",
+      "status": "template",
+      "requires": ["mealie:local"]
+    },
+    {
+      "id": "vikunja",
+      "name": "Vikunja",
+      "category": "tasks",
+      "path": "apps/vikunja",
+      "status": "template",
+      "requires": ["vikunja:local", "mariadb:local"]
+    },
+    {
+      "id": "plausible",
+      "name": "Plausible Analytics",
+      "category": "analytics",
+      "path": "apps/plausible",
+      "status": "template",
+      "requires": ["plausible:local", "postgres:local", "clickhouse:local"]
+    },
+    {
+      "id": "forgejo",
+      "name": "Forgejo",
+      "category": "git",
+      "path": "apps/forgejo",
+      "status": "template",
+      "requires": ["forgejo:local", "postgres:local"]
+    },
+    {
+      "id": "discourse",
+      "name": "Discourse",
+      "category": "forum",
+      "path": "apps/discourse",
+      "status": "template",
+      "requires": ["discourse:local", "postgres:local", "redis:local"]
     }
   ]
 }

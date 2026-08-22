@@ -1,0 +1,55 @@
+name: discourse
+services:
+  web:
+    image: discourse:local
+    ports:
+      - 4000:3000
+    env:
+      - DISCOURSE_DATABASE_HOST=db
+      - DISCOURSE_DATABASE_PORT_NUMBER=5432
+      - DISCOURSE_DATABASE_USER=discourse
+      - DISCOURSE_DATABASE_PASSWORD=discourse-pass
+      - DISCOURSE_DATABASE_NAME=discourse
+      - DISCOURSE_REDIS_HOST=redis
+      - DISCOURSE_REDIS_PORT_NUMBER=6379
+      - DISCOURSE_HOST=localhost
+      - DISCOURSE_SITE_URL=http://localhost:4000
+      - DISCOURSE_USERNAME=admin
+      - DISCOURSE_PASSWORD=discourse-admin
+      - DISCOURSE_EMAIL=admin@example.com
+      - DISCOURSE_SMTP_HOST=localhost
+      - DISCOURSE_SMTP_PORT=587
+    volumes:
+      - discourse-data:/bitnami/discourse
+    network: discourse-net
+    aliases:
+      - web
+    depends_on:
+      - db
+      - redis
+    restart: always
+    healthcheck: CMD-SHELL curl -fsS http://127.0.0.1:3000/ >/dev/null || exit 1
+  db:
+    image: postgres:local
+    env:
+      - POSTGRES_USER=discourse
+      - POSTGRES_PASSWORD=discourse-pass
+      - POSTGRES_DB=discourse
+    volumes:
+      - discourse-db:/var/lib/postgresql/data
+    network: discourse-net
+    aliases:
+      - db
+    restart: always
+    healthcheck: CMD-SHELL pg_isready -U discourse
+  redis:
+    image: redis:local
+    volumes:
+      - discourse-redis:/data
+    network: discourse-net
+    aliases:
+      - redis
+    restart: always
+    healthcheck: CMD-SHELL redis-cli ping
+networks:
+  - discourse-net

@@ -24,3 +24,18 @@ uptime-kuma:local	docker.io/louislam/uptime-kuma:latest
 vaultwarden:local	docker.io/vaultwarden/server:latest
 wallabag:local	docker.io/wallabag/wallabag:latest
 wordpress:local	docker.io/library/wordpress:latest
+anarcosyndicalismebook:local	docker.io/liberchat/anarcosyndicalismebook:latest
+prestashop:local	docker.io/prestashop/prestashop:latest
+immich:local	ghcr.io/immich-app/immich-server:release
+mattermost:local	docker.io/mattermost/mattermost-team-edition:latest
+stirling-pdf:local	docker.io/frooodle/s-pdf:latest
+mealie:local	ghcr.io/mealie-recipes/mealie:latest
+vikunja:local	docker.io/vikunja/vikunja:latest
+plausible:local	ghcr.io/plausible/community-edition:v2
+clickhouse:local	docker.io/clickhouse/clickhouse-server:latest
+forgejo:local	codeberg.org/forgejo/forgejo:latest
+discourse:local	docker.io/bitnami/discourse:latest
+
+
+
+

@@ -1,0 +1,6 @@
+id: stirling-pdf
+name: Stirling-PDF
+category: documents
+default_port: 8092
+requires:
+  - stirling-pdf:local

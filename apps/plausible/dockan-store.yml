@@ -1,0 +1,8 @@
+id: plausible
+name: Plausible Analytics
+category: analytics
+default_port: 8091
+requires:
+  - plausible:local
+  - postgres:local
+  - clickhouse:local

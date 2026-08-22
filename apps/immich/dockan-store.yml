@@ -1,0 +1,8 @@
+id: immich
+name: Immich
+category: photos
+default_port: 2283
+requires:
+  - immich:local
+  - postgres:local
+  - redis:local

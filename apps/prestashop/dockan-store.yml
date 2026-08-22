@@ -1,0 +1,7 @@
+id: prestashop
+name: PrestaShop
+category: ecommerce
+default_port: 8090
+requires:
+  - prestashop:local
+  - mariadb:local
