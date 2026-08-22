@@ -9,6 +9,7 @@ services:
       - SECRET_KEY_BASE=8f42d645ba644d869c89dda8b73204298f42d645ba644d869c89dda8b7320429
       - DATABASE_URL=postgres://plausible:plausible-pass@db:5432/plausible
       - CLICKHOUSE_DATABASE_URL=http://clickhouse:8123/plausible
+    command: sh -c "/entrypoint.sh db createdb && /entrypoint.sh db migrate && /entrypoint.sh run"
     network: plausible-net
     aliases:
       - web

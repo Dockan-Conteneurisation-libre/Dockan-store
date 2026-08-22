@@ -9,8 +9,9 @@ services:
       - INSTALL_BOOK_AND_ADVANCED_HTML_OPS=false
       - LANGS=fr_FR
     volumes:
-      - stirling-pdf-data:/usr/share/tesseract-ocr/5/tessdata
+      - stirling-pdf-tessdata:/usr/share/tessdata
       - stirling-pdf-configs:/configs
+      - stirling-pdf-logs:/logs
     network: stirling-pdf-net
     aliases:
       - web

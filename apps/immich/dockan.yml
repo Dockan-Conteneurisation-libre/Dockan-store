@@ -21,30 +21,13 @@ services:
       - redis
     restart: always
     healthcheck: CMD-SHELL pgrep -f node || exit 0
-  microservices:
-    image: immich:local
-    env:
-      - DB_HOSTNAME=db
-      - DB_USERNAME=immich
-      - DB_PASSWORD=immich-pass
-      - DB_DATABASE_NAME=immich
-      - REDIS_HOSTNAME=redis
-      - NODE_ENV=production
-    volumes:
-      - immich-upload:/usr/src/app/upload
-    network: immich-net
-    aliases:
-      - microservices
-    depends_on:
-      - db
-      - redis
-    restart: always
   db:
-    image: postgres:local
+    image: immich-postgres:local
     env:
       - POSTGRES_USER=immich
       - POSTGRES_PASSWORD=immich-pass
       - POSTGRES_DB=immich
+      - POSTGRES_INITDB_ARGS=--data-checksums
     volumes:
       - immich-db:/var/lib/postgresql/data
     network: immich-net

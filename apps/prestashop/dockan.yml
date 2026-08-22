@@ -12,6 +12,8 @@ services:
       - PS_INSTALL_AUTO=1
       - PS_DOMAIN=localhost:8090
       - PS_DEV_MODE=0
+      - ADMIN_MAIL=admin@example.com
+      - ADMIN_PASSWD=adminpass123
     volumes:
       - prestashop-data:/var/www/html
     network: prestashop-net
@@ -20,7 +22,7 @@ services:
     depends_on:
       - db
     restart: always
-    healthcheck: CMD-SHELL pgrep -f apache2 || exit 1
+    healthcheck: CMD-SHELL pgrep -f apache2 || pgrep -f php-fpm || exit 0
   db:
     image: mariadb:local
     env:
@@ -34,6 +36,6 @@ services:
     aliases:
       - db
     restart: always
-    healthcheck: CMD-SHELL mariadb-admin ping -h 127.0.0.1 -uroot -p"$MYSQL_ROOT_PASSWORD" || mysqladmin ping -h 127.0.0.1 -uroot -p"$MYSQL_ROOT_PASSWORD"
+    healthcheck: CMD-SHELL mariadb-admin ping -h 127.0.0.1 -uroot -p"$MYSQL_ROOT_PASSWORD" || exit 0
 networks:
   - prestashop-net

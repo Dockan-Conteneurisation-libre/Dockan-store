@@ -4,5 +4,5 @@ category: photos
 default_port: 2283
 requires:
   - immich:local
-  - postgres:local
+  - immich-postgres:local
   - redis:local

@@ -20,7 +20,7 @@ services:
       - DISCOURSE_SMTP_HOST=localhost
       - DISCOURSE_SMTP_PORT=587
     volumes:
-      - discourse-data:/var/www/discourse
+      - discourse-data:/bitnami/discourse
     network: discourse-net
     aliases:
       - web
