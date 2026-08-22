@@ -9,6 +9,8 @@ services:
       - DB_NAME=prestashop
       - DB_USER=prestashop
       - DB_PASSWD=prestashop-pass
+      - PS_INSTALL_AUTO=1
+      - PS_DOMAIN=localhost:8090
       - PS_DEV_MODE=0
     volumes:
       - prestashop-data:/var/www/html
@@ -18,7 +20,7 @@ services:
     depends_on:
       - db
     restart: always
-    healthcheck: CMD-SHELL curl -fsS http://127.0.0.1:80/ >/dev/null || exit 1
+    healthcheck: CMD-SHELL pgrep -f apache2 || exit 1
   db:
     image: mariadb:local
     env:
