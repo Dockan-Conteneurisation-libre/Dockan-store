@@ -107,6 +107,33 @@ EOF
   done
 }
 
+inject_busybox_shell() {
+  local rootfs="$1"
+  local tmp="$2"
+
+  if [ -e "$rootfs/bin/sh" ] || [ -L "$rootfs/bin/sh" ]; then
+    return 0
+  fi
+
+  echo "Injecting minimal BusyBox shell for shell-less OCI image"
+  local busybox_ref="${DOCKAN_STORE_BUSYBOX_IMAGE:-docker.io/library/busybox:stable-musl}"
+  local busybox_cid
+  local busybox_root="$tmp/busybox-root"
+  "$engine" pull "$busybox_ref"
+  busybox_cid="$("$engine" create "$busybox_ref")"
+  mkdir -p "$busybox_root"
+  "$engine" export "$busybox_cid" | tar -C "$busybox_root" -xf -
+  "$engine" rm -f "$busybox_cid" >/dev/null 2>&1 || true
+
+  mkdir -p "$rootfs/bin"
+  cp "$busybox_root/bin/busybox" "$rootfs/bin/busybox"
+  chmod 755 "$rootfs/bin/busybox"
+  ln -s busybox "$rootfs/bin/sh"
+  for applet in cat chmod chown cp env grep ln mkdir rm sed sleep test; do
+    [ -e "$rootfs/bin/$applet" ] || ln -s busybox "$rootfs/bin/$applet"
+  done
+}
+
 prepare_remove_tree() {
   local path="$1"
   if [ -e "$path" ]; then
@@ -193,6 +220,7 @@ build_one() {
   normalize_rootfs_permissions "$image_dir/rootfs"
   chmod 1777 "$image_dir/rootfs/tmp"
   repair_oci_rootfs "$image_dir/rootfs"
+  inject_busybox_shell "$image_dir/rootfs" "$tmp"
   if [ "$local_ref" = "wallabag:local" ] && [ -d "$image_dir/rootfs/var/www/wallabag" ]; then
     chown -R 65534:65534 \
       "$image_dir/rootfs/var/www/wallabag/app/config" \
@@ -214,10 +242,6 @@ build_one() {
     chown -R 1000:1000 "$image_dir/rootfs/config" 2>/dev/null || true
     chmod -R u+rwX,g+rwX "$image_dir/rootfs/config" 2>/dev/null || true
   fi
-  if [ ! -e "$image_dir/rootfs/bin/sh" ] && [ ! -L "$image_dir/rootfs/bin/sh" ] && [ -x "$image_dir/rootfs/bin/busybox" ]; then
-    ln -s busybox "$image_dir/rootfs/bin/sh"
-  fi
-
   local name workdir ports command_line
   name="${local_ref%%:*}"
   workdir="$(jq -r '.[0].Config.WorkingDir // ""' "$tmp/inspect.json")"

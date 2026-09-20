@@ -1,4 +1,5 @@
 name: plausible
+
 services:
   web:
     image: plausible:local
@@ -18,19 +19,23 @@ services:
       - clickhouse
     restart: always
     healthcheck: CMD-SHELL pgrep -f beam || pgrep -f elixir || exit 0
+
   db:
     image: postgres:local
     env:
       - POSTGRES_USER=plausible
       - POSTGRES_PASSWORD=plausible-pass
       - POSTGRES_DB=plausible
+      - POSTGRES_HOST_AUTH_METHOD=scram-sha-256
     volumes:
       - plausible-db:/var/lib/postgresql
+      - plausible-db-run:/var/run/postgresql
     network: plausible-net
     aliases:
       - db
     restart: always
     healthcheck: CMD-SHELL pg_isready -U plausible || exit 0
+
   clickhouse:
     image: clickhouse:local
     env:
@@ -44,5 +49,6 @@ services:
       - clickhouse
     restart: always
     healthcheck: CMD-SHELL pgrep -f clickhouse || exit 0
+
 networks:
   - plausible-net

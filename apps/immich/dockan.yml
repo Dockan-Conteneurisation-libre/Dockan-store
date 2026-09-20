@@ -1,4 +1,5 @@
 name: immich
+
 services:
   web:
     image: immich:local
@@ -11,6 +12,7 @@ services:
       - DB_DATABASE_NAME=immich
       - REDIS_HOSTNAME=redis
       - NODE_ENV=production
+      - DB_VECTOR_EXTENSION=vectorchord
     volumes:
       - immich-upload:/usr/src/app/upload
     network: immich-net
@@ -21,6 +23,7 @@ services:
       - redis
     restart: always
     healthcheck: CMD-SHELL pgrep -f node || exit 0
+
   db:
     image: immich-postgres:local
     env:
@@ -30,11 +33,13 @@ services:
       - POSTGRES_INITDB_ARGS=--data-checksums
     volumes:
       - immich-db:/var/lib/postgresql
+      - immich-db-run:/var/run/postgresql
     network: immich-net
     aliases:
       - db
     restart: always
     healthcheck: CMD-SHELL pg_isready -U immich || exit 0
+
   redis:
     image: redis:local
     volumes:
@@ -44,5 +49,6 @@ services:
       - redis
     restart: always
     healthcheck: CMD-SHELL redis-cli ping || exit 0
+
 networks:
   - immich-net

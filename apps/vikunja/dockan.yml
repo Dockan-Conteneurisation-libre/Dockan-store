@@ -12,6 +12,7 @@ services:
       - VIKUNJA_DATABASE_DATABASE=vikunja
       - VIKUNJA_SERVICE_SECRET=changeme-secret-key-32-chars-long-secret
       - VIKUNJA_SERVICE_FRONTENDURL=http://localhost:3456
+      - VIKUNJA_SERVICE_PUBLICURL=http://localhost:3456
     volumes:
       - vikunja-files:/app/vikunja/files
     network: vikunja-net
@@ -30,6 +31,7 @@ services:
       - MYSQL_DATABASE=vikunja
     volumes:
       - vikunja-db:/var/lib/mysql
+      - vikunja-db-run:/run/mysqld
     network: vikunja-net
     aliases:
       - db

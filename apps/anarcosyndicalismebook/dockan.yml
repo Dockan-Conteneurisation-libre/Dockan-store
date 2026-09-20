@@ -30,6 +30,7 @@ services:
       - MYSQL_ROOT_PASSWORD=change-root
     volumes:
       - anarcosyndicalismebook-db:/var/lib/mysql
+      - anarcosyndicalismebook-db-run:/run/mysqld
     network: anarcosyndicalismebook-net
     aliases:
       - db

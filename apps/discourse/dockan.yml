@@ -1,26 +1,25 @@
 name: discourse
+
 services:
   web:
     image: discourse:local
     ports:
       - 4000:3000
     env:
-      - DISCOURSE_DATABASE_HOST=db
-      - DISCOURSE_DATABASE_PORT_NUMBER=5432
-      - DISCOURSE_DATABASE_USER=discourse
-      - DISCOURSE_DATABASE_PASSWORD=discourse-pass
-      - DISCOURSE_DATABASE_NAME=discourse
+      - DISCOURSE_DB_HOST=db
+      - DISCOURSE_DB_PORT=5432
+      - DISCOURSE_DB_USERNAME=discourse
+      - DISCOURSE_DB_PASSWORD=discourse-pass
+      - DISCOURSE_DB_NAME=discourse
       - DISCOURSE_REDIS_HOST=redis
       - DISCOURSE_REDIS_PORT_NUMBER=6379
-      - DISCOURSE_HOST=localhost
+      - DISCOURSE_HOSTNAME=localhost
       - DISCOURSE_SITE_URL=http://localhost:4000
       - DISCOURSE_USERNAME=admin
       - DISCOURSE_PASSWORD=discourse-admin
       - DISCOURSE_EMAIL=admin@example.com
       - DISCOURSE_SMTP_HOST=localhost
       - DISCOURSE_SMTP_PORT=587
-    volumes:
-      - discourse-data:/bitnami/discourse
     network: discourse-net
     aliases:
       - web
@@ -29,6 +28,7 @@ services:
       - redis
     restart: always
     healthcheck: CMD-SHELL pgrep -f ruby || pgrep -f puma || pgrep -f unicorn || exit 0
+
   db:
     image: postgres:local
     env:
@@ -37,11 +37,13 @@ services:
       - POSTGRES_DB=discourse
     volumes:
       - discourse-db:/var/lib/postgresql
+      - discourse-db-run:/var/run/postgresql
     network: discourse-net
     aliases:
       - db
     restart: always
-    healthcheck: CMD-SHELL pg_isready -U discourse || exit 0
+    healthcheck: CMD-SHELL pg_isready -U discourse -d discourse || exit 0
+
   redis:
     image: redis:local
     volumes:
@@ -51,5 +53,6 @@ services:
       - redis
     restart: always
     healthcheck: CMD-SHELL redis-cli ping || exit 0
+
 networks:
   - discourse-net

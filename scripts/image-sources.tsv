@@ -27,7 +27,7 @@ wordpress:local	docker.io/library/wordpress:latest
 anarcosyndicalismebook:local	docker.io/liberchat/anarcosyndicalismebook:latest
 prestashop:local	docker.io/prestashop/prestashop:latest
 immich:local	ghcr.io/immich-app/immich-server:release
-immich-postgres:local	docker.io/tensorchord/pgvecto-rs:pg16-v0.2.0
+immich-postgres:local	ghcr.io/immich-app/postgres:16-vectorchord0.4.3-pgvectors0.2.0
 mattermost:local	docker.io/mattermost/mattermost-team-edition:latest
 stirling-pdf:local	docker.io/stirlingtools/stirling-pdf:latest
 mealie:local	ghcr.io/mealie-recipes/mealie:latest
@@ -36,7 +36,6 @@ plausible:local	ghcr.io/plausible/community-edition:v2
 clickhouse:local	docker.io/clickhouse/clickhouse-server:latest
 forgejo:local	codeberg.org/forgejo/forgejo:10
 discourse:local	docker.io/discourse/discourse:latest
-
 
 
 

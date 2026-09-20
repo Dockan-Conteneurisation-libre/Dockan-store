@@ -28,6 +28,7 @@ services:
       - POSTGRES_DB=mattermost
     volumes:
       - mattermost-db:/var/lib/postgresql
+      - mattermost-db-run:/var/run/postgresql
     network: mattermost-net
     aliases:
       - db

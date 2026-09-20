@@ -17,6 +17,7 @@ services:
       - FORGEJO__server__ROOT_URL=http://localhost:3004
     volumes:
       - forgejo-data:/data
+      - forgejo-run:/run
     network: forgejo-net
     aliases:
       - web
@@ -32,6 +33,7 @@ services:
       - POSTGRES_DB=forgejo
     volumes:
       - forgejo-db:/var/lib/postgresql
+      - forgejo-db-run:/var/run/postgresql
     network: forgejo-net
     aliases:
       - db
