@@ -10,17 +10,21 @@ fi
 STORE_DIR="$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)"
 TARGET_ROOT="${DOCKAN_STORE_TARGET_ROOT:-/srv/dockan-apps}"
 
-echo "=== [1/4] Arrêt et nettoyage propre de Discourse et Forgejo ==="
-dockan stop discourse-web discourse-db forgejo-web forgejo-db vikunja-web >/dev/null 2>&1 || true
-dockan rm discourse-web discourse-db forgejo-web forgejo-db vikunja-web >/dev/null 2>&1 || true
+echo "=== [1/4] Arrêt propre de Discourse, Forgejo et Vikunja ==="
+dockan compose down -f "$TARGET_ROOT/discourse/dockan.yml" >/dev/null 2>&1 || true
+dockan compose down -f "$TARGET_ROOT/forgejo/dockan.yml" >/dev/null 2>&1 || true
+dockan compose down -f "$TARGET_ROOT/vikunja/dockan.yml" >/dev/null 2>&1 || true
 
 reset_clean_dir() {
   local dir="$1"
   local owner="${2:-999:999}"
-  rm -rf "$dir"
-  mkdir -p "$dir"
-  chown -R "$owner" "$dir"
-  chmod 750 "$dir"
+  if [ -d "$dir" ]; then
+    find "$dir" -mindepth 1 -delete 2>/dev/null || rm -rf "${dir:?}"/* 2>/dev/null || true
+  else
+    mkdir -p "$dir"
+  fi
+  chown -R "$owner" "$dir" 2>/dev/null || true
+  chmod 750 "$dir" 2>/dev/null || true
 }
 
 reset_clean_dir "/var/lib/dockan/volumes/discourse-db" "999:999"
@@ -31,18 +35,18 @@ reset_clean_dir "/var/lib/dockan/volumes/forgejo-db-run" "999:999"
 reset_clean_dir "/var/lib/dockan/volumes/forgejo-run" "1000:1000"
 
 echo "=== [2/4] Redéploiement de Vikunja ==="
-dockan compose redeploy -f "$TARGET_ROOT/vikunja/dockan.yml" || dockan compose up -f "$TARGET_ROOT/vikunja/dockan.yml" || true
+dockan compose up -f "$TARGET_ROOT/vikunja/dockan.yml" || true
 
 echo "=== [3/4] Redéploiement de Forgejo ==="
-dockan compose redeploy -f "$TARGET_ROOT/forgejo/dockan.yml" || dockan compose up -f "$TARGET_ROOT/forgejo/dockan.yml" || true
+dockan compose up -f "$TARGET_ROOT/forgejo/dockan.yml" || true
 
 echo "=== [4/4] Redéploiement de Discourse ==="
-dockan compose redeploy -f "$TARGET_ROOT/discourse/dockan.yml" || dockan compose up -f "$TARGET_ROOT/discourse/dockan.yml" || true
+dockan compose up -f "$TARGET_ROOT/discourse/dockan.yml" || true
 
 echo "Attente de démarrage (8 secondes)..."
 sleep 8
 
 echo ""
-echo "✅ Toutes les applications ont été déployées !"
+echo "✅ Redéploiement terminé !"
 echo "État actuel des conteneurs :"
 dockan ps -a --scope all
