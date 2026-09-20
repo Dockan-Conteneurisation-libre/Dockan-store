@@ -4,7 +4,7 @@ services:
   web:
     image: discourse:local
     ports:
-      - 4000:3000
+      - 4000:80
     env:
       - DISCOURSE_DB_HOST=db
       - DISCOURSE_DB_PORT=5432
@@ -12,12 +12,9 @@ services:
       - DISCOURSE_DB_PASSWORD=discourse-pass
       - DISCOURSE_DB_NAME=discourse
       - DISCOURSE_REDIS_HOST=redis
-      - DISCOURSE_REDIS_PORT_NUMBER=6379
+      - DISCOURSE_REDIS_PORT=6379
+      - DISCOURSE_DEVELOPER_EMAILS=admin@example.com
       - DISCOURSE_HOSTNAME=localhost
-      - DISCOURSE_SITE_URL=http://localhost:4000
-      - DISCOURSE_USERNAME=admin
-      - DISCOURSE_PASSWORD=discourse-admin
-      - DISCOURSE_EMAIL=admin@example.com
       - DISCOURSE_SMTP_HOST=localhost
       - DISCOURSE_SMTP_PORT=587
     network: discourse-net
@@ -27,7 +24,7 @@ services:
       - db
       - redis
     restart: always
-    healthcheck: CMD-SHELL pgrep -f ruby || pgrep -f puma || pgrep -f unicorn || exit 0
+    healthcheck: CMD-SHELL pgrep -f ruby || pgrep -f puma || pgrep -f unicorn || pgrep -f nginx || exit 0
 
   db:
     image: postgres:local

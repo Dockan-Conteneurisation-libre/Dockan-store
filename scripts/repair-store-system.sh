@@ -7,25 +7,20 @@ if [ "$(id -u)" -ne 0 ]; then
   exit 1
 fi
 
+STORE_DIR="$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)"
 TARGET_ROOT="${DOCKAN_STORE_TARGET_ROOT:-/srv/dockan-apps}"
+PANEL_STORE="/var/lib/dockan/volumes/dockan-panel-data/store/Dockan-Store/apps"
 
-echo "=== [1/3] Finalisation de PrestaShop ==="
-dockan compose down -f "$TARGET_ROOT/prestashop/dockan.yml" >/dev/null 2>&1 || true
-rm -rf /var/lib/dockan/volumes/prestashop-db
-mkdir -p /var/lib/dockan/volumes/prestashop-db
-chown -R 999:999 /var/lib/dockan/volumes/prestashop-db
-chmod 750 /var/lib/dockan/volumes/prestashop-db
-dockan compose up -f "$TARGET_ROOT/prestashop/dockan.yml" || true
+echo "=== Synchronisation du modèle Discourse (port 4000:80) ==="
+cp "$STORE_DIR/apps/discourse/dockan.yml" "$TARGET_ROOT/discourse/dockan.yml"
+[ -d "$PANEL_STORE/discourse" ] && cp "$STORE_DIR/apps/discourse/dockan.yml" "$PANEL_STORE/discourse/dockan.yml" || true
 
-echo "=== [2/3] Démarrage de Mattermost-web ==="
-dockan compose up -f "$TARGET_ROOT/mattermost/dockan.yml" || true
+echo "=== Lancement de Discourse ==="
+dockan compose up -f "$TARGET_ROOT/discourse/dockan.yml"
 
-echo "=== [3/3] Démarrage de Discourse ==="
-dockan compose up -f "$TARGET_ROOT/discourse/dockan.yml" || true
-
-echo "Attente de stabilisation (10 secondes)..."
-sleep 10
+echo "Attente de démarrage (8 secondes)..."
+sleep 8
 
 echo ""
-echo "✅ Statut global final des conteneurs :"
+echo "✅ Statut global complet des conteneurs :"
 dockan ps -a --scope all
