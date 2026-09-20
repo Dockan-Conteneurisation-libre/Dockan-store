@@ -176,9 +176,9 @@ jobs:
             gh release edit "$version" \
               --title "Dockan Store ${version}" \
               --notes-file dist/release-notes.md
-            gh release upload "$version" dist/dockan-store-*.tar.gz dist/dockan-store.tar.gz dist/SHA256SUMS --clobber
+            gh release upload "$version" "dist/dockan-store-${version}.tar.gz" "dist/dockan-store.tar.gz" "dist/SHA256SUMS" --clobber
           else
-            gh release create "$version" dist/dockan-store-*.tar.gz dist/dockan-store.tar.gz dist/SHA256SUMS \
+            gh release create "$version" "dist/dockan-store-${version}.tar.gz" "dist/dockan-store.tar.gz" "dist/SHA256SUMS" \
               --title "Dockan Store ${version}" \
               --notes-file dist/release-notes.md
           fi
@@ -198,7 +198,19 @@ jobs:
             ./dockan-store export-app-images "$app_id" registry "$pack_v"
             cp "$pack_v" "$pack_latest"
             
-            gh release upload "$version" "$pack_v" "$pack_latest" --clobber
+            for file in "$pack_v" "$pack_latest"; do
+              uploaded=0
+              for attempt in 1 2 3; do
+                if gh release upload "$version" "$file" --clobber; then
+                  uploaded=1
+                  break
+                else
+                  echo "Upload failed for $file (attempt $attempt), retrying in 10s..."
+                  sleep 10
+                fi
+              done
+              [ "$uploaded" -eq 1 ] || { echo "Failed to upload $file after 3 attempts" >&2; exit 1; }
+            done
             
             rm -f "$pack_v" "$pack_latest"
           done
