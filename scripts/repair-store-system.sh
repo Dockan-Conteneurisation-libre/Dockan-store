@@ -7,46 +7,25 @@ if [ "$(id -u)" -ne 0 ]; then
   exit 1
 fi
 
-STORE_DIR="$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)"
 TARGET_ROOT="${DOCKAN_STORE_TARGET_ROOT:-/srv/dockan-apps}"
 
-echo "=== [1/4] Arrêt propre de Discourse, Forgejo et Vikunja ==="
-dockan compose down -f "$TARGET_ROOT/discourse/dockan.yml" >/dev/null 2>&1 || true
-dockan compose down -f "$TARGET_ROOT/forgejo/dockan.yml" >/dev/null 2>&1 || true
-dockan compose down -f "$TARGET_ROOT/vikunja/dockan.yml" >/dev/null 2>&1 || true
+echo "=== [1/3] Finalisation de PrestaShop ==="
+dockan compose down -f "$TARGET_ROOT/prestashop/dockan.yml" >/dev/null 2>&1 || true
+rm -rf /var/lib/dockan/volumes/prestashop-db
+mkdir -p /var/lib/dockan/volumes/prestashop-db
+chown -R 999:999 /var/lib/dockan/volumes/prestashop-db
+chmod 750 /var/lib/dockan/volumes/prestashop-db
+dockan compose up -f "$TARGET_ROOT/prestashop/dockan.yml" || true
 
-reset_clean_dir() {
-  local dir="$1"
-  local owner="${2:-999:999}"
-  if [ -d "$dir" ]; then
-    find "$dir" -mindepth 1 -delete 2>/dev/null || rm -rf "${dir:?}"/* 2>/dev/null || true
-  else
-    mkdir -p "$dir"
-  fi
-  chown -R "$owner" "$dir" 2>/dev/null || true
-  chmod 750 "$dir" 2>/dev/null || true
-}
+echo "=== [2/3] Démarrage de Mattermost-web ==="
+dockan compose up -f "$TARGET_ROOT/mattermost/dockan.yml" || true
 
-reset_clean_dir "/var/lib/dockan/volumes/discourse-db" "999:999"
-reset_clean_dir "/var/lib/dockan/volumes/discourse-db-run" "999:999"
-
-reset_clean_dir "/var/lib/dockan/volumes/forgejo-db" "999:999"
-reset_clean_dir "/var/lib/dockan/volumes/forgejo-db-run" "999:999"
-reset_clean_dir "/var/lib/dockan/volumes/forgejo-run" "1000:1000"
-
-echo "=== [2/4] Redéploiement de Vikunja ==="
-dockan compose up -f "$TARGET_ROOT/vikunja/dockan.yml" || true
-
-echo "=== [3/4] Redéploiement de Forgejo ==="
-dockan compose up -f "$TARGET_ROOT/forgejo/dockan.yml" || true
-
-echo "=== [4/4] Redéploiement de Discourse ==="
+echo "=== [3/3] Démarrage de Discourse ==="
 dockan compose up -f "$TARGET_ROOT/discourse/dockan.yml" || true
 
-echo "Attente de démarrage (8 secondes)..."
-sleep 8
+echo "Attente de stabilisation (10 secondes)..."
+sleep 10
 
 echo ""
-echo "✅ Redéploiement terminé !"
-echo "État actuel des conteneurs :"
+echo "✅ Statut global final des conteneurs :"
 dockan ps -a --scope all
