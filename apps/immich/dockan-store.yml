@@ -1,6 +1,7 @@
 id: immich
 name: Immich
 category: photos
+summary: High performance self-hosted photo and video backup solution.
 default_port: 2283
 requires:
   - immich:local

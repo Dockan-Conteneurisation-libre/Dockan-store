@@ -1,6 +1,7 @@
 id: mealie
 name: Mealie
 category: recipes
+summary: Recipe manager and meal planner with SQLite/PostgreSQL.
 default_port: 9925
 requires:
   - mealie:local

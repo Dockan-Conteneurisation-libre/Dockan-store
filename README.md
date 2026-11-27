@@ -9,10 +9,14 @@
   <a href="https://dockan-conteneurisation-libre.github.io/Dockan-store/"><img alt="GitHub Pages" src="https://img.shields.io/badge/pages-online-176b48"></a>
   <img alt="Apps" src="https://img.shields.io/badge/apps-31-1d5f89">
   <img alt="Images" src="https://img.shields.io/badge/images-prebuilt-a56110">
-  <a href="https://github.com/Dockan-Conteneurisation-libre/Dockan"><img alt="Dockan" src="https://img.shields.io/badge/runtime-Dockan-176b48"></a>
+  <a href="https://github.com/Dockan-Conteneurisation-libre/Dockan"><img alt="Dockan Core" src="https://img.shields.io/badge/Dockan_Core-v0.2.5+-176b48"></a>
+  <a href="https://github.com/Dockan-Conteneurisation-libre/Dockan-Panel"><img alt="Dockan Panel" src="https://img.shields.io/badge/Dockan_Panel-v0.2.1+-1d5f89"></a>
+  <a href="LICENSE"><img alt="License" src="https://img.shields.io/badge/license-AGPL--3.0-176b48"></a>
 </p>
 
-Dockan Store is a local catalog of ready-to-copy Dockan app templates.
+Dockan Store is a local catalog of ready-to-copy Dockan app templates, compatible
+with **Dockan Core** (`v0.2.5+`, systemd scopes, OCI digest pinning, `zstd`) and
+**Dockan Panel** (`v0.2.1+`, Go + Vue 3 web interface).
 
 The goal is simple: keep popular self-hosted apps in one place, with a clear
 `dockan.yml`, persistent volumes, ports, healthchecks, and install notes.
@@ -21,6 +25,14 @@ This store does not pull from Docker Hub at install time. Each app uses local
 Dockan images such as `wordpress:local` or `gitea:local`, and the Store imports
 those prebuilt images from the bundled Dockan registry before copying the app.
 The user should not have to build app images manually.
+
+## Dockan Panel Integration
+
+[Dockan Panel](https://github.com/Dockan-Conteneurisation-libre/Dockan-Panel)
+downloads this Store automatically, reads `catalog.json` (including `summary`,
+`default_port`, and `requires`) and `registry/index.tsv`, and installs or
+updates apps into `/srv/dockan-apps/<app>` (when running as root) or
+`~/dockan-apps/<app>` with `DOCKAN_PORT_BIND_ADDR=0.0.0.0`.
 
 ## Layout
 
@@ -84,7 +96,13 @@ sudo dockan compose autostart -f dockan.yml
 To choose a custom target directory:
 
 ```bash
-./dockan-store install wordpress /srv/apps/wordpress
+./dockan-store install wordpress /srv/dockan-apps/wordpress
+```
+
+To expose published ports on all interfaces when running `dockan compose up`:
+
+```bash
+DOCKAN_PORT_BIND_ADDR=0.0.0.0 dockan compose up
 ```
 
 ## Update An Installed App
@@ -100,7 +118,7 @@ already exists locally, then redeploys the installed app with its current
 If the app is installed outside the default locations, pass its directory:
 
 ```bash
-./dockan-store update wordpress /srv/apps/wordpress
+./dockan-store update wordpress /srv/dockan-apps/wordpress
 ```
 
 ## Prebuilt Images
@@ -231,4 +249,8 @@ git push origin v0.1.0
 - Check readiness with `dockan compose health`.
 - For updates, publish a fresh image registry pack, then run
   `./dockan-store update APP_ID`.
-# Dockan-store-
+
+## License
+
+Licensed under the **GNU Affero General Public License v3.0** (`LICENSE`),
+matching Dockan Core and Dockan Panel.

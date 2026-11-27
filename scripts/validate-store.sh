@@ -79,6 +79,11 @@ for app in $(jq -r '.apps[].id' "$root/catalog.json" | sort); do
     fail "$app: default_port $default_port is not published in dockan.yml"
   fi
 
+  cat_port="$(jq -r --arg id "$app" '.apps[] | select(.id == $id) | .default_port // empty' "$root/catalog.json")"
+  cat_summary="$(jq -r --arg id "$app" '.apps[] | select(.id == $id) | .summary // empty' "$root/catalog.json")"
+  [ "$cat_port" = "$default_port" ] || fail "$app: catalog.json default_port ($cat_port) does not match dockan-store.yml ($default_port)"
+  [ -n "$cat_summary" ] || fail "$app: catalog.json missing summary"
+
   tmp_required="$(mktemp)"
   tmp_images="$(mktemp)"
   requires_for_app "$app" | sort -u > "$tmp_required"
@@ -94,7 +99,7 @@ for app in $(jq -r '.apps[].id' "$root/catalog.json" | sort); do
   rm -f "$tmp_required" "$tmp_images"
 done
 
-if rg -n 'test -d /var/lib/mysql|8081:8080|8083:8080|8080:8080' "$root/apps" >/tmp/dockan-store-known-bad.txt 2>/dev/null; then
+if grep -rnE 'test -d /var/lib/mysql|8081:8080|8083:8080|8080:8080' "$root/apps" >/tmp/dockan-store-known-bad.txt 2>/dev/null; then
   cat /tmp/dockan-store-known-bad.txt >&2
   fail "known-bad Store template pattern found"
 fi

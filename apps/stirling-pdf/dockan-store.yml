@@ -1,6 +1,7 @@
 id: stirling-pdf
 name: Stirling-PDF
 category: documents
+summary: Robust locally hosted web application for PDF manipulation.
 default_port: 8092
 requires:
   - stirling-pdf:local

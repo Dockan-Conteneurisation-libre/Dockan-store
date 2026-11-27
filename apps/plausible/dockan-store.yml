@@ -1,6 +1,7 @@
 id: plausible
 name: Plausible Analytics
 category: analytics
+summary: Lightweight privacy-focused web analytics with PostgreSQL and ClickHouse.
 default_port: 8091
 requires:
   - plausible:local

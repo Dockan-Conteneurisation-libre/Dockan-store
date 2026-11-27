@@ -8,7 +8,7 @@ root="$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)"
 if [ -z "$app" ]; then
   echo "Usage: $0 <app-id> [target-dir]" >&2
   echo "Example: $0 wordpress" >&2
-  echo "Example: $0 wordpress /srv/apps/wordpress" >&2
+  echo "Example: $0 wordpress /srv/dockan-apps/wordpress" >&2
   exit 1
 fi
 
@@ -38,4 +38,6 @@ echo "Installed template: $app -> $target"
 echo "Next:"
 echo "  cd \"$target\""
 echo "  dockan compose up"
+echo "  # Or expose ports on all interfaces:"
+echo "  # DOCKAN_PORT_BIND_ADDR=0.0.0.0 dockan compose up"
 echo "  sudo dockan compose autostart -f dockan.yml"

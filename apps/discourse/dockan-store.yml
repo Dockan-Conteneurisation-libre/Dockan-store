@@ -1,6 +1,7 @@
 id: discourse
 name: Discourse
 category: forum
+summary: Community discussion platform with PostgreSQL and Redis.
 default_port: 4000
 requires:
   - discourse:local

@@ -1,6 +1,7 @@
 id: prestashop
 name: PrestaShop
 category: ecommerce
+summary: Open source e-commerce web platform with MySQL.
 default_port: 8090
 requires:
   - prestashop:local

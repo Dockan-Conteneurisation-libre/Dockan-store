@@ -1,6 +1,7 @@
 id: anarcosyndicalismebook
 name: AnarcosyndicalismeBOOK
 category: publishing
+summary: Anarcho-syndicalist CMS and publishing engine with SQLite/PHP.
 default_port: 8888
 requires:
   - anarcosyndicalismebook:local

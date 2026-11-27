@@ -1,6 +1,7 @@
 id: mattermost
 name: Mattermost
 category: chat
+summary: Open source secure collaboration and chat platform.
 default_port: 8065
 requires:
   - mattermost:local

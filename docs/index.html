@@ -518,8 +518,11 @@ dockan compose up
 dockan compose health
 sudo dockan compose autostart -f dockan.yml
 
-# custom target:
-./dockan-store install APP_ID /srv/apps/APP_ID
+# custom target (or default /srv/dockan-apps/APP_ID in Dockan Panel):
+./dockan-store install APP_ID /srv/dockan-apps/APP_ID
+
+# expose ports on all interfaces:
+DOCKAN_PORT_BIND_ADDR=0.0.0.0 dockan compose up
 
 # prepare images only:
 ./dockan-store images APP_ID</code></pre>
@@ -535,7 +538,7 @@ sudo dockan compose autostart -f dockan.yml
           <pre><code>./dockan-store update APP_ID
 
 # custom install path:
-./dockan-store update APP_ID /srv/apps/APP_ID
+./dockan-store update APP_ID /srv/dockan-apps/APP_ID
 
 # direct Dockan equivalent:
 dockan pull IMAGE:local registry

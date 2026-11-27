@@ -7,249 +7,397 @@
       "id": "wordpress",
       "name": "WordPress",
       "category": "cms",
+      "summary": "Blog and CMS with MariaDB.",
+      "default_port": 8080,
       "path": "apps/wordpress",
       "status": "template",
-      "requires": ["wordpress:local", "mariadb:local"]
+      "requires": [
+        "wordpress:local",
+        "mariadb:local"
+      ]
     },
     {
       "id": "nextcloud",
       "name": "Nextcloud",
       "category": "files",
+      "summary": "Private files, sync, calendar, contacts, and collaboration.",
+      "default_port": 8081,
       "path": "apps/nextcloud",
       "status": "template",
-      "requires": ["nextcloud:local", "mariadb:local", "redis:local"]
+      "requires": [
+        "nextcloud:local",
+        "mariadb:local",
+        "redis:local"
+      ]
     },
     {
       "id": "gitea",
       "name": "Gitea",
       "category": "git",
+      "summary": "Lightweight Git forge with PostgreSQL.",
+      "default_port": 3000,
       "path": "apps/gitea",
       "status": "template",
-      "requires": ["gitea:local", "postgres:local"]
+      "requires": [
+        "gitea:local",
+        "postgres:local"
+      ]
     },
     {
       "id": "vaultwarden",
       "name": "Vaultwarden",
       "category": "passwords",
+      "summary": "Lightweight Bitwarden-compatible password manager.",
+      "default_port": 8082,
       "path": "apps/vaultwarden",
       "status": "template",
-      "requires": ["vaultwarden:local"]
+      "requires": [
+        "vaultwarden:local"
+      ]
     },
     {
       "id": "uptime-kuma",
       "name": "Uptime Kuma",
       "category": "monitoring",
+      "summary": "Monitoring dashboard for services and websites.",
+      "default_port": 3001,
       "path": "apps/uptime-kuma",
       "status": "template",
-      "requires": ["uptime-kuma:local"]
+      "requires": [
+        "uptime-kuma:local"
+      ]
     },
     {
       "id": "grafana",
       "name": "Grafana",
       "category": "monitoring",
+      "summary": "Dashboards and visualization for metrics.",
+      "default_port": 3002,
       "path": "apps/grafana",
       "status": "template",
-      "requires": ["grafana:local"]
+      "requires": [
+        "grafana:local"
+      ]
     },
     {
       "id": "prometheus",
       "name": "Prometheus",
       "category": "monitoring",
+      "summary": "Metrics database and scraper.",
+      "default_port": 9091,
       "path": "apps/prometheus",
       "status": "template",
-      "requires": ["prometheus:local"]
+      "requires": [
+        "prometheus:local"
+      ]
     },
     {
       "id": "matomo",
       "name": "Matomo",
       "category": "analytics",
+      "summary": "Web analytics with MariaDB.",
+      "default_port": 8083,
       "path": "apps/matomo",
       "status": "template",
-      "requires": ["matomo:local", "mariadb:local"]
+      "requires": [
+        "matomo:local",
+        "mariadb:local"
+      ]
     },
     {
       "id": "ghost",
       "name": "Ghost",
       "category": "publishing",
+      "summary": "Publishing platform with MySQL.",
+      "default_port": 2368,
       "path": "apps/ghost",
       "status": "template",
-      "requires": ["ghost:local", "mysql:local"]
+      "requires": [
+        "ghost:local",
+        "mysql:local"
+      ]
     },
     {
       "id": "jellyfin",
       "name": "Jellyfin",
       "category": "media",
+      "summary": "Local media server.",
+      "default_port": 8096,
       "path": "apps/jellyfin",
       "status": "template",
-      "requires": ["jellyfin:local"]
+      "requires": [
+        "jellyfin:local"
+      ]
     },
     {
       "id": "nginx-proxy-manager",
       "name": "Nginx Proxy Manager",
       "category": "proxy",
+      "summary": "Web UI for reverse proxy hosts and TLS certificates.",
+      "default_port": 8181,
       "path": "apps/nginx-proxy-manager",
       "status": "template",
-      "requires": ["nginx-proxy-manager:local"]
+      "requires": [
+        "nginx-proxy-manager:local"
+      ]
     },
     {
       "id": "miniflux",
       "name": "Miniflux",
       "category": "rss",
+      "summary": "Minimal RSS reader with PostgreSQL.",
+      "default_port": 8085,
       "path": "apps/miniflux",
       "status": "template",
-      "requires": ["miniflux:local", "postgres:local"]
+      "requires": [
+        "miniflux:local",
+        "postgres:local"
+      ]
     },
     {
       "id": "wallabag",
       "name": "Wallabag",
       "category": "read-it-later",
+      "summary": "Save articles and read them later.",
+      "default_port": 8086,
       "path": "apps/wallabag",
       "status": "template",
-      "requires": ["wallabag:local", "postgres:local"]
+      "requires": [
+        "wallabag:local",
+        "postgres:local"
+      ]
     },
     {
       "id": "bookstack",
       "name": "BookStack",
       "category": "wiki",
+      "summary": "Documentation wiki with MariaDB.",
+      "default_port": 8087,
       "path": "apps/bookstack",
       "status": "template",
-      "requires": ["bookstack:local", "mariadb:local"]
+      "requires": [
+        "bookstack:local",
+        "mariadb:local"
+      ]
     },
     {
       "id": "hedgedoc",
       "name": "HedgeDoc",
       "category": "notes",
+      "summary": "Collaborative markdown notes with PostgreSQL.",
+      "default_port": 3003,
       "path": "apps/hedgedoc",
       "status": "template",
-      "requires": ["hedgedoc:local", "postgres:local"]
+      "requires": [
+        "hedgedoc:local",
+        "postgres:local"
+      ]
     },
     {
       "id": "n8n",
       "name": "n8n",
       "category": "automation",
+      "summary": "Workflow automation with PostgreSQL.",
+      "default_port": 5678,
       "path": "apps/n8n",
       "status": "template",
-      "requires": ["n8n:local", "postgres:local"]
+      "requires": [
+        "n8n:local",
+        "postgres:local"
+      ]
     },
     {
       "id": "syncthing",
       "name": "Syncthing",
       "category": "sync",
+      "summary": "Peer-to-peer file synchronization.",
+      "default_port": 8384,
       "path": "apps/syncthing",
       "status": "template",
-      "requires": ["syncthing:local"]
+      "requires": [
+        "syncthing:local"
+      ]
     },
     {
       "id": "paperless-ngx",
       "name": "Paperless-ngx",
       "category": "documents",
+      "summary": "Document management with OCR, PostgreSQL, and Redis.",
+      "default_port": 8000,
       "path": "apps/paperless-ngx",
       "status": "template",
-      "requires": ["paperless-ngx:local", "postgres:local", "redis:local"]
+      "requires": [
+        "paperless-ngx:local",
+        "postgres:local",
+        "redis:local"
+      ]
     },
     {
       "id": "libretranslate",
       "name": "LibreTranslate",
       "category": "ai",
+      "summary": "Local machine translation API and web UI.",
+      "default_port": 5000,
       "path": "apps/libretranslate",
       "status": "template",
-      "requires": ["libretranslate:local"]
+      "requires": [
+        "libretranslate:local"
+      ]
     },
     {
       "id": "drawio",
       "name": "draw.io",
       "category": "diagrams",
+      "summary": "Diagram editor.",
+      "default_port": 8089,
       "path": "apps/drawio",
       "status": "template",
-      "requires": ["drawio:local"]
+      "requires": [
+        "drawio:local"
+      ]
     },
     {
       "id": "static-site",
       "name": "Static Site",
       "category": "web",
+      "summary": "Serve a static public folder with Caddy.",
+      "default_port": 8088,
       "path": "apps/static-site",
       "status": "ready",
-      "requires": ["caddy:local"]
+      "requires": [
+        "caddy:local"
+      ]
     },
     {
       "id": "anarcosyndicalismebook",
       "name": "AnarcosyndicalismeBOOK",
       "category": "publishing",
+      "summary": "Anarcho-syndicalist CMS and publishing engine with SQLite/PHP.",
+      "default_port": 8888,
       "path": "apps/anarcosyndicalismebook",
       "status": "template",
-      "requires": ["anarcosyndicalismebook:local", "mariadb:local"]
+      "requires": [
+        "anarcosyndicalismebook:local",
+        "mariadb:local"
+      ]
     },
     {
       "id": "prestashop",
       "name": "PrestaShop",
       "category": "ecommerce",
+      "summary": "Open source e-commerce web platform with MySQL.",
+      "default_port": 8090,
       "path": "apps/prestashop",
       "status": "template",
-      "requires": ["prestashop:local", "mariadb:local"]
+      "requires": [
+        "prestashop:local",
+        "mariadb:local"
+      ]
     },
     {
       "id": "immich",
       "name": "Immich",
       "category": "photos",
+      "summary": "High performance self-hosted photo and video backup solution.",
+      "default_port": 2283,
       "path": "apps/immich",
       "status": "template",
-      "requires": ["immich:local", "postgres:local", "redis:local"]
+      "requires": [
+        "immich:local",
+        "postgres:local",
+        "redis:local"
+      ]
     },
     {
       "id": "mattermost",
       "name": "Mattermost",
       "category": "chat",
+      "summary": "Open source secure collaboration and chat platform.",
+      "default_port": 8065,
       "path": "apps/mattermost",
       "status": "template",
-      "requires": ["mattermost:local", "postgres:local"]
+      "requires": [
+        "mattermost:local",
+        "postgres:local"
+      ]
     },
     {
       "id": "stirling-pdf",
       "name": "Stirling-PDF",
       "category": "documents",
+      "summary": "Robust locally hosted web application for PDF manipulation.",
+      "default_port": 8092,
       "path": "apps/stirling-pdf",
       "status": "template",
-      "requires": ["stirling-pdf:local"]
+      "requires": [
+        "stirling-pdf:local"
+      ]
     },
     {
       "id": "mealie",
       "name": "Mealie",
       "category": "recipes",
+      "summary": "Recipe manager and meal planner with SQLite/PostgreSQL.",
+      "default_port": 9925,
       "path": "apps/mealie",
       "status": "template",
-      "requires": ["mealie:local"]
+      "requires": [
+        "mealie:local"
+      ]
     },
     {
       "id": "vikunja",
       "name": "Vikunja",
       "category": "tasks",
+      "summary": "To-do list and task management application with PostgreSQL.",
+      "default_port": 3456,
       "path": "apps/vikunja",
       "status": "template",
-      "requires": ["vikunja:local", "mariadb:local"]
+      "requires": [
+        "vikunja:local",
+        "mariadb:local"
+      ]
     },
     {
       "id": "plausible",
       "name": "Plausible Analytics",
       "category": "analytics",
+      "summary": "Lightweight privacy-focused web analytics with PostgreSQL and ClickHouse.",
+      "default_port": 8091,
       "path": "apps/plausible",
       "status": "template",
-      "requires": ["plausible:local", "postgres:local", "clickhouse:local"]
+      "requires": [
+        "plausible:local",
+        "postgres:local",
+        "clickhouse:local"
+      ]
     },
     {
       "id": "forgejo",
       "name": "Forgejo",
       "category": "git",
+      "summary": "Community-driven lightweight Git forge with PostgreSQL.",
+      "default_port": 3004,
       "path": "apps/forgejo",
       "status": "template",
-      "requires": ["forgejo:local", "postgres:local"]
+      "requires": [
+        "forgejo:local",
+        "postgres:local"
+      ]
     },
     {
       "id": "discourse",
       "name": "Discourse",
       "category": "forum",
+      "summary": "Community discussion platform with PostgreSQL and Redis.",
+      "default_port": 4000,
       "path": "apps/discourse",
       "status": "template",
-      "requires": ["discourse:local", "postgres:local", "redis:local"]
+      "requires": [
+        "discourse:local",
+        "postgres:local",
+        "redis:local"
+      ]
     }
   ]
 }

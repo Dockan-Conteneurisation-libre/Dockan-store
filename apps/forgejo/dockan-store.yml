@@ -1,6 +1,7 @@
 id: forgejo
 name: Forgejo
 category: git
+summary: Community-driven lightweight Git forge with PostgreSQL.
 default_port: 3004
 requires:
   - forgejo:local
