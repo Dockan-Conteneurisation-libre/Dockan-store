@@ -233,11 +233,11 @@ The release contains:
 - release notes listing every image included in the pack.
 
 Maintainers can create a release from the GitHub UI by running the workflow with
-a version such as `v0.1.0`, or from git:
+a version such as `v0.4.1`, or from git:
 
 ```bash
-git tag v0.1.0
-git push origin v0.1.0
+git tag v0.4.1
+git push origin v0.4.1
 ```
 
 ## Production Notes
