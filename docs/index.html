@@ -2,481 +2,367 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dockan Store</title>
-  <meta name="description" content="Dockan Store lists ready-to-copy self-hosted app templates for Dockan.">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Dockan Store — Ready-to-run self-hosted apps</title>
+  <meta name="description" content="Dockan Store lists ready-to-copy self-hosted app templates for Dockan Core and Dockan Panel.">
   <link rel="icon" href="dockan-logo.svg" type="image/svg+xml">
+  <meta name="theme-color" content="#0e2a1e">
   <style>
     :root {
-      --bg: #f6f7f4;
-      --panel: #ffffff;
-      --ink: #17201b;
-      --muted: #56635c;
-      --line: #dfe5df;
-      --green: #176b48;
-      --green-dark: #0e4932;
-      --blue: #1d5f89;
-      --amber: #a56110;
-      --code: #eef2ee;
-      --shadow: 0 16px 40px rgba(23, 32, 27, 0.08);
+      --pine: #0e2a1e;
+      --pine-2: #15392a;
+      --pine-line: #24503c;
+      --leaf: #1a5e3a;
+      --teal: #2b8c7e;
+      --mint: #9fd8c6;
+      --signal: #d99a2b;
+      --paper: #f4f6f2;
+      --surface: #ffffff;
+      --ink: #14201a;
+      --muted: #4d5c54;
+      --line: #d5ddd6;
+      --code-bg: #eaf0eb;
+      --focus: #2b8c7e;
+      --sans: system-ui, -apple-system, "Segoe UI", "Noto Sans", Ubuntu, Cantarell, sans-serif;
+      --mono: ui-monospace, "SFMono-Regular", "Cascadia Mono", "Liberation Mono", Menlo, Consolas, monospace;
     }
 
-    * {
-      box-sizing: border-box;
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --paper: #0f1713;
+        --surface: #15201a;
+        --ink: #e2ebe5;
+        --muted: #a6b6ad;
+        --line: #2a3a31;
+        --code-bg: #1b2a22;
+        --leaf: #4fb07c;
+        --teal: #5cc2b0;
+      }
     }
 
-    html {
-      overflow-x: hidden;
-      scroll-behavior: smooth;
-    }
-
+    *, *::before, *::after { box-sizing: border-box; }
+    html { -webkit-text-size-adjust: 100%; }
     body {
       margin: 0;
-      background: var(--bg);
+      background: var(--paper);
       color: var(--ink);
-      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      line-height: 1.55;
+      font: 400 1.04rem/1.65 var(--sans);
       overflow-x: hidden;
     }
-
-    a {
-      color: var(--green);
-      text-decoration: none;
+    a { color: var(--leaf); text-underline-offset: 0.18em; }
+    a:hover { color: var(--teal); }
+    :focus-visible { outline: 3px solid var(--focus); outline-offset: 3px; border-radius: 4px; }
+    code {
+      font: 0.9em/1.4 var(--mono);
+      background: var(--code-bg);
+      padding: 0.08em 0.35em;
+      border-radius: 4px;
     }
+    pre code { background: none; padding: 0; font: inherit; }
+    .skip { position: absolute; left: -9999px; }
+    .skip:focus { left: 1rem; top: 1rem; z-index: 10; background: var(--surface); padding: 0.6rem 0.9rem; }
+    .wrap { width: min(1160px, 100% - 2.5rem); margin-inline: auto; }
 
-    a:hover {
-      text-decoration: underline;
+    .masthead {
+      background: linear-gradient(180deg, rgba(43, 140, 126, 0.10), transparent 55%), var(--pine);
+      color: #e6efe9;
     }
-
-    header {
-      background: #fff;
-      border-bottom: 1px solid var(--line);
-    }
-
-    .topbar,
-    .hero,
-    main,
-    footer {
-      width: min(1120px, calc(100% - 32px));
-      margin: 0 auto;
-    }
-
     .topbar {
       display: flex;
       align-items: center;
-      justify-content: space-between;
-      gap: 16px;
-      padding: 16px 0;
+      flex-wrap: wrap;
+      gap: 1.2rem;
+      padding: 0.9rem 0;
+      border-bottom: 1px solid var(--pine-line);
+      min-height: 72px;
     }
-
     .brand {
       display: inline-flex;
       align-items: center;
-      gap: 10px;
-      color: var(--ink);
-      font-size: 1.08rem;
-      font-weight: 850;
+      gap: 0.6rem;
+      color: #ffffff;
+      font-weight: 750;
+      font-size: 1.2rem;
+      letter-spacing: -0.01em;
+      text-decoration: none;
     }
-
-    .brand-mark {
-      width: 34px;
-      height: 34px;
-      flex: 0 0 auto;
-    }
-
-    .hero-title {
-      display: flex;
-      align-items: center;
-      gap: 18px;
-      margin-bottom: 14px;
-      min-width: 0;
-    }
-
-    .hero-logo {
-      width: clamp(58px, 10vw, 86px);
-      height: clamp(58px, 10vw, 86px);
-      flex: 0 0 auto;
-    }
-
-    nav {
+    .brand img { width: 38px; height: 38px; }
+    .brand:hover { color: #ffffff; }
+    .nav {
       display: flex;
       flex-wrap: wrap;
-      gap: 14px;
+      gap: 0.2rem;
+      margin-left: auto;
+      align-items: center;
+    }
+    .nav a {
+      color: #c9d9cf;
+      text-decoration: none;
+      padding: 0.45rem 0.7rem;
+      border-radius: 6px;
       font-size: 0.95rem;
     }
+    .nav a:hover { color: #ffffff; background: var(--pine-2); }
 
     .hero {
       display: grid;
-      grid-template-columns: minmax(0, 1.1fr) minmax(280px, 0.9fr);
-      gap: 34px;
+      grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+      gap: clamp(2rem, 5vw, 4rem);
       align-items: center;
-      padding: 58px 0 42px;
+      padding: clamp(2.5rem, 6vw, 4.5rem) 0 clamp(2.75rem, 6vw, 5rem);
     }
-
-    h1 {
-      margin: 0 0 14px;
-      font-size: clamp(2.3rem, 7vw, 4.8rem);
-      line-height: 1;
-      letter-spacing: 0;
+    .eyebrow {
+      display: inline-block;
+      margin-bottom: 0.9rem;
+      padding: 0.28rem 0.7rem;
+      border: 1px solid var(--pine-line);
+      border-radius: 999px;
+      font: 600 0.78rem/1.2 var(--mono);
+      letter-spacing: 0.04em;
+      color: var(--mint);
+      text-transform: uppercase;
     }
-
-    h2 {
-      margin: 0 0 12px;
-      font-size: 1.55rem;
-      line-height: 1.2;
-      letter-spacing: 0;
+    .hero h1 {
+      margin: 0 0 1rem;
+      font-size: clamp(2.3rem, 5vw, 3.8rem);
+      line-height: 1.04;
+      font-weight: 800;
+      letter-spacing: -0.035em;
+      color: #ffffff;
     }
-
-    h3 {
-      margin: 0 0 8px;
-      font-size: 1.06rem;
+    .hero p.lead {
+      margin: 0 0 1.6rem;
+      max-width: 38em;
+      font-size: clamp(1.02rem, 1.5vw, 1.16rem);
+      color: #c3d4ca;
     }
-
-    p {
-      margin: 0;
-    }
-
-    .lead {
-      color: var(--muted);
-      font-size: 1.08rem;
-      max-width: 760px;
-    }
-
-    .panel {
-      background: var(--panel);
-      border: 1px solid var(--line);
+    .actions { display: flex; flex-wrap: wrap; gap: 0.75rem; align-items: center; }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      min-height: 44px;
+      padding: 0.65rem 1.1rem;
       border-radius: 8px;
-      box-shadow: var(--shadow);
-      padding: 18px;
-      min-width: 0;
+      font: 650 0.95rem/1.2 var(--sans);
+      text-decoration: none;
+      cursor: pointer;
+      border: 1px solid transparent;
     }
+    .btn-primary { background: var(--teal); color: #ffffff; }
+    .btn-primary:hover { background: #33a091; color: #ffffff; }
+    .btn-ghost { border-color: var(--pine-line); color: #e6efe9; background: transparent; }
+    .btn-ghost:hover { background: var(--pine-2); color: #ffffff; }
 
     .terminal {
-      background: #101812;
-      color: #eaf6ef;
-      border: 1px solid #24342a;
-      border-radius: 8px;
+      background: #0a1f16;
+      border: 1px solid var(--pine-line);
+      border-radius: 12px;
       overflow: hidden;
-      min-width: 0;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
     }
-
-    .terminal-title {
+    .terminal-bar {
       display: flex;
-      gap: 7px;
-      padding: 12px 14px;
-      background: #18251c;
-      border-bottom: 1px solid #24342a;
+      gap: 0.45rem;
+      padding: 0.7rem 1rem;
+      border-bottom: 1px solid var(--pine-line);
+      background: rgba(255, 255, 255, 0.03);
     }
-
-    .dot {
-      width: 10px;
-      height: 10px;
-      border-radius: 50%;
-      background: #d66a4d;
-    }
-
-    .dot:nth-child(2) {
-      background: #d9a441;
-    }
-
-    .dot:nth-child(3) {
-      background: #48a86b;
-    }
-
-    pre {
+    .dot { width: 10px; height: 10px; border-radius: 50%; background: var(--pine-line); }
+    .terminal pre {
       margin: 0;
+      padding: 1.15rem 1.25rem;
+      font: 0.86rem/1.6 var(--mono);
+      color: #d7e6dd;
       overflow-x: auto;
-      padding: 16px;
-      font-size: 0.9rem;
-      -webkit-overflow-scrolling: touch;
     }
 
-    code {
-      font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
-      overflow-wrap: anywhere;
+    main { padding: 3rem 0 4rem; }
+    section { margin-bottom: 3.5rem; }
+    h2 {
+      margin: 0 0 0.5rem;
+      font-size: clamp(1.55rem, 2.8vw, 2.05rem);
+      letter-spacing: -0.025em;
     }
-
-    main {
-      padding: 28px 0 46px;
-    }
-
-    section {
-      border-top: 1px solid var(--line);
-      padding: 30px 0;
-    }
+    .section-lead { margin: 0 0 1.4rem; color: var(--muted); max-width: 65ch; }
 
     .toolbar {
-      display: grid;
-      grid-template-columns: minmax(0, 1fr) auto;
-      gap: 12px;
-      align-items: center;
-      margin-top: 18px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      margin-bottom: 1.4rem;
     }
-
-    input,
-    select {
-      min-height: 42px;
-      width: 100%;
+    .toolbar input, .toolbar select {
+      min-height: 44px;
+      padding: 0.6rem 0.9rem;
       border: 1px solid var(--line);
       border-radius: 8px;
-      background: #fff;
+      background: var(--surface);
       color: var(--ink);
       font: inherit;
-      padding: 8px 12px;
     }
+    .toolbar input { flex: 1 1 260px; }
+    .toolbar select { min-width: 190px; }
 
     .grid {
       display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 14px;
-      margin-top: 18px;
+      grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+      gap: 1rem;
     }
-
     .card {
       display: flex;
       flex-direction: column;
-      gap: 12px;
-      min-width: 0;
-      min-height: 252px;
-      padding: 16px;
-      background: var(--panel);
+      gap: 0.7rem;
+      padding: 1.15rem 1.25rem;
+      background: var(--surface);
       border: 1px solid var(--line);
-      border-radius: 8px;
+      border-radius: 12px;
     }
-
-    .app-head {
-      display: grid;
-      grid-template-columns: 48px minmax(0, 1fr);
-      gap: 12px;
-      align-items: center;
-    }
-
-    .logo {
-      display: grid;
-      place-items: center;
-      width: 48px;
-      height: 48px;
-      border: 1px solid var(--line);
-      border-radius: 8px;
-      background: #fff;
-      overflow: hidden;
-    }
-
-    .logo img {
-      width: 30px;
-      height: 30px;
-      object-fit: contain;
-    }
-
-    .logo-fallback {
-      color: var(--green-dark);
-      font-size: 0.86rem;
-      font-weight: 850;
-    }
-
-    .card p {
-      color: var(--muted);
-      overflow-wrap: anywhere;
-    }
-
-    .badge-row {
+    .card-head {
       display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 0.6rem;
     }
-
+    .card h3 { margin: 0; font-size: 1.1rem; font-weight: 750; }
     .badge {
-      display: inline-flex;
-      align-items: center;
-      min-height: 26px;
-      padding: 3px 9px;
-      border-radius: 8px;
-      background: #eef6f1;
-      color: var(--green-dark);
-      font-size: 0.82rem;
-      font-weight: 800;
+      font: 600 0.75rem/1 var(--mono);
+      padding: 0.28rem 0.55rem;
+      border-radius: 999px;
+      background: var(--code-bg);
+      color: var(--leaf);
+      border: 1px solid var(--line);
+      white-space: nowrap;
     }
-
-    .badge.blue {
-      background: #edf5fa;
-      color: var(--blue);
-    }
-
-    .badge.amber {
-      background: #fff4e4;
-      color: var(--amber);
-    }
-
-    .requires {
+    .card p { margin: 0; color: var(--muted); font-size: 0.94rem; }
+    .meta {
       display: flex;
       flex-wrap: wrap;
-      gap: 6px;
+      gap: 0.4rem;
+      font: 0.78rem/1.3 var(--mono);
+      color: var(--muted);
+    }
+    .meta span {
+      padding: 0.2rem 0.45rem;
+      border-radius: 5px;
+      background: var(--code-bg);
+    }
+    .card-foot {
       margin-top: auto;
-    }
-
-    .requires code {
-      display: inline-flex;
-      min-height: 26px;
+      padding-top: 0.5rem;
+      border-top: 1px solid var(--line);
+      display: flex;
       align-items: center;
-      padding: 3px 7px;
-      border-radius: 8px;
-      background: var(--code);
+      justify-content: space-between;
+      gap: 0.5rem;
+    }
+    .cmd-inline {
+      font: 0.8rem/1.3 var(--mono);
       color: var(--ink);
-      font-size: 0.78rem;
-    }
-
-    .command {
-      background: var(--code);
-      border: 1px solid var(--line);
-      border-radius: 8px;
       overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
-
-    .copy {
-      min-height: 34px;
+    .copy-btn {
+      flex: none;
+      padding: 0.35rem 0.65rem;
+      border-radius: 6px;
       border: 1px solid var(--line);
-      border-radius: 8px;
-      background: #fff;
-      color: var(--green-dark);
+      background: var(--paper);
+      color: var(--ink);
+      font: 600 0.8rem/1.2 var(--sans);
       cursor: pointer;
-      font: inherit;
-      font-size: 0.84rem;
-      font-weight: 800;
-      padding: 6px 10px;
     }
+    .copy-btn:hover { border-color: var(--teal); color: var(--leaf); }
 
-    .copy:hover {
-      border-color: var(--green);
+    .panel {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 1.35rem 1.5rem;
     }
-
-    .card-actions {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 8px;
-    }
-
-    .download {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 34px;
-      border: 1px solid var(--green);
+    .panel pre {
+      margin: 0.9rem 0 0;
+      padding: 1rem 1.15rem;
       border-radius: 8px;
-      background: var(--green);
-      color: #fff;
-      font-size: 0.84rem;
-      font-weight: 800;
-      padding: 6px 10px;
-      text-align: center;
-    }
-
-    .download:hover {
-      background: var(--green-dark);
-      text-decoration: none;
+      background: var(--code-bg);
+      font: 0.86rem/1.55 var(--mono);
+      overflow-x: auto;
     }
 
     footer {
       border-top: 1px solid var(--line);
+      padding: 1.75rem 0 2.5rem;
       color: var(--muted);
-      padding: 28px 0 42px;
+      font-size: 0.92rem;
+    }
+    .foot-row {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 1rem;
     }
 
     @media (max-width: 860px) {
-      .hero,
-      .grid {
-        grid-template-columns: 1fr;
-      }
-
-      .hero {
-        padding: 36px 0 30px;
-      }
-
-      .toolbar {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    @media (max-width: 520px) {
-      .topbar,
-      nav {
-        align-items: flex-start;
-        flex-direction: column;
-      }
-
-      .topbar,
-      .hero,
-      main,
-      footer {
-        width: min(100% - 24px, 1120px);
-      }
-
-      h1 {
-        font-size: clamp(2rem, 15vw, 3.4rem);
-      }
-
-      .hero-title {
-        align-items: flex-start;
-        flex-direction: column;
-        gap: 12px;
-      }
-
-      .card {
-        min-height: 0;
-      }
-
-      pre {
-        padding: 13px;
-        font-size: 0.82rem;
-      }
+      .hero { grid-template-columns: 1fr; }
     }
   </style>
 </head>
 <body>
-  <header>
-    <div class="topbar">
-      <a class="brand" href="#top" aria-label="Dockan Store home">
-        <img class="brand-mark" src="dockan-logo.svg" alt="" aria-hidden="true">
-      </a>
-      <nav aria-label="Navigation">
-        <a href="#apps">Apps</a>
-        <a href="#images">Images</a>
-        <a href="#install">Install</a>
-        <a href="#update">Update</a>
-        <a href="https://github.com/Dockan-Conteneurisation-libre/Dockan-Store">GitHub</a>
-      </nav>
-    </div>
-    <div class="hero" id="top">
-      <div>
-        <div class="hero-title">
-          <img class="hero-logo" src="dockan-logo.svg" alt="" aria-hidden="true">
-          <h1>Dockan Store</h1>
+  <a class="skip" href="#apps">Skip to apps</a>
+
+  <div class="masthead">
+    <div class="wrap">
+      <header class="topbar">
+        <a class="brand" href="./">
+          <img src="dockan-logo.svg" alt="Dockan Store">
+          <span>Dockan Store</span>
+        </a>
+        <nav class="nav" aria-label="Primary">
+          <a href="#apps">Apps</a>
+          <a href="#images">Images</a>
+          <a href="#install">Install</a>
+          <a href="#update">Update</a>
+          <a href="https://dockan-conteneurisation-libre.github.io/Dockan/">Dockan Core</a>
+          <a href="https://github.com/Dockan-Conteneurisation-libre/Dockan-Panel">Dockan Panel</a>
+          <a href="https://github.com/Dockan-Conteneurisation-libre/Dockan-store">GitHub</a>
+        </nav>
+      </header>
+
+      <section class="hero">
+        <div>
+          <span class="eyebrow">Dockan Core v0.2.5+ &bull; Dockan Panel v0.2.1+</span>
+          <h1>Self-hosted apps, ready for Dockan.</h1>
+          <p class="lead">31 ready-to-run <code>dockan.yml</code> templates with persistent volumes, healthchecks, default ports, and prebuilt local images — zero daemon required.</p>
+          <div class="actions">
+            <a class="btn btn-primary" href="#apps">Browse 31 Apps</a>
+            <a class="btn btn-ghost" href="https://github.com/Dockan-Conteneurisation-libre/Dockan-store/releases/latest">Latest Release</a>
+          </div>
         </div>
-        <p class="lead">A local catalog of self-hosted app templates for Dockan. Download the release, install an app, let the Store import its bundled prebuilt images, then run it once or enable native auto-start.</p>
-      </div>
-      <div class="terminal" aria-label="Install example">
-        <div class="terminal-title">
-          <span class="dot"></span>
-          <span class="dot"></span>
-          <span class="dot"></span>
-        </div>
-        <pre><code>curl -L -o dockan-store.tar.gz https://github.com/Dockan-Conteneurisation-libre/Dockan-store/releases/latest/download/dockan-store.tar.gz
+        <div class="terminal" aria-label="Install example">
+          <div class="terminal-bar">
+            <span class="dot"></span>
+            <span class="dot"></span>
+            <span class="dot"></span>
+          </div>
+          <pre><code>curl -L -o dockan-store.tar.gz https://github.com/Dockan-Conteneurisation-libre/Dockan-store/releases/latest/download/dockan-store.tar.gz
 tar -xzf dockan-store.tar.gz
 cd Dockan-Store
-./dockan-store list
-./dockan-store install wordpress
-cd ~/dockan-apps/wordpress
-dockan compose up
+./dockan-store install wordpress /srv/dockan-apps/wordpress
+cd /srv/dockan-apps/wordpress
+DOCKAN_PORT_BIND_ADDR=0.0.0.0 dockan compose up
 sudo dockan compose autostart -f dockan.yml</code></pre>
-      </div>
+        </div>
+      </section>
     </div>
-  </header>
+  </div>
 
-  <main>
+  <main class="wrap">
     <section id="apps">
-      <h2>Apps</h2>
-      <p class="lead">Templates include compose files, persistent volumes, ports, healthchecks, prebuilt image names, and install notes. Search by name, category, or image.</p>
+      <h2>Catalog (<span id="app-count">31</span> Apps)</h2>
+      <p class="section-lead">Install directly from the CLI or in one click from <strong>Dockan Panel</strong>. Filter by name, category, or required local image.</p>
       <div class="toolbar">
-        <input id="search" type="search" placeholder="Search apps, categories, or images" aria-label="Search apps">
+        <input id="search" type="search" placeholder="Search apps, categories, summaries, or images..." aria-label="Search apps">
         <select id="category" aria-label="Filter by category">
           <option value="">All categories</option>
         </select>
@@ -485,189 +371,509 @@ sudo dockan compose autostart -f dockan.yml</code></pre>
     </section>
 
     <section id="images">
-      <h2>Images</h2>
+      <h2>Prebuilt Images</h2>
       <div class="panel">
-        <p>Each app card lists the exact Dockan images it needs. Releases include `registry/index.tsv` in the Store archive, plus one prebuilt image pack per app. Installs download only the selected app pack when images are not already local.</p>
-        <div class="command">
-          <pre><code>./dockan-store images APP_ID
-./dockan-store images all
-DOCKAN_STORE_FORCE_IMAGES=1 ./dockan-store images APP_ID
+        <p>Releases ship <code>registry/index.tsv</code> in the Store archive plus one prebuilt image pack per app (<code>dockan-store-images-APP_ID.tar.gz</code>). Images are imported locally into Dockan on demand.</p>
+        <pre><code>./dockan-store images APP_ID
 ./dockan-store build-images all
-./dockan-store build-images mysql:local
-DOCKAN_STORE_ENGINE=docker ./dockan-store build-images mysql:local
-./dockan-store export-app-images wordpress
-
-# release assets:
-registry/index.tsv
-dockan-store-images-APP_ID.tar.gz</code></pre>
-        </div>
+DOCKAN_STORE_FORCE_IMAGES=1 ./dockan-store images APP_ID</code></pre>
       </div>
     </section>
 
     <section id="install">
-      <h2>How Install Works</h2>
+      <h2>CLI &amp; Dockan Panel Install</h2>
       <div class="panel">
-        <p>For normal use, download `dockan-store.tar.gz` from the latest GitHub Release. It contains the Store templates and image index. App image packs are downloaded on demand, one app at a time, to stay below GitHub's release asset size limit.</p>
-        <div class="command">
-          <pre><code>curl -L -o dockan-store.tar.gz https://github.com/Dockan-Conteneurisation-libre/Dockan-store/releases/latest/download/dockan-store.tar.gz
-tar -xzf dockan-store.tar.gz
-cd Dockan-Store
-./dockan-store install APP_ID
+        <p>Dockan Panel automatically downloads the Store and installs apps under <code>/srv/dockan-apps/APP_ID</code> (root) or <code>~/dockan-apps/APP_ID</code> with <code>DOCKAN_PORT_BIND_ADDR=0.0.0.0</code>.</p>
+        <pre><code>./dockan-store install APP_ID
 cd ~/dockan-apps/APP_ID
 dockan compose up
 dockan compose health
-sudo dockan compose autostart -f dockan.yml
-
-# custom target (or default /srv/dockan-apps/APP_ID in Dockan Panel):
-./dockan-store install APP_ID /srv/dockan-apps/APP_ID
-
-# expose ports on all interfaces:
-DOCKAN_PORT_BIND_ADDR=0.0.0.0 dockan compose up
-
-# prepare images only:
-./dockan-store images APP_ID</code></pre>
-        </div>
+sudo dockan compose autostart -f dockan.yml</code></pre>
       </div>
     </section>
 
     <section id="update">
-      <h2>Update Apps</h2>
+      <h2>Update Installed Apps</h2>
       <div class="panel">
-        <p>Use `update` when a new Store release ships fresher image packs. It imports the app images again, keeps existing volumes, and redeploys the installed app with its current `dockan.yml`.</p>
-        <div class="command">
-          <pre><code>./dockan-store update APP_ID
+        <p>Use <code>update</code> to import fresher image packs while keeping your existing volumes and local <code>dockan.yml</code> configuration intact.</p>
+        <pre><code>./dockan-store update APP_ID /srv/dockan-apps/APP_ID
 
-# custom install path:
-./dockan-store update APP_ID /srv/dockan-apps/APP_ID
-
-# direct Dockan equivalent:
+# Or directly with Dockan Core:
 dockan pull IMAGE:local registry
-dockan compose redeploy -f /path/to/dockan.yml</code></pre>
-        </div>
+dockan compose redeploy -f /srv/dockan-apps/APP_ID/dockan.yml</code></pre>
       </div>
     </section>
   </main>
 
   <footer>
-    Dockan Store - templates for local self-hosting with Dockan.
+    <div class="wrap foot-row">
+      <span>Dockan Store &bull; GNU Affero General Public License v3.0 (AGPL-3.0)</span>
+      <span><a href="https://github.com/Dockan-Conteneurisation-libre/Dockan-store">Repository</a> &bull; <a href="https://dockan-conteneurisation-libre.github.io/Dockan/">Dockan Core</a></span>
+    </div>
   </footer>
 
   <script>
     const apps = [
-      {id:"anarcosyndicalismebook", name:"AnarcosyndicalismeBOOK", category:"publishing", summary:"CMS militant de gestion de bibliothèque numérique (PDF, EPUB).", port:"8888", icon:"bookstack", requires:["anarcosyndicalismebook:local","mariadb:local"]},
-      {id:"bookstack", name:"BookStack", category:"wiki", summary:"Documentation wiki with MariaDB.", port:"8087", icon:"bookstack", requires:["bookstack:local","mariadb:local"]},
-      {id:"discourse", name:"Discourse", category:"forum", summary:"Modern forum platform with PostgreSQL and Redis.", port:"4000", icon:"discourse", requires:["discourse:local","postgres:local","redis:local"]},
-      {id:"drawio", name:"draw.io", category:"diagrams", summary:"Diagram editor.", port:"8089", icon:"diagramsdotnet", requires:["drawio:local"]},
-      {id:"forgejo", name:"Forgejo", category:"git", summary:"Community Git forge, Gitea fork, GitHub alternative.", port:"3004", icon:"forgejo", requires:["forgejo:local","postgres:local"]},
-      {id:"ghost", name:"Ghost", category:"publishing", summary:"Publishing platform with MySQL.", port:"2368", icon:"ghost", requires:["ghost:local","mysql:local"]},
-      {id:"gitea", name:"Gitea", category:"git", summary:"Lightweight Git forge with PostgreSQL.", port:"3000", icon:"gitea", requires:["gitea:local","postgres:local"]},
-      {id:"grafana", name:"Grafana", category:"monitoring", summary:"Dashboards and visualization for metrics.", port:"3002", icon:"grafana", requires:["grafana:local"]},
-      {id:"hedgedoc", name:"HedgeDoc", category:"notes", summary:"Collaborative markdown notes with PostgreSQL.", port:"3003", icon:"hedgedoc", requires:["hedgedoc:local","postgres:local"]},
-      {id:"immich", name:"Immich", category:"photos", summary:"High-performance photo and video manager, Google Photos alternative.", port:"2283", icon:"immich", requires:["immich:local","postgres:local","redis:local"]},
-      {id:"jellyfin", name:"Jellyfin", category:"media", summary:"Local media server.", port:"8096", icon:"jellyfin", requires:["jellyfin:local"]},
-      {id:"libretranslate", name:"LibreTranslate", category:"ai", summary:"Local machine translation API and web UI.", port:"5000", icon:"libretranslate", requires:["libretranslate:local"]},
-      {id:"matomo", name:"Matomo", category:"analytics", summary:"Web analytics with MariaDB.", port:"8083", icon:"matomo", requires:["matomo:local","mariadb:local"]},
-      {id:"mattermost", name:"Mattermost", category:"chat", summary:"Team messaging, Slack alternative with PostgreSQL.", port:"8065", icon:"mattermost", requires:["mattermost:local","postgres:local"]},
-      {id:"mealie", name:"Mealie", category:"recipes", summary:"Self-hosted recipe manager with URL import.", port:"9925", icon:"mealie", requires:["mealie:local"]},
-      {id:"miniflux", name:"Miniflux", category:"rss", summary:"Minimal RSS reader with PostgreSQL.", port:"8085", logo:"https://miniflux.app/favicon.ico", requires:["miniflux:local","postgres:local"]},
-      {id:"n8n", name:"n8n", category:"automation", summary:"Workflow automation with PostgreSQL.", port:"5678", icon:"n8n", requires:["n8n:local","postgres:local"]},
-      {id:"nextcloud", name:"Nextcloud", category:"files", summary:"Private files, sync, calendar, contacts, and collaboration.", port:"8081", icon:"nextcloud", requires:["nextcloud:local","mariadb:local","redis:local"]},
-      {id:"nginx-proxy-manager", name:"Nginx Proxy Manager", category:"proxy", summary:"Web UI for reverse proxy hosts and TLS certificates.", port:"8181", icon:"nginxproxymanager", requires:["nginx-proxy-manager:local"]},
-      {id:"paperless-ngx", name:"Paperless-ngx", category:"documents", summary:"Document management with OCR, PostgreSQL, and Redis.", port:"8000", icon:"paperlessngx", requires:["paperless-ngx:local","postgres:local","redis:local"]},
-      {id:"plausible", name:"Plausible Analytics", category:"analytics", summary:"Privacy-respecting web analytics, Google Analytics alternative.", port:"8091", icon:"plausibleanalytics", requires:["plausible:local","postgres:local","clickhouse:local"]},
-      {id:"prestashop", name:"PrestaShop", category:"ecommerce", summary:"Open-source e-commerce platform with MariaDB.", port:"8090", icon:"prestashop", requires:["prestashop:local","mariadb:local"]},
-      {id:"prometheus", name:"Prometheus", category:"monitoring", summary:"Metrics database and scraper.", port:"9091", icon:"prometheus", requires:["prometheus:local"]},
-      {id:"static-site", name:"Static Site", category:"web", summary:"Serve a static public folder with Caddy.", port:"8088", icon:"caddy", requires:["caddy:local"]},
-      {id:"stirling-pdf", name:"Stirling-PDF", category:"documents", summary:"All-in-one PDF tools: merge, split, convert, OCR.", port:"8092", icon:"files", requires:["stirling-pdf:local"]},
-      {id:"syncthing", name:"Syncthing", category:"sync", summary:"Peer-to-peer file synchronization.", port:"8384", icon:"syncthing", requires:["syncthing:local"]},
-      {id:"uptime-kuma", name:"Uptime Kuma", category:"monitoring", summary:"Monitoring dashboard for services and websites.", port:"3001", icon:"uptimekuma", requires:["uptime-kuma:local"]},
-      {id:"vaultwarden", name:"Vaultwarden", category:"passwords", summary:"Lightweight Bitwarden-compatible password manager.", port:"8082", icon:"vaultwarden", requires:["vaultwarden:local"]},
-      {id:"vikunja", name:"Vikunja", category:"tasks", summary:"Task and project manager, Todoist alternative with MariaDB.", port:"3456", icon:"vikunja", requires:["vikunja:local","mariadb:local"]},
-      {id:"wallabag", name:"Wallabag", category:"read-it-later", summary:"Save articles and read them later.", port:"8086", icon:"wallabag", requires:["wallabag:local","postgres:local"]},
-      {id:"wordpress", name:"WordPress", category:"cms", summary:"Blog and CMS with MariaDB.", port:"8080", icon:"wordpress", requires:["wordpress:local","mariadb:local"]}
-    ];
+  {
+    "id": "wordpress",
+    "name": "WordPress",
+    "category": "cms",
+    "summary": "Blog and CMS with MariaDB.",
+    "default_port": 8080,
+    "path": "apps/wordpress",
+    "status": "template",
+    "requires": [
+      "wordpress:local",
+      "mariadb:local"
+    ]
+  },
+  {
+    "id": "nextcloud",
+    "name": "Nextcloud",
+    "category": "files",
+    "summary": "Private files, sync, calendar, contacts, and collaboration.",
+    "default_port": 8081,
+    "path": "apps/nextcloud",
+    "status": "template",
+    "requires": [
+      "nextcloud:local",
+      "mariadb:local",
+      "redis:local"
+    ]
+  },
+  {
+    "id": "gitea",
+    "name": "Gitea",
+    "category": "git",
+    "summary": "Lightweight Git forge with PostgreSQL.",
+    "default_port": 3000,
+    "path": "apps/gitea",
+    "status": "template",
+    "requires": [
+      "gitea:local",
+      "postgres:local"
+    ]
+  },
+  {
+    "id": "vaultwarden",
+    "name": "Vaultwarden",
+    "category": "passwords",
+    "summary": "Lightweight Bitwarden-compatible password manager.",
+    "default_port": 8082,
+    "path": "apps/vaultwarden",
+    "status": "template",
+    "requires": [
+      "vaultwarden:local"
+    ]
+  },
+  {
+    "id": "uptime-kuma",
+    "name": "Uptime Kuma",
+    "category": "monitoring",
+    "summary": "Monitoring dashboard for services and websites.",
+    "default_port": 3001,
+    "path": "apps/uptime-kuma",
+    "status": "template",
+    "requires": [
+      "uptime-kuma:local"
+    ]
+  },
+  {
+    "id": "grafana",
+    "name": "Grafana",
+    "category": "monitoring",
+    "summary": "Dashboards and visualization for metrics.",
+    "default_port": 3002,
+    "path": "apps/grafana",
+    "status": "template",
+    "requires": [
+      "grafana:local"
+    ]
+  },
+  {
+    "id": "prometheus",
+    "name": "Prometheus",
+    "category": "monitoring",
+    "summary": "Metrics database and scraper.",
+    "default_port": 9091,
+    "path": "apps/prometheus",
+    "status": "template",
+    "requires": [
+      "prometheus:local"
+    ]
+  },
+  {
+    "id": "matomo",
+    "name": "Matomo",
+    "category": "analytics",
+    "summary": "Web analytics with MariaDB.",
+    "default_port": 8083,
+    "path": "apps/matomo",
+    "status": "template",
+    "requires": [
+      "matomo:local",
+      "mariadb:local"
+    ]
+  },
+  {
+    "id": "ghost",
+    "name": "Ghost",
+    "category": "publishing",
+    "summary": "Publishing platform with MySQL.",
+    "default_port": 2368,
+    "path": "apps/ghost",
+    "status": "template",
+    "requires": [
+      "ghost:local",
+      "mysql:local"
+    ]
+  },
+  {
+    "id": "jellyfin",
+    "name": "Jellyfin",
+    "category": "media",
+    "summary": "Local media server.",
+    "default_port": 8096,
+    "path": "apps/jellyfin",
+    "status": "template",
+    "requires": [
+      "jellyfin:local"
+    ]
+  },
+  {
+    "id": "nginx-proxy-manager",
+    "name": "Nginx Proxy Manager",
+    "category": "proxy",
+    "summary": "Web UI for reverse proxy hosts and TLS certificates.",
+    "default_port": 8181,
+    "path": "apps/nginx-proxy-manager",
+    "status": "template",
+    "requires": [
+      "nginx-proxy-manager:local"
+    ]
+  },
+  {
+    "id": "miniflux",
+    "name": "Miniflux",
+    "category": "rss",
+    "summary": "Minimal RSS reader with PostgreSQL.",
+    "default_port": 8085,
+    "path": "apps/miniflux",
+    "status": "template",
+    "requires": [
+      "miniflux:local",
+      "postgres:local"
+    ]
+  },
+  {
+    "id": "wallabag",
+    "name": "Wallabag",
+    "category": "read-it-later",
+    "summary": "Save articles and read them later.",
+    "default_port": 8086,
+    "path": "apps/wallabag",
+    "status": "template",
+    "requires": [
+      "wallabag:local",
+      "postgres:local"
+    ]
+  },
+  {
+    "id": "bookstack",
+    "name": "BookStack",
+    "category": "wiki",
+    "summary": "Documentation wiki with MariaDB.",
+    "default_port": 8087,
+    "path": "apps/bookstack",
+    "status": "template",
+    "requires": [
+      "bookstack:local",
+      "mariadb:local"
+    ]
+  },
+  {
+    "id": "hedgedoc",
+    "name": "HedgeDoc",
+    "category": "notes",
+    "summary": "Collaborative markdown notes with PostgreSQL.",
+    "default_port": 3003,
+    "path": "apps/hedgedoc",
+    "status": "template",
+    "requires": [
+      "hedgedoc:local",
+      "postgres:local"
+    ]
+  },
+  {
+    "id": "n8n",
+    "name": "n8n",
+    "category": "automation",
+    "summary": "Workflow automation with PostgreSQL.",
+    "default_port": 5678,
+    "path": "apps/n8n",
+    "status": "template",
+    "requires": [
+      "n8n:local",
+      "postgres:local"
+    ]
+  },
+  {
+    "id": "syncthing",
+    "name": "Syncthing",
+    "category": "sync",
+    "summary": "Peer-to-peer file synchronization.",
+    "default_port": 8384,
+    "path": "apps/syncthing",
+    "status": "template",
+    "requires": [
+      "syncthing:local"
+    ]
+  },
+  {
+    "id": "paperless-ngx",
+    "name": "Paperless-ngx",
+    "category": "documents",
+    "summary": "Document management with OCR, PostgreSQL, and Redis.",
+    "default_port": 8000,
+    "path": "apps/paperless-ngx",
+    "status": "template",
+    "requires": [
+      "paperless-ngx:local",
+      "postgres:local",
+      "redis:local"
+    ]
+  },
+  {
+    "id": "libretranslate",
+    "name": "LibreTranslate",
+    "category": "ai",
+    "summary": "Local machine translation API and web UI.",
+    "default_port": 5000,
+    "path": "apps/libretranslate",
+    "status": "template",
+    "requires": [
+      "libretranslate:local"
+    ]
+  },
+  {
+    "id": "drawio",
+    "name": "draw.io",
+    "category": "diagrams",
+    "summary": "Diagram editor.",
+    "default_port": 8089,
+    "path": "apps/drawio",
+    "status": "template",
+    "requires": [
+      "drawio:local"
+    ]
+  },
+  {
+    "id": "static-site",
+    "name": "Static Site",
+    "category": "web",
+    "summary": "Serve a static public folder with Caddy.",
+    "default_port": 8088,
+    "path": "apps/static-site",
+    "status": "ready",
+    "requires": [
+      "caddy:local"
+    ]
+  },
+  {
+    "id": "anarcosyndicalismebook",
+    "name": "AnarcosyndicalismeBOOK",
+    "category": "publishing",
+    "summary": "Anarcho-syndicalist CMS and publishing engine with SQLite/PHP.",
+    "default_port": 8888,
+    "path": "apps/anarcosyndicalismebook",
+    "status": "template",
+    "requires": [
+      "anarcosyndicalismebook:local",
+      "mariadb:local"
+    ]
+  },
+  {
+    "id": "prestashop",
+    "name": "PrestaShop",
+    "category": "ecommerce",
+    "summary": "Open source e-commerce web platform with MySQL.",
+    "default_port": 8090,
+    "path": "apps/prestashop",
+    "status": "template",
+    "requires": [
+      "prestashop:local",
+      "mariadb:local"
+    ]
+  },
+  {
+    "id": "immich",
+    "name": "Immich",
+    "category": "photos",
+    "summary": "High performance self-hosted photo and video backup solution.",
+    "default_port": 2283,
+    "path": "apps/immich",
+    "status": "template",
+    "requires": [
+      "immich:local",
+      "postgres:local",
+      "redis:local"
+    ]
+  },
+  {
+    "id": "mattermost",
+    "name": "Mattermost",
+    "category": "chat",
+    "summary": "Open source secure collaboration and chat platform.",
+    "default_port": 8065,
+    "path": "apps/mattermost",
+    "status": "template",
+    "requires": [
+      "mattermost:local",
+      "postgres:local"
+    ]
+  },
+  {
+    "id": "stirling-pdf",
+    "name": "Stirling-PDF",
+    "category": "documents",
+    "summary": "Robust locally hosted web application for PDF manipulation.",
+    "default_port": 8092,
+    "path": "apps/stirling-pdf",
+    "status": "template",
+    "requires": [
+      "stirling-pdf:local"
+    ]
+  },
+  {
+    "id": "mealie",
+    "name": "Mealie",
+    "category": "recipes",
+    "summary": "Recipe manager and meal planner with SQLite/PostgreSQL.",
+    "default_port": 9925,
+    "path": "apps/mealie",
+    "status": "template",
+    "requires": [
+      "mealie:local"
+    ]
+  },
+  {
+    "id": "vikunja",
+    "name": "Vikunja",
+    "category": "tasks",
+    "summary": "To-do list and task management application with PostgreSQL.",
+    "default_port": 3456,
+    "path": "apps/vikunja",
+    "status": "template",
+    "requires": [
+      "vikunja:local",
+      "mariadb:local"
+    ]
+  },
+  {
+    "id": "plausible",
+    "name": "Plausible Analytics",
+    "category": "analytics",
+    "summary": "Lightweight privacy-focused web analytics with PostgreSQL and ClickHouse.",
+    "default_port": 8091,
+    "path": "apps/plausible",
+    "status": "template",
+    "requires": [
+      "plausible:local",
+      "postgres:local",
+      "clickhouse:local"
+    ]
+  },
+  {
+    "id": "forgejo",
+    "name": "Forgejo",
+    "category": "git",
+    "summary": "Community-driven lightweight Git forge with PostgreSQL.",
+    "default_port": 3004,
+    "path": "apps/forgejo",
+    "status": "template",
+    "requires": [
+      "forgejo:local",
+      "postgres:local"
+    ]
+  },
+  {
+    "id": "discourse",
+    "name": "Discourse",
+    "category": "forum",
+    "summary": "Community discussion platform with PostgreSQL and Redis.",
+    "default_port": 4000,
+    "path": "apps/discourse",
+    "status": "template",
+    "requires": [
+      "discourse:local",
+      "postgres:local",
+      "redis:local"
+    ]
+  }
+];
 
-    const grid = document.querySelector("#app-grid");
-    const search = document.querySelector("#search");
-    const category = document.querySelector("#category");
+    const grid = document.getElementById("app-grid");
+    const searchEl = document.getElementById("search");
+    const catEl = document.getElementById("category");
+    const countEl = document.getElementById("app-count");
 
-    for (const value of [...new Set(apps.map((app) => app.category))].sort()) {
-      const option = document.createElement("option");
-      option.value = value;
-      option.textContent = value;
-      category.appendChild(option);
+    for (const c of [...new Set(apps.map((a) => a.category))].sort()) {
+      const opt = document.createElement("option");
+      opt.value = c;
+      opt.textContent = c;
+      catEl.appendChild(opt);
     }
 
     function render() {
-      const term = search.value.trim().toLowerCase();
-      const selected = category.value;
-      grid.replaceChildren();
-
-      for (const app of apps) {
-        const haystack = [app.id, app.name, app.category, app.summary, ...app.requires].join(" ").toLowerCase();
-        if (selected && app.category !== selected) continue;
-        if (term && !haystack.includes(term)) continue;
-
-        const command = `./dockan-store install ${app.id}`;
-        const updateCommand = `./dockan-store update ${app.id}`;
-        const imagePack = `https://github.com/Dockan-Conteneurisation-libre/Dockan-store/releases/latest/download/dockan-store-images-${app.id}.tar.gz`;
-        const logo = app.logo || `https://cdn.simpleicons.org/${app.icon}`;
-        const initials = app.name.split(/[\s.-]+/).filter(Boolean).slice(0, 2).map((part) => part[0]).join("").toUpperCase();
+      const q = searchEl.value.trim().toLowerCase();
+      const cat = catEl.value;
+      const list = apps.filter((a) => {
+        if (cat && a.category !== cat) return false;
+        if (!q) return true;
+        return (
+          a.name.toLowerCase().includes(q) ||
+          a.id.toLowerCase().includes(q) ||
+          a.category.toLowerCase().includes(q) ||
+          (a.summary || "").toLowerCase().includes(q) ||
+          a.requires.some((r) => r.toLowerCase().includes(q))
+        );
+      });
+      countEl.textContent = String(list.length);
+      grid.innerHTML = "";
+      for (const app of list) {
         const card = document.createElement("article");
         card.className = "card";
+        const cmd = `./dockan-store install ${app.id}`;
         card.innerHTML = `
-          <div class="app-head">
-            <div class="logo" aria-hidden="true">
-              <img src="${logo}" alt="" loading="lazy" onerror="this.hidden=true; this.nextElementSibling.hidden=false;">
-              <span class="logo-fallback" hidden>${initials}</span>
-            </div>
-            <div>
-              <h3>${app.name}</h3>
-              <div class="badge-row">
-                <span class="badge">${app.category}</span>
-                <span class="badge blue">:${app.port}</span>
-              </div>
-            </div>
+          <div class="card-head">
+            <h3>${app.name}</h3>
+            <span class="badge">${app.category}</span>
           </div>
-          <p>${app.summary}</p>
-          <div class="requires">${app.requires.map((item) => `<code>${item}</code>`).join("")}</div>
-          <div class="command"><pre><code>${command}</code></pre></div>
-          <div class="card-actions">
-            <button class="copy" type="button" data-copy="${command}">Copy</button>
-            <button class="copy" type="button" data-copy="${updateCommand}">Update</button>
-            <a class="download" href="${imagePack}">Images</a>
+          <p>${app.summary || ""}</p>
+          <div class="meta">
+            <span>port:${app.default_port}</span>
+            ${app.requires.map((r) => `<span>${r}</span>`).join("")}
+          </div>
+          <div class="card-foot">
+            <code class="cmd-inline" title="${cmd}">${cmd}</code>
+            <button type="button" class="copy-btn">Copy</button>
           </div>
         `;
+        const btn = card.querySelector(".copy-btn");
+        btn.addEventListener("click", async () => {
+          try {
+            await navigator.clipboard.writeText(cmd);
+            btn.textContent = "Copied";
+            setTimeout(() => { btn.textContent = "Copy"; }, 1400);
+          } catch (e) {}
+        });
         grid.appendChild(card);
       }
     }
 
-    search.addEventListener("input", render);
-    category.addEventListener("change", render);
+    searchEl.addEventListener("input", render);
+    catEl.addEventListener("change", render);
     render();
-
-    document.addEventListener("click", async (event) => {
-      const button = event.target.closest("[data-copy]");
-      if (!button) return;
-      const value = button.getAttribute("data-copy") || "";
-      try {
-        await navigator.clipboard.writeText(value);
-        button.textContent = "Copied";
-      } catch {
-        const input = document.createElement("textarea");
-        input.value = value;
-        input.style.position = "fixed";
-        input.style.left = "-9999px";
-        document.body.appendChild(input);
-        input.select();
-        document.execCommand("copy");
-        input.remove();
-        button.textContent = "Copied";
-      }
-      setTimeout(() => {
-        button.textContent = "Copy";
-      }, 1500);
-    });
   </script>
 </body>
 </html>

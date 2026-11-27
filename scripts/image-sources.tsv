@@ -7,7 +7,7 @@ gitea:local	docker.io/gitea/gitea:latest
 grafana:local	docker.io/grafana/grafana-oss:latest
 hedgedoc:local	quay.io/hedgedoc/hedgedoc:latest
 jellyfin:local	docker.io/jellyfin/jellyfin:latest
-libretranslate:local	docker.io/libretranslate/libretranslate:v1.6.1
+libretranslate:local	docker.io/libretranslate/libretranslate:latest
 mariadb:local	docker.io/library/mariadb:latest
 matomo:local	docker.io/library/matomo:latest
 miniflux:local	docker.io/miniflux/miniflux:latest
@@ -34,7 +34,7 @@ mealie:local	ghcr.io/mealie-recipes/mealie:latest
 vikunja:local	docker.io/vikunja/vikunja:latest
 plausible:local	ghcr.io/plausible/community-edition:v2
 clickhouse:local	docker.io/clickhouse/clickhouse-server:latest
-forgejo:local	codeberg.org/forgejo/forgejo:10
+forgejo:local	codeberg.org/forgejo/forgejo:17
 discourse:local	docker.io/discourse/discourse:latest
 
 
